@@ -1,0 +1,739 @@
+/* ========== 增强版主题背景特效 ========== */
+
+/* 为所有主题添加额外的粒子层 */
+
+/* 浅色主题额外效果 - 可爱风格 */
+body.theme-light .sidebar::before {
+  content: '';
+  position: fixed;
+  width: 520px;
+  height: 520px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 182, 217, 0.28) 0%, rgba(179, 157, 219, 0.18) 50%, transparent 70%);
+  top: 35%;
+  left: 8%;
+  animation: pulse-ring 15s ease-in-out infinite, rotate-glow 50s linear infinite;
+  pointer-events: none;
+  z-index: 0;
+}
+
+body.theme-light .main-content::before {
+  content: '';
+  position: fixed;
+  width: 480px;
+  height: 480px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(179, 157, 219, 0.25) 0%, transparent 70%);
+  bottom: 28%;
+  right: 15%;
+  animation: breathe-light 17s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 0;
+}
+
+body.theme-light .main-content::after {
+  content: '';
+  position: fixed;
+  width: 420px;
+  height: 420px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 218, 224, 0.22) 0%, transparent 70%);
+  top: 20%;
+  right: 35%;
+  animation: wave-expand 22s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* 深色主题额外效果 - 科技风格 */
+body.theme-dark .sidebar::before {
+  content: '';
+  position: fixed;
+  width: 560px;
+  height: 560px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(124, 58, 237, 0.25) 0%, transparent 70%);
+  top: 32%;
+  left: 5%;
+  animation: pulse-ring 12s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 0;
+  box-shadow: 0 0 100px rgba(124, 58, 237, 0.4);
+}
+
+body.theme-dark .main-content::before {
+  content: '';
+  position: fixed;
+  width: 3px;
+  height: 100%;
+  background: linear-gradient(180deg, transparent 0%, rgba(124, 58, 237, 0.8) 30%, rgba(139, 92, 246, 0.8) 70%, transparent 100%);
+  left: 35%;
+  top: 0;
+  animation: matrix-column-1 11s linear infinite;
+  pointer-events: none;
+  z-index: 0;
+  box-shadow: 0 0 18px rgba(124, 58, 237, 0.9);
+}
+
+body.theme-dark .main-content::after {
+  content: '';
+  position: fixed;
+  width: 3px;
+  height: 100%;
+  background: linear-gradient(180deg, transparent 0%, rgba(139, 92, 246, 0.8) 30%, rgba(124, 58, 237, 0.8) 70%, transparent 100%);
+  right: 25%;
+  top: 0;
+  animation: matrix-column-2 15s linear infinite 4s;
+  pointer-events: none;
+  z-index: 0;
+  box-shadow: 0 0 18px rgba(139, 92, 246, 0.9);
+}
+
+/* 猫咪主题额外效果 */
+body.theme-cat .sidebar::before {
+  content: '';
+  position: fixed;
+  width: 450px;
+  height: 450px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 153, 85, 0.2) 0%, transparent 70%);
+  top: 50%;
+  left: 10%;
+  margin-top: -225px;
+  animation: particle-float 25s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 0;
+}
+
+body.theme-cat .main-content::before {
+  content: '';
+  position: fixed;
+  width: 400px;
+  height: 400px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(230, 119, 34, 0.18) 0%, transparent 70%);
+  bottom: 20%;
+  right: 15%;
+  animation: wave-expand 18s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* 小狗主题额外效果 */
+body.theme-dog .sidebar::before {
+  content: '';
+  position: fixed;
+  width: 480px;
+  height: 480px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(244, 208, 63, 0.22) 0%, transparent 70%);
+  top: 30%;
+  left: 5%;
+  animation: rotate-glow 35s linear infinite;
+  pointer-events: none;
+  z-index: 0;
+}
+
+body.theme-dog .main-content::before {
+  content: '';
+  position: fixed;
+  width: 420px;
+  height: 420px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 232, 119, 0.2) 0%, transparent 70%);
+  bottom: 15%;
+  right: 20%;
+  animation: pulse-ring 13s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* 兔子主题额外效果 */
+body.theme-rabbit .sidebar::before {
+  content: '';
+  position: fixed;
+  width: 500px;
+  height: 500px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 182, 193, 0.25) 0%, transparent 70%);
+  top: 25%;
+  left: 8%;
+  animation: breathe-light 16s ease-in-out infinite, rotate-glow 40s linear infinite;
+  pointer-events: none;
+  z-index: 0;
+}
+
+body.theme-rabbit .main-content::before {
+  content: '';
+  position: fixed;
+  width: 380px;
+  height: 380px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 105, 180, 0.2) 0%, transparent 70%);
+  bottom: 25%;
+  right: 12%;
+  animation: bubble-rise 20s linear infinite;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* 向日葵主题额外效果 */
+body.theme-sunflower .sidebar::before {
+  content: '';
+  position: fixed;
+  width: 520px;
+  height: 520px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 215, 0, 0.28) 0%, rgba(255, 165, 0, 0.15) 50%, transparent 70%);
+  top: 35%;
+  left: 10%;
+  animation: rotate-glow 28s linear infinite, pulse-ring 11s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 0;
+}
+
+body.theme-sunflower .main-content::before {
+  content: '';
+  position: fixed;
+  width: 450px;
+  height: 450px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 165, 0, 0.25) 0%, transparent 70%);
+  bottom: 30%;
+  right: 18%;
+  animation: breathe-light 14s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* 科技主题额外效果 */
+body.theme-tech .sidebar::before {
+  content: '';
+  position: fixed;
+  width: 550px;
+  height: 550px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(0, 212, 255, 0.15) 0%, transparent 70%);
+  top: 40%;
+  left: -10%;
+  animation: pulse-ring 10s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 0;
+  box-shadow: 0 0 80px rgba(0, 212, 255, 0.3);
+}
+
+body.theme-tech .main-content::before {
+  content: '';
+  position: fixed;
+  width: 3px;
+  height: 100%;
+  background: linear-gradient(180deg, transparent 0%, rgba(0, 212, 255, 0.6) 30%, rgba(0, 102, 255, 0.6) 70%, transparent 100%);
+  left: 40%;
+  top: 0;
+  animation: matrix-column-1 10s linear infinite;
+  pointer-events: none;
+  z-index: 0;
+  box-shadow: 0 0 15px rgba(0, 212, 255, 0.8);
+}
+
+body.theme-tech .main-content::after {
+  content: '';
+  position: fixed;
+  width: 3px;
+  height: 100%;
+  background: linear-gradient(180deg, transparent 0%, rgba(0, 102, 255, 0.6) 30%, rgba(0, 212, 255, 0.6) 70%, transparent 100%);
+  right: 30%;
+  top: 0;
+  animation: matrix-column-2 14s linear infinite 3s;
+  pointer-events: none;
+  z-index: 0;
+  box-shadow: 0 0 15px rgba(0, 102, 255, 0.8);
+}
+
+/* 星空主题额外效果 */
+body.theme-galaxy .sidebar::before {
+  content: '';
+  position: fixed;
+  width: 600px;
+  height: 600px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(138, 43, 226, 0.25) 0%, rgba(75, 0, 130, 0.15) 50%, transparent 70%);
+  top: 20%;
+  left: -5%;
+  animation: rotate-glow 50s linear infinite, breathe-light 12s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 0;
+  box-shadow: 0 0 100px rgba(138, 43, 226, 0.4);
+}
+
+body.theme-galaxy .main-content::before {
+  content: '';
+  position: fixed;
+  width: 500px;
+  height: 500px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(75, 0, 130, 0.2) 0%, transparent 70%);
+  bottom: 20%;
+  right: 10%;
+  animation: pulse-ring 15s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 0;
+  box-shadow: 0 0 80px rgba(75, 0, 130, 0.3);
+}
+
+/* 赛博朋克主题额外效果 */
+body.theme-cyberpunk .sidebar::before {
+  content: '';
+  position: fixed;
+  width: 4px;
+  height: 100%;
+  background: linear-gradient(180deg, transparent 0%, #FF00FF 30%, #00FFFF 50%, #FF00FF 70%, transparent 100%);
+  left: 30%;
+  top: 0;
+  animation: neon-scan-horizontal 9s linear infinite 2s;
+  pointer-events: none;
+  z-index: 0;
+  box-shadow: 0 0 20px #FF00FF, 0 0 40px #00FFFF;
+}
+
+body.theme-cyberpunk .main-content::before {
+  content: '';
+  position: fixed;
+  width: 100%;
+  height: 3px;
+  background: linear-gradient(90deg, transparent 0%, #00FFFF 30%, #FF00FF 50%, #00FFFF 70%, transparent 100%);
+  top: 30%;
+  left: 0;
+  animation: neon-scan-vertical 7s linear infinite 4s;
+  pointer-events: none;
+  z-index: 0;
+  box-shadow: 0 0 20px #00FFFF, 0 0 40px #FF00FF;
+}
+
+body.theme-cyberpunk .main-content::after {
+  content: '';
+  position: fixed;
+  width: 550px;
+  height: 550px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 0, 255, 0.15) 0%, rgba(0, 255, 255, 0.1) 50%, transparent 70%);
+  top: 50%;
+  left: 50%;
+  margin: -275px 0 0 -275px;
+  animation: rotate-glow 25s linear infinite;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* 黑客帝国主题额外效果 */
+body.theme-matrix .sidebar::before {
+  content: '';
+  position: fixed;
+  width: 2px;
+  height: 100%;
+  background: linear-gradient(180deg, transparent 0%, #00FF00 50%, transparent 100%);
+  left: 40%;
+  animation: matrix-column-1 9s linear infinite 1s;
+  pointer-events: none;
+  z-index: 0;
+  box-shadow: 0 0 12px #00FF00;
+}
+
+body.theme-matrix .main-content::before {
+  content: '';
+  position: fixed;
+  width: 2px;
+  height: 100%;
+  background: linear-gradient(180deg, transparent 0%, #00FF00 50%, transparent 100%);
+  left: 70%;
+  animation: matrix-column-2 11s linear infinite 3s;
+  pointer-events: none;
+  z-index: 0;
+  box-shadow: 0 0 12px #00FF00;
+}
+
+body.theme-matrix .main-content::after {
+  content: '';
+  position: fixed;
+  width: 500px;
+  height: 500px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(0, 255, 0, 0.12) 0%, transparent 70%);
+  top: 50%;
+  right: 10%;
+  margin-top: -250px;
+  animation: pulse-ring 13s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* 龙主题额外效果 */
+body.theme-dragon .sidebar::before {
+  content: '';
+  position: fixed;
+  width: 480px;
+  height: 480px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(220, 20, 60, 0.25) 0%, rgba(255, 69, 0, 0.18) 50%, transparent 70%);
+  top: 30%;
+  left: 5%;
+  animation: fire-glow 9s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 0;
+  box-shadow: 0 0 90px rgba(220, 20, 60, 0.4);
+}
+
+body.theme-dragon .main-content::before {
+  content: '';
+  position: fixed;
+  width: 420px;
+  height: 420px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 69, 0, 0.22) 0%, transparent 70%);
+  bottom: 25%;
+  right: 15%;
+  animation: pulse-ring 11s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 0;
+  box-shadow: 0 0 70px rgba(255, 69, 0, 0.3);
+}
+
+/* Taylor Swift主题额外效果 */
+body.theme-taylor .sidebar::before {
+  content: '';
+  position: fixed;
+  width: 3px;
+  height: 180px;
+  background: linear-gradient(180deg, rgba(255, 215, 0, 0.9) 0%, transparent 100%);
+  top: 5%;
+  left: 40%;
+  animation: meteor-fall 20s linear infinite 8s;
+  pointer-events: none;
+  z-index: 0;
+  box-shadow: 0 0 15px rgba(255, 215, 0, 0.8);
+}
+
+body.theme-taylor .main-content::before {
+  content: '';
+  position: fixed;
+  width: 3px;
+  height: 180px;
+  background: linear-gradient(180deg, rgba(255, 105, 180, 0.9) 0%, transparent 100%);
+  top: 15%;
+  right: 25%;
+  animation: meteor-fall 22s linear infinite 14s;
+  pointer-events: none;
+  z-index: 0;
+  box-shadow: 0 0 15px rgba(255, 105, 180, 0.8);
+}
+
+/* 赵丽颖主题额外效果 */
+body.theme-liying .sidebar::before {
+  content: '';
+  position: fixed;
+  width: 480px;
+  height: 480px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 182, 217, 0.25) 0%, transparent 70%);
+  top: 35%;
+  left: 8%;
+  animation: rotate-glow 42s linear infinite, breathe-light 10s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 0;
+}
+
+body.theme-liying .main-content::before {
+  content: '';
+  position: fixed;
+  width: 400px;
+  height: 400px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 204, 229, 0.2) 0%, transparent 70%);
+  bottom: 28%;
+  right: 18%;
+  animation: pulse-ring 16s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* 小鱼主题额外效果 */
+body.theme-fish .sidebar::before {
+  content: '';
+  position: fixed;
+  width: 500px;
+  height: 500px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(135, 206, 235, 0.22) 0%, transparent 70%);
+  top: 40%;
+  left: 10%;
+  animation: wave-expand 22s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 0;
+}
+
+body.theme-fish .main-content::before {
+  content: '';
+  position: fixed;
+  width: 450px;
+  height: 450px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(176, 224, 230, 0.18) 0%, transparent 70%);
+  bottom: 20%;
+  right: 22%;
+  animation: bubble-rise 19s linear infinite;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* 悟空主题额外效果 */
+body.theme-wukong .sidebar::before {
+  content: '';
+  position: fixed;
+  width: 520px;
+  height: 520px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 215, 0, 0.25) 0%, rgba(139, 0, 0, 0.18) 50%, transparent 70%);
+  top: 25%;
+  left: 5%;
+  animation: fire-glow 8s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 0;
+  box-shadow: 0 0 85px rgba(255, 215, 0, 0.4);
+}
+
+body.theme-wukong .main-content::before {
+  content: '';
+  position: fixed;
+  width: 460px;
+  height: 460px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(139, 0, 0, 0.22) 0%, transparent 70%);
+  bottom: 22%;
+  right: 12%;
+  animation: pulse-ring 12s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 0;
+  box-shadow: 0 0 70px rgba(139, 0, 0, 0.3);
+}
+
+/* 马斯克主题额外效果 */
+body.theme-musk .sidebar::before {
+  content: '';
+  position: fixed;
+  width: 550px;
+  height: 550px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(0, 212, 255, 0.2) 0%, transparent 70%);
+  top: 30%;
+  left: 8%;
+  animation: pulse-ring 11s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 0;
+  box-shadow: 0 0 90px rgba(0, 212, 255, 0.35);
+}
+
+body.theme-musk .main-content::before {
+  content: '';
+  position: fixed;
+  width: 480px;
+  height: 480px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(0, 153, 204, 0.18) 0%, transparent 70%);
+  bottom: 25%;
+  right: 15%;
+  animation: rotate-glow 52s linear infinite;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* 血族主题额外效果 */
+body.theme-vampire .sidebar::before {
+  content: '';
+  position: fixed;
+  width: 500px;
+  height: 500px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(139, 0, 0, 0.25) 0%, rgba(220, 20, 60, 0.18) 50%, transparent 70%);
+  top: 35%;
+  left: 10%;
+  animation: breathe-light 14s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 0;
+  box-shadow: 0 0 80px rgba(139, 0, 0, 0.4);
+}
+
+body.theme-vampire .main-content::before {
+  content: '';
+  position: fixed;
+  width: 450px;
+  height: 450px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(220, 20, 60, 0.2) 0%, transparent 70%);
+  bottom: 28%;
+  right: 18%;
+  animation: pulse-ring 13s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* 幽灵主题额外效果 */
+body.theme-ghost .sidebar::before {
+  content: '';
+  position: fixed;
+  width: 520px;
+  height: 520px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(144, 144, 208, 0.25) 0%, transparent 70%);
+  top: 32%;
+  left: 12%;
+  animation: breathe-light 17s ease-in-out infinite, wave-expand 24s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 0;
+}
+
+body.theme-ghost .main-content::before {
+  content: '';
+  position: fixed;
+  width: 460px;
+  height: 460px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(112, 112, 176, 0.2) 0%, transparent 70%);
+  bottom: 26%;
+  right: 16%;
+  animation: rotate-glow 48s linear infinite;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* 恶魔主题额外效果 */
+body.theme-demon .sidebar::before {
+  content: '';
+  position: fixed;
+  width: 540px;
+  height: 540px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 69, 0, 0.28) 0%, rgba(220, 20, 60, 0.2) 50%, transparent 70%);
+  top: 28%;
+  left: 6%;
+  animation: fire-glow 8s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 0;
+  box-shadow: 0 0 95px rgba(255, 69, 0, 0.45);
+}
+
+body.theme-demon .main-content::before {
+  content: '';
+  position: fixed;
+  width: 470px;
+  height: 470px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(220, 20, 60, 0.25) 0%, transparent 70%);
+  bottom: 24%;
+  right: 14%;
+  animation: pulse-ring 10s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 0;
+  box-shadow: 0 0 75px rgba(220, 20, 60, 0.35);
+}
+
+/* 熊猫主题额外效果 */
+body.theme-panda .sidebar::before {
+  content: '';
+  position: fixed;
+  width: 460px;
+  height: 460px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(138, 138, 138, 0.18) 0%, transparent 70%);
+  top: 38%;
+  left: 12%;
+  animation: breathe-light 18s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 0;
+}
+
+body.theme-panda .main-content::before {
+  content: '';
+  position: fixed;
+  width: 400px;
+  height: 400px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(90, 90, 90, 0.15) 0%, transparent 70%);
+  bottom: 30%;
+  right: 20%;
+  animation: pulse-ring 15s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* 狐狸主题额外效果 */
+body.theme-fox .sidebar::before {
+  content: '';
+  position: fixed;
+  width: 490px;
+  height: 490px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 153, 119, 0.25) 0%, transparent 70%);
+  top: 34%;
+  left: 9%;
+  animation: rotate-glow 44s linear infinite, breathe-light 16s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 0;
+}
+
+body.theme-fox .main-content::before {
+  content: '';
+  position: fixed;
+  width: 440px;
+  height: 440px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 140, 90, 0.22) 0%, transparent 70%);
+  bottom: 27%;
+  right: 17%;
+  animation: wave-expand 20s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Beauty1主题额外效果 */
+body.theme-beauty1 .sidebar::before {
+  content: '';
+  position: fixed;
+  width: 510px;
+  height: 510px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 182, 217, 0.25) 0%, transparent 70%);
+  top: 32%;
+  left: 10%;
+  animation: pulse-ring 12s ease-in-out infinite, rotate-glow 46s linear infinite;
+  pointer-events: none;
+  z-index: 0;
+}
+
+body.theme-beauty1 .main-content::before {
+  content: '';
+  position: fixed;
+  width: 450px;
+  height: 450px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 105, 180, 0.22) 0%, transparent 70%);
+  bottom: 26%;
+  right: 16%;
+  animation: breathe-light 15s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* 为所有科技类主题添加全局网格效果 */
+body.theme-tech::after,
+body.theme-cyberpunk body::after,
+body.theme-matrix body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: 
+    repeating-linear-gradient(90deg, transparent, transparent 50px, rgba(255, 255, 255, 0.02) 50px, rgba(255, 255, 255, 0.02) 51px),
+    repeating-linear-gradient(0deg, transparent, transparent 50px, rgba(255, 255, 255, 0.02) 50px, rgba(255, 255, 255, 0.02) 51px);
+  pointer-events: none;
+  z-index: 0;
+}
+
