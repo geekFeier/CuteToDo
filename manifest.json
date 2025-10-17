@@ -1,0 +1,47 @@
+{
+  "manifest_version": 3,
+  "name": "CuteToDo - 智能待办事项",
+  "version": "1.0.0",
+  "description": "现代化的待办事项管理工具，支持暗色模式、动态效果和付费高级功能",
+  
+  "permissions": [
+    "storage",
+    "activeTab",
+    "identity"
+  ],
+  
+  "host_permissions": [
+    "https://api.taskflow.pro/*"
+  ],
+  
+  "chrome_url_overrides": {
+    "newtab": "index.html"
+  },
+  
+  "background": {
+    "service_worker": "js/background.js"
+  },
+  
+  "content_security_policy": {
+    "extension_pages": "script-src 'self'; object-src 'self'"
+  },
+  
+  "icons": {
+    "16": "img/icon-16.png",
+    "32": "img/icon-32.png",
+    "48": "img/icon-48.png",
+    "128": "img/icon-128.png"
+  },
+  
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "CuteToDo"
+  },
+  
+  "web_accessible_resources": [
+    {
+      "resources": ["themes/*", "templates/*", "fonts/*"],
+      "matches": ["<all_urls>"]
+    }
+  ]
+}

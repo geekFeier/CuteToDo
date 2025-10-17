@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CuteToDo</title>
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/animations.css">
+    <link rel="stylesheet" href="css/themes.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="theme-light">
+    <!-- 主容器 -->
+    <div class="app-container">
+        <!-- 侧边栏 -->
+        <aside class="sidebar">
+            <!-- 进度条 -->
+            <div class="progress-section">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+                <div class="progress-label">今日进度</div>
+            </div>
+
+            <!-- 吉祥物区域 -->
+            <div class="mascot-area">
+                <div class="mascot" id="mascot">
+                    <div class="mascot-body">
+                        <svg class="rabbit-svg" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                            <!-- 左耳 -->
+                            <ellipse class="ear-left" cx="70" cy="50" rx="15" ry="45" fill="#FFB6C1" opacity="0.9"/>
+                            <ellipse cx="70" cy="50" rx="8" ry="35" fill="#FFC0CB"/>
+                            
+                            <!-- 右耳 -->
+                            <ellipse class="ear-right" cx="130" cy="50" rx="15" ry="45" fill="#FFB6C1" opacity="0.9"/>
+                            <ellipse cx="130" cy="50" rx="8" ry="35" fill="#FFC0CB"/>
+                            
+                            <!-- 头部 -->
+                            <circle cx="100" cy="100" r="50" fill="#FFFFFF"/>
+                            <circle cx="100" cy="100" r="48" fill="#FFE4E1"/>
+                            
+                            <!-- 左眼 -->
+                            <g class="eye-left">
+                                <circle cx="85" cy="95" r="8" fill="#2C3E50"/>
+                                <circle cx="87" cy="93" r="3" fill="#FFFFFF"/>
+                            </g>
+                            
+                            <!-- 右眼 -->
+                            <g class="eye-right">
+                                <circle cx="115" cy="95" r="8" fill="#2C3E50"/>
+                                <circle cx="117" cy="93" r="3" fill="#FFFFFF"/>
+                            </g>
+                            
+                            <!-- 腮红 -->
+                            <circle cx="70" cy="105" r="8" fill="#FFB6C1" opacity="0.5"/>
+                            <circle cx="130" cy="105" r="8" fill="#FFB6C1" opacity="0.5"/>
+                            
+                            <!-- 鼻子 -->
+                            <ellipse cx="100" cy="108" rx="4" ry="5" fill="#FFB6C1"/>
+                            
+                            <!-- 嘴巴 -->
+                            <path d="M 100 108 Q 95 115 90 112" stroke="#2C3E50" stroke-width="2" fill="none" stroke-linecap="round"/>
+                            <path d="M 100 108 Q 105 115 110 112" stroke="#2C3E50" stroke-width="2" fill="none" stroke-linecap="round"/>
+                            
+                            <!-- 身体 -->
+                            <ellipse cx="100" cy="160" rx="40" ry="35" fill="#FFFFFF"/>
+                            <ellipse cx="100" cy="160" rx="38" ry="33" fill="#FFE4E1"/>
+                            
+                            <!-- 左手 -->
+                            <ellipse class="arm-left" cx="70" cy="155" rx="12" ry="20" fill="#FFE4E1"/>
+                            
+                            <!-- 右手 -->
+                            <ellipse class="arm-right" cx="130" cy="155" rx="12" ry="20" fill="#FFE4E1"/>
+                            
+                            <!-- 尾巴 -->
+                            <circle class="tail" cx="100" cy="190" r="8" fill="#FFFFFF"/>
+                            <circle cx="100" cy="190" r="6" fill="#FFE4E1"/>
+                        </svg>
+                    </div>
+                    <div class="mascot-message" id="mascotMessage">加油完成任务！</div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- 主内容区域 -->
+        <main class="main-content">
+            <!-- 头部 -->
+            <header class="header">
+                <div class="date-info">
+                    <h1 class="current-date" id="currentDate"></h1>
+                </div>
+                
+                <div class="header-actions">
+                    <button class="action-btn" id="settingsBtn" title="设置">
+                        <span class="btn-icon">⚙️</span>
+                    </button>
+                    <button class="action-btn premium-btn" id="premiumBtn" title="主题设置">
+                        <span class="btn-icon">🎨</span>
+                        <span class="premium-text">主题</span>
+                    </button>
+                </div>
+            </header>
+
+            <!-- 任务列表 -->
+            <div class="tasks-container">
+                <div class="tasks-card">
+                    <div class="tasks-header">
+                        <h2 class="tasks-title">今日任务</h2>
+                        <div class="tasks-stats">
+                            <span class="stat-item">
+                                完成: <span id="completedCount">0</span>
+                            </span>
+                            <span class="stat-item">
+                                总计: <span id="totalCount">0</span>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="tasks-list" id="tasksList">
+                        <!-- 任务项将动态添加到这里 -->
+                    </div>
+
+                    <!-- 添加任务输入框 -->
+                    <div class="add-task-section">
+                        <div class="add-task-input">
+                            <input type="text" id="taskInput" placeholder="添加新任务..." maxlength="200">
+                            <button class="add-btn" id="addTaskBtn">
+                                <span class="add-icon">+</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- 主题设置模态框 -->
+    <div class="modal" id="shopModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>🎨 主题设置</h3>
+                <button class="close-btn" id="closeShopBtn">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="themes-content" id="themesContent">
+                    <!-- 免费主题 -->
+                    <div class="themes-section">
+                        <h3>🆓 免费主题</h3>
+                        <div class="themes-grid free-themes">
+                            <div class="theme-card free" data-theme="light">
+                                <div class="theme-preview light-preview"></div>
+                                <h4>浅色</h4>
+                                <button class="theme-btn apply-btn" onclick="app.applyTheme('light')">应用</button>
+                            </div>
+                            <div class="theme-card free" data-theme="dark">
+                                <div class="theme-preview dark-preview"></div>
+                                <h4>深色</h4>
+                                <button class="theme-btn apply-btn" onclick="app.applyTheme('dark')">应用</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 可爱版主题 -->
+                    <div class="themes-section">
+                        <h3>🎀 可爱版 <span class="premium-badge">¥9.9</span></h3>
+                        <div class="themes-grid" id="cuteThemesGrid"></div>
+                    </div>
+                    
+                    <!-- 明星版主题 -->
+                    <div class="themes-section">
+                        <h3>⭐ 明星版 <span class="premium-badge">¥12.9</span></h3>
+                        <div class="themes-grid" id="starThemesGrid"></div>
+                    </div>
+                    
+                    <!-- 暗黑版主题 -->
+                    <div class="themes-section">
+                        <h3>🔥 暗黑版 <span class="premium-badge">¥9.9</span></h3>
+                        <div class="themes-grid" id="darkThemesGrid"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 设置模态框 -->
+    <div class="modal" id="settingsModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>⚙️ 设置</h3>
+                <button class="close-btn" id="closeSettingsBtn">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="setting-group">
+                    <label>自动保存</label>
+                    <input type="checkbox" id="autoSave" checked>
+                </div>
+                <div class="setting-group">
+                    <label>动画效果</label>
+                    <input type="checkbox" id="animations" checked>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 脚本 -->
+    <script src="js/app.js"></script>
+    <script src="js/animations.js"></script>
+    <script src="js/premium.js"></script>
+    <script src="js/themes.js"></script>
+</body>
+</html>
