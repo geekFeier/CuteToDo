@@ -93,13 +93,22 @@
   animation: progressFill 1s ease-out;
 }
 
-/* 吉祥物动画 */
+/* 吉祥物动画 - 间歇性 */
 @keyframes mascotBounce {
-  0%, 100% {
+  0%, 75%, 100% {
     transform: translateY(0);
   }
-  50% {
+  80% {
     transform: translateY(-10px);
+  }
+  85% {
+    transform: translateY(0);
+  }
+  90% {
+    transform: translateY(-5px);
+  }
+  95% {
+    transform: translateY(0);
   }
 }
 
@@ -126,7 +135,7 @@
 }
 
 .mascot-body.idle {
-  animation: mascotBounce 3s ease-in-out infinite;
+  animation: mascotBounce 8s ease-in-out infinite;
 }
 
 /* 虚拟商品动画 */

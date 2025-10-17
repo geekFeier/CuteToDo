@@ -28,7 +28,7 @@ class TaskFlowApp {
                 'fish', 'shrimp', 'dolphin', 'turtle',
                 'liying', 'taylor', 'beauty1', 'beauty2', 'beauty3', 'anime1', 'anime2', 'muscleman',
                 'kobe', 'messi', 'musk', 'jobs',
-                'tech', 'galaxy', 'wukong', 'cyberpunk', 'matrix', 'dragon'];
+                'tech', 'galaxy', 'wukong', 'cyberpunk', 'matrix', 'dragon', 'vampire', 'ghost', 'reaper', 'demon', 'ninja', 'zombie'];
     }
     
     initThemesData() {
@@ -77,7 +77,13 @@ class TaskFlowApp {
                 { id: 'wukong', name: '悟空', price: 9.9 },
                 { id: 'cyberpunk', name: '赛博朋克', price: 9.9 },
                 { id: 'matrix', name: '黑客帝国', price: 9.9 },
-                { id: 'dragon', name: '龙', price: 9.9 }
+                { id: 'dragon', name: '龙', price: 9.9 },
+                { id: 'vampire', name: '血族', price: 9.9 },
+                { id: 'ghost', name: '幽灵', price: 9.9 },
+                { id: 'reaper', name: '死神', price: 9.9 },
+                { id: 'demon', name: '恶魔', price: 9.9 },
+                { id: 'ninja', name: '忍者', price: 9.9 },
+                { id: 'zombie', name: '僵尸', price: 9.9 }
             ]
         };
     }
@@ -238,7 +244,9 @@ class TaskFlowApp {
                    themeName === 'kobe' || themeName === 'messi' || themeName === 'musk' || themeName === 'jobs') {
             svg = this.getStarThemeSVG(themeName);
         } else if (themeName === 'tech' || themeName === 'galaxy' || themeName === 'wukong' || 
-                   themeName === 'cyberpunk' || themeName === 'matrix' || themeName === 'dragon') {
+                   themeName === 'cyberpunk' || themeName === 'matrix' || themeName === 'dragon' ||
+                   themeName === 'vampire' || themeName === 'ghost' || themeName === 'reaper' ||
+                   themeName === 'demon' || themeName === 'ninja' || themeName === 'zombie') {
             svg = this.getDarkThemeSVG(themeName);
         } else {
             // 默认使用兔子
@@ -354,7 +362,9 @@ class TaskFlowApp {
             'muscleman': '肌肉猛男',
             'kobe': '科比', 'messi': '梅西', 'musk': '马斯克', 'jobs': '乔布斯',
             'tech': '科技', 'galaxy': '星空', 'wukong': '悟空',
-            'cyberpunk': '赛博朋克', 'matrix': '黑客帝国', 'dragon': '龙'
+            'cyberpunk': '赛博朋克', 'matrix': '黑客帝国', 'dragon': '龙',
+            'vampire': '血族', 'ghost': '幽灵', 'reaper': '死神',
+            'demon': '恶魔', 'ninja': '忍者', 'zombie': '僵尸'
         };
         return themeNames[themeName] || themeName;
     }
@@ -363,284 +373,465 @@ class TaskFlowApp {
     getCuteThemeSVG(themeId) {
         const svgs = {
             cat: `<svg viewBox="0 0 100 100" class="theme-svg cute-svg">
-                <!-- 大头 -->
-                <circle cx="50" cy="38" r="28" fill="#FFC4A3"/>
-                <!-- 猫耳朵 -->
-                <polygon points="28,15 20,30 35,28" fill="#FFC4A3" class="ear-wiggle-left"/>
-                <polygon points="72,15 80,30 65,28" fill="#FFC4A3" class="ear-wiggle-right"/>
-                <polygon points="30,18 25,26 34,26" fill="#FFB6C1"/>
-                <polygon points="70,18 75,26 66,26" fill="#FFB6C1"/>
-                <!-- 眼睛 -->
-                <ellipse cx="40" cy="36" rx="5" ry="7" fill="#000"/>
-                <ellipse cx="60" cy="36" rx="5" ry="7" fill="#000"/>
-                <circle cx="41" cy="34" r="2" fill="#FFF"/>
-                <circle cx="61" cy="34" r="2" fill="#FFF"/>
-                <!-- 腮红 -->
-                <circle cx="30" cy="42" r="5" fill="#FFB6C1" opacity="0.5"/>
-                <circle cx="70" cy="42" r="5" fill="#FFB6C1" opacity="0.5"/>
-                <!-- 鼻子嘴巴 -->
-                <ellipse cx="50" cy="46" rx="3" ry="4" fill="#FFB6C1"/>
-                <path d="M 50 46 Q 45 50 43 49" stroke="#000" stroke-width="1.5" fill="none"/>
-                <path d="M 50 46 Q 55 50 57 49" stroke="#000" stroke-width="1.5" fill="none"/>
-                <!-- 胡须 -->
-                <line x1="25" y1="40" x2="15" y2="38" stroke="#000" stroke-width="1"/>
-                <line x1="25" y1="44" x2="15" y2="46" stroke="#000" stroke-width="1"/>
-                <line x1="75" y1="40" x2="85" y2="38" stroke="#000" stroke-width="1"/>
-                <line x1="75" y1="44" x2="85" y2="46" stroke="#000" stroke-width="1"/>
-                <!-- 小身体 -->
-                <ellipse cx="50" cy="73" rx="16" ry="20" fill="#FFC4A3"/>
-                <!-- 手 -->
-                <ellipse cx="36" cy="70" rx="6" ry="10" fill="#FFC4A3"/>
-                <ellipse cx="64" cy="70" rx="6" ry="10" fill="#FFC4A3"/>
-                <!-- 脚 -->
-                <ellipse cx="42" cy="92" rx="6" ry="5" fill="#FFC4A3"/>
-                <ellipse cx="58" cy="92" rx="6" ry="5" fill="#FFC4A3"/>
+                <!-- 橘猫大头 -->
+                <circle cx="50" cy="38" r="28" fill="#FF9955"/>
+                <!-- 橘猫条纹 -->
+                <path d="M 30 28 Q 32 30 30 32" stroke="#E67722" stroke-width="2.5" fill="none"/>
+                <path d="M 70 28 Q 68 30 70 32" stroke="#E67722" stroke-width="2.5" fill="none"/>
+                <path d="M 35 22 Q 36 24 35 26" stroke="#E67722" stroke-width="2" fill="none"/>
+                <path d="M 65 22 Q 64 24 65 26" stroke="#E67722" stroke-width="2" fill="none"/>
+                <path d="M 40 18 Q 41 20 40 22" stroke="#E67722" stroke-width="1.5" fill="none"/>
+                <path d="M 60 18 Q 59 20 60 22" stroke="#E67722" stroke-width="1.5" fill="none"/>
+                <!-- 额头M字纹 -->
+                <path d="M 42 24 L 46 28 L 50 24 L 54 28 L 58 24" stroke="#E67722" stroke-width="2" fill="none" stroke-linecap="round"/>
+                <!-- 三角猫耳朵 -->
+                <polygon points="26,14 20,28 32,26" fill="#FF9955" class="ear-wiggle-left"/>
+                <polygon points="74,14 80,28 68,26" fill="#FF9955" class="ear-wiggle-right"/>
+                <polygon points="28,18 24,24 30,24" fill="#FFB380"/>
+                <polygon points="72,18 76,24 70,24" fill="#FFB380"/>
+                <!-- 脸部白色区域 -->
+                <ellipse cx="50" cy="44" rx="18" ry="14" fill="#FFF" opacity="0.9"/>
+                <!-- 超大圆眼睛 -->
+                <circle cx="38" cy="38" r="8" fill="#FFD700" opacity="0.8"/>
+                <circle cx="38" cy="38" r="7" fill="#88DD00"/>
+                <circle cx="38" cy="38" r="5" fill="#000" class="eye-blink"/>
+                <circle cx="39" cy="35" r="3" fill="#FFF"/>
+                <circle cx="40" cy="34" r="1.5" fill="#FFF"/>
+                <circle cx="62" cy="38" r="8" fill="#FFD700" opacity="0.8"/>
+                <circle cx="62" cy="38" r="7" fill="#88DD00"/>
+                <circle cx="62" cy="38" r="5" fill="#000" class="eye-blink"/>
+                <circle cx="63" cy="35" r="3" fill="#FFF"/>
+                <circle cx="64" cy="34" r="1.5" fill="#FFF"/>
+                <!-- 大腮红 -->
+                <circle cx="26" cy="46" r="8" fill="#FFB380" opacity="0.7"/>
+                <circle cx="74" cy="46" r="8" fill="#FFB380" opacity="0.7"/>
+                <!-- 粉色鼻子 -->
+                <ellipse cx="50" cy="48" rx="4" ry="4" fill="#FFB6C1"/>
+                <circle cx="49" cy="47" r="1.5" fill="#FFF" opacity="0.6"/>
+                <!-- W型猫嘴 -->
+                <path d="M 50 48 L 50 50" stroke="#2C2C2C" stroke-width="1.5"/>
+                <path d="M 50 50 Q 44 53 42 51" stroke="#2C2C2C" stroke-width="2" fill="none" stroke-linecap="round"/>
+                <path d="M 50 50 Q 56 53 58 51" stroke="#2C2C2C" stroke-width="2" fill="none" stroke-linecap="round"/>
+                <!-- 长胡须 -->
+                <line x1="22" y1="44" x2="8" y2="40" stroke="#2C2C2C" stroke-width="1.5" stroke-linecap="round"/>
+                <line x1="22" y1="48" x2="8" y2="52" stroke="#2C2C2C" stroke-width="1.5" stroke-linecap="round"/>
+                <line x1="78" y1="44" x2="92" y2="40" stroke="#2C2C2C" stroke-width="1.5" stroke-linecap="round"/>
+                <line x1="78" y1="48" x2="92" y2="52" stroke="#2C2C2C" stroke-width="1.5" stroke-linecap="round"/>
+                <!-- 小身体（橘色） -->
+                <ellipse cx="50" cy="74" rx="17" ry="21" fill="#FF9955"/>
+                <!-- 白肚子 -->
+                <ellipse cx="50" cy="75" rx="12" ry="16" fill="#FFF" opacity="0.95"/>
+                <!-- 身体条纹 -->
+                <path d="M 40 68 Q 42 70 40 72" stroke="#E67722" stroke-width="2" fill="none"/>
+                <path d="M 60 68 Q 58 70 60 72" stroke="#E67722" stroke-width="2" fill="none"/>
+                <path d="M 42 80 Q 44 82 42 84" stroke="#E67722" stroke-width="1.5" fill="none"/>
+                <path d="M 58 80 Q 56 82 58 84" stroke="#E67722" stroke-width="1.5" fill="none"/>
+                <!-- 手（橘色） -->
+                <ellipse cx="35" cy="71" rx="6" ry="11" fill="#FF9955"/>
+                <ellipse cx="65" cy="71" rx="6" ry="11" fill="#FF9955"/>
+                <!-- 白色手掌 -->
+                <circle cx="35" cy="80" r="3.5" fill="#FFF" opacity="0.9"/>
+                <circle cx="65" cy="80" r="3.5" fill="#FFF" opacity="0.9"/>
+                <!-- 脚（橘色） -->
+                <ellipse cx="42" cy="93" rx="8" ry="6" fill="#FF9955"/>
+                <ellipse cx="58" cy="93" rx="8" ry="6" fill="#FF9955"/>
+                <!-- 白色脚掌 -->
+                <ellipse cx="42" cy="95" rx="5" ry="3" fill="#FFF" opacity="0.9"/>
+                <ellipse cx="58" cy="95" rx="5" ry="3" fill="#FFF" opacity="0.9"/>
+                <!-- 尾巴 -->
+                <circle cx="50" cy="60" r="2" fill="#E67722" opacity="0.6"/>
             </svg>`,
             
             dog: `<svg viewBox="0 0 100 100" class="theme-svg cute-svg">
-                <!-- 大头 -->
-                <ellipse cx="50" cy="38" rx="26" ry="24" fill="#E8C5A0"/>
-                <!-- 狗耳朵 -->
-                <ellipse cx="25" cy="35" rx="10" ry="18" fill="#D4A574" class="ear-flap"/>
-                <ellipse cx="75" cy="35" rx="10" ry="18" fill="#D4A574" class="ear-flap"/>
-                <!-- 眼睛 -->
-                <circle cx="40" cy="36" r="5" fill="#000" class="eye-blink"/>
-                <circle cx="60" cy="36" r="5" fill="#000" class="eye-blink"/>
-                <circle cx="41" cy="34" r="2" fill="#FFF"/>
-                <circle cx="61" cy="34" r="2" fill="#FFF"/>
-                <!-- 鼻子 -->
-                <ellipse cx="50" cy="46" rx="5" ry="4" fill="#4A3428"/>
-                <path d="M 50 46 L 50 50" stroke="#4A3428" stroke-width="1.5"/>
-                <!-- 嘴巴 -->
-                <path d="M 42 50 Q 50 54 58 50" stroke="#4A3428" stroke-width="1.5" fill="none"/>
-                <!-- 舌头 -->
-                <ellipse cx="50" cy="55" rx="4" ry="3" fill="#FF6B9D" opacity="0.8"/>
-                <!-- 小身体 -->
-                <ellipse cx="50" cy="75" rx="18" ry="18" fill="#E8C5A0"/>
-                <!-- 手 -->
-                <ellipse cx="35" cy="72" rx="7" ry="12" fill="#E8C5A0"/>
-                <ellipse cx="65" cy="72" rx="7" ry="12" fill="#E8C5A0"/>
-                <!-- 脚 -->
-                <ellipse cx="42" cy="92" rx="6" ry="5" fill="#E8C5A0"/>
-                <ellipse cx="58" cy="92" rx="6" ry="5" fill="#E8C5A0"/>
+                <!-- 金毛大头 -->
+                <ellipse cx="50" cy="40" rx="28" ry="26" fill="#F4D03F"/>
+                <!-- 额头毛发 -->
+                <ellipse cx="50" cy="22" rx="24" ry="12" fill="#E8B92F"/>
+                <path d="M 35 22 Q 38 18 41 22" stroke="#E8B92F" stroke-width="2.5" fill="none"/>
+                <path d="M 45 22 Q 48 18 51 22" stroke="#E8B92F" stroke-width="2.5" fill="none"/>
+                <path d="M 55 22 Q 58 18 61 22" stroke="#E8B92F" stroke-width="2.5" fill="none"/>
+                <!-- 大耳朵（垂下来的） -->
+                <ellipse cx="22" cy="38" rx="12" ry="22" fill="#E8B92F" class="ear-flap"/>
+                <ellipse cx="78" cy="38" rx="12" ry="22" fill="#E8B92F" class="ear-flap"/>
+                <ellipse cx="22" cy="42" rx="7" ry="16" fill="#F4D03F"/>
+                <ellipse cx="78" cy="42" rx="7" ry="16" fill="#F4D03F"/>
+                <!-- 脸部白色区域 -->
+                <ellipse cx="50" cy="46" rx="20" ry="16" fill="#FFF" opacity="0.85"/>
+                <!-- 超大圆眼睛 -->
+                <circle cx="38" cy="38" r="8" fill="#4A3428" opacity="0.3"/>
+                <circle cx="38" cy="38" r="7" fill="#000" class="eye-blink"/>
+                <circle cx="39" cy="35" r="4" fill="#FFF"/>
+                <circle cx="40" cy="33" r="2" fill="#FFF"/>
+                <circle cx="62" cy="38" r="8" fill="#4A3428" opacity="0.3"/>
+                <circle cx="62" cy="38" r="7" fill="#000" class="eye-blink"/>
+                <circle cx="63" cy="35" r="4" fill="#FFF"/>
+                <circle cx="64" cy="33" r="2" fill="#FFF"/>
+                <!-- 大腮红 -->
+                <circle cx="26" cy="48" r="8" fill="#FFD4A3" opacity="0.8"/>
+                <circle cx="74" cy="48" r="8" fill="#FFD4A3" opacity="0.8"/>
+                <!-- 大黑鼻子 -->
+                <ellipse cx="50" cy="50" rx="7" ry="6" fill="#2C2C2C"/>
+                <circle cx="47" cy="48" r="2.5" fill="#FFF" opacity="0.6"/>
+                <circle cx="52" cy="49" r="1.5" fill="#FFF" opacity="0.4"/>
+                <!-- 鼻子到嘴的线 -->
+                <path d="M 50 50 L 50 54" stroke="#2C2C2C" stroke-width="2"/>
+                <!-- 超开心大笑 -->
+                <path d="M 38 54 Q 50 62 62 54" stroke="#4A3428" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+                <!-- 大舌头 -->
+                <ellipse cx="50" cy="58" rx="7" ry="5" fill="#FF6B9D"/>
+                <ellipse cx="50" cy="57" rx="5" ry="3" fill="#FF8FB3" opacity="0.8"/>
+                <ellipse cx="50" cy="56" rx="3" ry="2" fill="#FFB3C7" opacity="0.6"/>
+                <!-- 小身体（金毛色） -->
+                <ellipse cx="50" cy="76" rx="19" ry="19" fill="#F4D03F"/>
+                <!-- 白肚子 -->
+                <ellipse cx="50" cy="77" rx="13" ry="14" fill="#FFF" opacity="0.85"/>
+                <!-- 毛发纹理 -->
+                <path d="M 36 70 Q 38 72 36 74" stroke="#E8B92F" stroke-width="1.5" fill="none"/>
+                <path d="M 64 70 Q 62 72 64 74" stroke="#E8B92F" stroke-width="1.5" fill="none"/>
+                <!-- 手（金毛色） -->
+                <ellipse cx="34" cy="73" rx="7" ry="13" fill="#F4D03F"/>
+                <ellipse cx="66" cy="73" rx="7" ry="13" fill="#F4D03F"/>
+                <!-- 白色爪子 -->
+                <ellipse cx="34" cy="83" rx="4" ry="4" fill="#FFF" opacity="0.9"/>
+                <ellipse cx="66" cy="83" rx="4" ry="4" fill="#FFF" opacity="0.9"/>
+                <!-- 脚（金毛色） -->
+                <ellipse cx="42" cy="93" rx="8" ry="7" fill="#F4D03F"/>
+                <ellipse cx="58" cy="93" rx="8" ry="7" fill="#F4D03F"/>
+                <!-- 白色脚掌 -->
+                <ellipse cx="42" cy="96" rx="5" ry="4" fill="#FFF" opacity="0.9"/>
+                <ellipse cx="58" cy="96" rx="5" ry="4" fill="#FFF" opacity="0.9"/>
+                <!-- 肉垫 -->
+                <circle cx="42" cy="96" r="2" fill="#FFB6C1" opacity="0.7"/>
+                <circle cx="58" cy="96" r="2" fill="#FFB6C1" opacity="0.7"/>
+                <!-- 小尾巴摇摆暗示 -->
+                <circle cx="50" cy="62" r="2" fill="#E8B92F" opacity="0.5"/>
             </svg>`,
             
             rabbit: `<svg viewBox="0 0 100 100" class="theme-svg cute-svg">
-                <ellipse cx="35" cy="25" rx="8" ry="25" fill="#FFE4E1" class="ear-wiggle-left"/>
-                <ellipse cx="65" cy="25" rx="8" ry="25" fill="#FFE4E1" class="ear-wiggle-right"/>
-                <circle cx="50" cy="55" r="28" fill="#FFF"/>
-                <circle cx="42" cy="50" r="6" fill="#000" class="eye-blink"/>
-                <circle cx="58" cy="50" r="6" fill="#000" class="eye-blink"/>
-                <circle cx="35" cy="58" r="5" fill="#FFB6C1" opacity="0.6"/>
-                <circle cx="65" cy="58" r="5" fill="#FFB6C1" opacity="0.6"/>
-                <ellipse cx="50" cy="60" rx="3" ry="4" fill="#FFB6C1"/>
-                <path d="M 50 60 Q 45 65 43 63" stroke="#000" stroke-width="1.5" fill="none"/>
-                <path d="M 50 60 Q 55 65 57 63" stroke="#000" stroke-width="1.5" fill="none"/>
+                <!-- 超长兔耳朵 -->
+                <ellipse cx="35" cy="22" rx="9" ry="28" fill="#FFE4E1" class="ear-wiggle-left"/>
+                <ellipse cx="65" cy="22" rx="9" ry="28" fill="#FFE4E1" class="ear-wiggle-right"/>
+                <ellipse cx="35" cy="26" rx="5" ry="20" fill="#FFB6C1" opacity="0.6"/>
+                <ellipse cx="65" cy="26" rx="5" ry="20" fill="#FFB6C1" opacity="0.6"/>
+                <!-- 大头 -->
+                <circle cx="50" cy="40" r="28" fill="#FFF"/>
+                <ellipse cx="50" cy="40" rx="26" ry="28" fill="#FFEFF5"/>
+                <!-- 超大萌眼 -->
+                <ellipse cx="38" cy="38" rx="8" ry="11" fill="#000" class="eye-blink"/>
+                <circle cx="38" cy="34" r="5" fill="#FFF"/>
+                <circle cx="39" cy="32" r="2.5" fill="#FFF"/>
+                <circle cx="36" cy="36" r="1.5" fill="#FFF" opacity="0.7"/>
+                <ellipse cx="62" cy="38" rx="8" ry="11" fill="#000" class="eye-blink"/>
+                <circle cx="62" cy="34" r="5" fill="#FFF"/>
+                <circle cx="63" cy="32" r="2.5" fill="#FFF"/>
+                <circle cx="60" cy="36" r="1.5" fill="#FFF" opacity="0.7"/>
+                <!-- 大腮红 -->
+                <circle cx="26" cy="46" r="8" fill="#FFB6C1" opacity="0.8"/>
+                <circle cx="74" cy="46" r="8" fill="#FFB6C1" opacity="0.8"/>
+                <circle cx="24" cy="44" r="4" fill="#FF9AA2" opacity="0.6"/>
+                <circle cx="76" cy="44" r="4" fill="#FF9AA2" opacity="0.6"/>
+                <!-- 小鼻子 -->
+                <ellipse cx="50" cy="50" rx="3" ry="4" fill="#FFB6C1"/>
+                <circle cx="50" cy="49" r="1" fill="#FFF" opacity="0.6"/>
+                <!-- 嘴巴 -->
+                <path d="M 50 50 Q 44 54 42 53" stroke="#2C2C2C" stroke-width="2" fill="none" stroke-linecap="round"/>
+                <path d="M 50 50 Q 56 54 58 53" stroke="#2C2C2C" stroke-width="2" fill="none" stroke-linecap="round"/>
+                <!-- 小身体 -->
+                <ellipse cx="50" cy="75" rx="17" ry="20" fill="#FFF"/>
+                <ellipse cx="50" cy="75" rx="13" ry="16" fill="#FFE4E1"/>
+                <!-- 手 -->
+                <ellipse cx="36" cy="72" rx="6" ry="11" fill="#FFF"/>
+                <ellipse cx="64" cy="72" rx="6" ry="11" fill="#FFF"/>
+                <!-- 脚 -->
+                <ellipse cx="42" cy="93" rx="8" ry="6" fill="#FFF"/>
+                <ellipse cx="58" cy="93" rx="8" ry="6" fill="#FFF"/>
+                <!-- 小尾巴 -->
+                <circle cx="50" cy="90" r="4" fill="#FFF"/>
+                <circle cx="50" cy="90" r="3" fill="#FFE4E1"/>
             </svg>`,
             
             sunflower: `<svg viewBox="0 0 100 100" class="theme-svg cute-svg">
-                <g class="rotate-slow">
-                    <circle cx="50" cy="50" r="15" fill="#8B4513"/>
-                    <ellipse cx="50" cy="25" rx="8" ry="12" fill="#FFD700" class="petal"/>
-                    <ellipse cx="75" cy="50" rx="12" ry="8" fill="#FFD700" class="petal"/>
-                    <ellipse cx="50" cy="75" rx="8" ry="12" fill="#FFD700" class="petal"/>
-                    <ellipse cx="25" cy="50" rx="12" ry="8" fill="#FFD700" class="petal"/>
-                    <ellipse cx="65" cy="35" rx="10" ry="10" fill="#FFD700" class="petal"/>
-                    <ellipse cx="65" cy="65" rx="10" ry="10" fill="#FFD700" class="petal"/>
-                    <ellipse cx="35" cy="65" rx="10" ry="10" fill="#FFD700" class="petal"/>
-                    <ellipse cx="35" cy="35" rx="10" ry="10" fill="#FFD700" class="petal"/>
-                </g>
-                <circle cx="48" cy="48" r="3" fill="#654321"/>
-                <circle cx="56" cy="48" r="3" fill="#654321"/>
-                <path d="M 45 55 Q 50 58 55 55" stroke="#654321" stroke-width="2" fill="none"/>
+                <!-- 花瓣（每片独立动画） -->
+                <ellipse cx="50" cy="22" rx="9" ry="14" fill="#FFD700" class="petal"/>
+                <ellipse cx="73" cy="32" rx="13" ry="9" fill="#FFC700" class="petal"/>
+                <ellipse cx="78" cy="50" rx="9" ry="13" fill="#FFD700" class="petal"/>
+                <ellipse cx="73" cy="68" rx="13" ry="9" fill="#FFC700" class="petal"/>
+                <ellipse cx="50" cy="78" rx="9" ry="14" fill="#FFD700" class="petal"/>
+                <ellipse cx="27" cy="68" rx="13" ry="9" fill="#FFC700" class="petal"/>
+                <ellipse cx="22" cy="50" rx="9" ry="13" fill="#FFD700" class="petal"/>
+                <ellipse cx="27" cy="32" rx="13" ry="9" fill="#FFC700" class="petal"/>
+                <!-- 花心 -->
+                <circle cx="50" cy="50" r="16" fill="#8B4513"/>
+                <circle cx="50" cy="50" r="13" fill="#654321"/>
+                <!-- 花心纹理 -->
+                <circle cx="46" cy="46" r="2" fill="#4A3018" opacity="0.6"/>
+                <circle cx="54" cy="46" r="2" fill="#4A3018" opacity="0.6"/>
+                <circle cx="46" cy="54" r="2" fill="#4A3018" opacity="0.6"/>
+                <circle cx="54" cy="54" r="2" fill="#4A3018" opacity="0.6"/>
+                <!-- 超大可爱眼睛 -->
+                <ellipse cx="44" cy="48" rx="4" ry="6" fill="#000" class="eye-blink"/>
+                <circle cx="44" cy="46" r="2" fill="#FFF"/>
+                <ellipse cx="56" cy="48" rx="4" ry="6" fill="#000" class="eye-blink"/>
+                <circle cx="56" cy="46" r="2" fill="#FFF"/>
+                <!-- 可爱微笑 -->
+                <path d="M 45 56 Q 50 59 55 56" stroke="#654321" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+                <!-- 腮红 -->
+                <circle cx="40" cy="52" r="3" fill="#FF9955" opacity="0.5"/>
+                <circle cx="60" cy="52" r="3" fill="#FF9955" opacity="0.5"/>
             </svg>`,
             
             panda: `<svg viewBox="0 0 100 100" class="theme-svg cute-svg">
                 <!-- 大头 -->
-                <circle cx="50" cy="38" r="28" fill="#F5F5F5"/>
-                <!-- 熊猫耳朵 -->
-                <circle cx="28" cy="22" r="10" fill="#2C2C2C"/>
-                <circle cx="72" cy="22" r="10" fill="#2C2C2C"/>
-                <!-- 眼圈 -->
-                <ellipse cx="38" cy="36" rx="10" ry="12" fill="#2C2C2C" opacity="0.9"/>
-                <ellipse cx="62" cy="36" rx="10" ry="12" fill="#2C2C2C" opacity="0.9"/>
-                <!-- 眼睛 -->
-                <ellipse cx="38" cy="36" rx="5" ry="6" fill="#FFF"/>
-                <circle cx="38" cy="36" r="4" fill="#000" class="eye-blink"/>
-                <circle cx="39" cy="34" r="1.5" fill="#FFF"/>
-                <ellipse cx="62" cy="36" rx="5" ry="6" fill="#FFF"/>
-                <circle cx="62" cy="36" r="4" fill="#000" class="eye-blink"/>
-                <circle cx="63" cy="34" r="1.5" fill="#FFF"/>
-                <!-- 鼻子 -->
-                <ellipse cx="50" cy="48" rx="4" ry="5" fill="#2C2C2C"/>
+                <circle cx="50" cy="38" r="28" fill="#F8F8F8"/>
+                <!-- 熊猫耳朵（毛茸茸的） -->
+                <circle cx="28" cy="20" r="11" fill="#2C2C2C"/>
+                <circle cx="72" cy="20" r="11" fill="#2C2C2C"/>
+                <circle cx="28" cy="22" r="8" fill="#1A1A1A"/>
+                <circle cx="72" cy="22" r="8" fill="#1A1A1A"/>
+                <!-- 超大黑眼圈 -->
+                <ellipse cx="36" cy="36" rx="11" ry="13" fill="#2C2C2C"/>
+                <ellipse cx="64" cy="36" rx="11" ry="13" fill="#2C2C2C"/>
+                <!-- 眼白和眼珠 -->
+                <ellipse cx="36" cy="36" rx="7" ry="8" fill="#FFF"/>
+                <circle cx="36" cy="36" r="5" fill="#000" class="eye-blink"/>
+                <circle cx="37" cy="34" r="2.5" fill="#FFF"/>
+                <circle cx="38" cy="33" r="1.5" fill="#FFF"/>
+                <ellipse cx="64" cy="36" rx="7" ry="8" fill="#FFF"/>
+                <circle cx="64" cy="36" r="5" fill="#000" class="eye-blink"/>
+                <circle cx="65" cy="34" r="2.5" fill="#FFF"/>
+                <circle cx="66" cy="33" r="1.5" fill="#FFF"/>
+                <!-- 腮红 -->
+                <circle cx="26" cy="46" r="6" fill="#FFB6C1" opacity="0.6"/>
+                <circle cx="74" cy="46" r="6" fill="#FFB6C1" opacity="0.6"/>
+                <!-- 大鼻子 -->
+                <ellipse cx="50" cy="50" rx="5" ry="6" fill="#2C2C2C"/>
+                <circle cx="48" cy="49" r="2" fill="#FFF" opacity="0.5"/>
                 <!-- 嘴巴 -->
-                <path d="M 50 48 L 50 52" stroke="#2C2C2C" stroke-width="1.5"/>
-                <path d="M 42 52 Q 50 56 58 52" stroke="#2C2C2C" stroke-width="1.5" fill="none"/>
+                <path d="M 50 50 L 50 54" stroke="#2C2C2C" stroke-width="2"/>
+                <path d="M 42 54 Q 50 58 58 54" stroke="#2C2C2C" stroke-width="2" fill="none" stroke-linecap="round"/>
                 <!-- 小身体 -->
-                <ellipse cx="50" cy="75" rx="18" ry="20" fill="#F5F5F5"/>
+                <ellipse cx="50" cy="75" rx="18" ry="20" fill="#F8F8F8"/>
                 <!-- 肚子 -->
-                <ellipse cx="50" cy="75" rx="12" ry="15" fill="#FFF"/>
-                <!-- 手（黑色） -->
-                <ellipse cx="35" cy="72" rx="6" ry="12" fill="#2C2C2C"/>
-                <ellipse cx="65" cy="72" rx="6" ry="12" fill="#2C2C2C"/>
-                <!-- 脚（黑色） -->
-                <ellipse cx="42" cy="92" rx="6" ry="5" fill="#2C2C2C"/>
-                <ellipse cx="58" cy="92" rx="6" ry="5" fill="#2C2C2C"/>
+                <ellipse cx="50" cy="76" rx="13" ry="16" fill="#FFF"/>
+                <!-- 肚脐 -->
+                <circle cx="50" cy="78" r="1.5" fill="#E0E0E0"/>
+                <!-- 手（黑色毛茸茸） -->
+                <ellipse cx="34" cy="72" rx="7" ry="13" fill="#2C2C2C"/>
+                <ellipse cx="66" cy="72" rx="7" ry="13" fill="#2C2C2C"/>
+                <!-- 手掌 -->
+                <ellipse cx="34" cy="82" rx="5" ry="4" fill="#1A1A1A"/>
+                <ellipse cx="66" cy="82" rx="5" ry="4" fill="#1A1A1A"/>
+                <!-- 脚（黑色毛茸茸） -->
+                <ellipse cx="42" cy="93" rx="8" ry="6" fill="#2C2C2C"/>
+                <ellipse cx="58" cy="93" rx="8" ry="6" fill="#2C2C2C"/>
+                <!-- 脚掌 -->
+                <ellipse cx="42" cy="95" rx="5" ry="4" fill="#1A1A1A"/>
+                <ellipse cx="58" cy="95" rx="5" ry="4" fill="#1A1A1A"/>
             </svg>`,
             
             fox: `<svg viewBox="0 0 100 100" class="theme-svg cute-svg">
                 <!-- 大头 -->
                 <circle cx="50" cy="40" r="26" fill="#FF8C5A"/>
-                <!-- 狐狸耳朵 -->
-                <polygon points="28,15 20,30 32,32" fill="#FF8C5A" class="ear-wiggle-left"/>
-                <polygon points="72,15 80,30 68,32" fill="#FF8C5A" class="ear-wiggle-right"/>
-                <polygon points="30,18 26,26 32,28" fill="#FFF"/>
-                <polygon points="70,18 74,26 68,28" fill="#FFF"/>
-                <!-- 脸部白色 -->
-                <ellipse cx="50" cy="46" rx="14" ry="16" fill="#FFF"/>
-                <!-- 眼睛 -->
-                <ellipse cx="42" cy="38" rx="4" ry="6" fill="#000" class="eye-blink"/>
-                <circle cx="43" cy="36" r="1.5" fill="#FFF"/>
-                <ellipse cx="58" cy="38" rx="4" ry="6" fill="#000" class="eye-blink"/>
-                <circle cx="59" cy="36" r="1.5" fill="#FFF"/>
+                <!-- 狐狸尖耳朵 -->
+                <polygon points="26,12 18,30 32,30" fill="#FF8C5A" class="ear-wiggle-left"/>
+                <polygon points="74,12 82,30 68,30" fill="#FF8C5A" class="ear-wiggle-right"/>
+                <polygon points="28,16 24,24 30,26" fill="#FFF"/>
+                <polygon points="72,16 76,24 70,26" fill="#FFF"/>
+                <!-- 脸部白色区域 -->
+                <ellipse cx="50" cy="46" rx="16" ry="18" fill="#FFF"/>
+                <ellipse cx="50" cy="34" rx="12" ry="10" fill="#FFF" opacity="0.8"/>
+                <!-- 超大萌眼 -->
+                <ellipse cx="40" cy="38" rx="6" ry="9" fill="#000" class="eye-blink"/>
+                <circle cx="40" cy="35" r="3" fill="#FFF"/>
+                <circle cx="41" cy="33" r="1.5" fill="#FFF"/>
+                <ellipse cx="60" cy="38" rx="6" ry="9" fill="#000" class="eye-blink"/>
+                <circle cx="60" cy="35" r="3" fill="#FFF"/>
+                <circle cx="61" cy="33" r="1.5" fill="#FFF"/>
+                <!-- 大腮红 -->
+                <circle cx="28" cy="46" r="7" fill="#FFB6C1" opacity="0.7"/>
+                <circle cx="72" cy="46" r="7" fill="#FFB6C1" opacity="0.7"/>
                 <!-- 鼻子 -->
-                <ellipse cx="50" cy="48" rx="3" ry="3.5" fill="#2C2C2C"/>
+                <ellipse cx="50" cy="50" rx="4" ry="4" fill="#2C2C2C"/>
+                <circle cx="49" cy="49" r="1.5" fill="#FFF" opacity="0.5"/>
                 <!-- 嘴巴 -->
-                <path d="M 50 48 Q 45 52 43 51" stroke="#2C2C2C" stroke-width="1.5" fill="none"/>
-                <path d="M 50 48 Q 55 52 57 51" stroke="#2C2C2C" stroke-width="1.5" fill="none"/>
+                <path d="M 50 50 Q 44 54 42 53" stroke="#2C2C2C" stroke-width="2" fill="none" stroke-linecap="round"/>
+                <path d="M 50 50 Q 56 54 58 53" stroke="#2C2C2C" stroke-width="2" fill="none" stroke-linecap="round"/>
                 <!-- 小身体 -->
                 <ellipse cx="50" cy="75" rx="17" ry="20" fill="#FF8C5A"/>
-                <ellipse cx="50" cy="75" rx="11" ry="15" fill="#FFF"/>
-                <!-- 手 -->
-                <ellipse cx="36" cy="72" rx="6" ry="11" fill="#FF8C5A"/>
-                <ellipse cx="64" cy="72" rx="6" ry="11" fill="#FF8C5A"/>
-                <!-- 脚 -->
-                <ellipse cx="42" cy="92" rx="6" ry="5" fill="#2C2C2C"/>
-                <ellipse cx="58" cy="92" rx="6" ry="5" fill="#2C2C2C"/>
+                <ellipse cx="50" cy="76" rx="12" ry="16" fill="#FFF"/>
+                <!-- 尾巴尖 -->
+                <circle cx="50" cy="60" r="2" fill="#FFF" opacity="0.6"/>
+                <!-- 手（白色爪子） -->
+                <ellipse cx="35" cy="72" rx="6" ry="12" fill="#FF8C5A"/>
+                <ellipse cx="65" cy="72" rx="6" ry="12" fill="#FF8C5A"/>
+                <circle cx="35" cy="80" r="3" fill="#FFF" opacity="0.8"/>
+                <circle cx="65" cy="80" r="3" fill="#FFF" opacity="0.8"/>
+                <!-- 脚（黑色） -->
+                <ellipse cx="42" cy="93" rx="7" ry="6" fill="#2C2C2C"/>
+                <ellipse cx="58" cy="93" rx="7" ry="6" fill="#2C2C2C"/>
+                <circle cx="42" cy="95" r="2.5" fill="#FFF" opacity="0.7"/>
+                <circle cx="58" cy="95" r="2.5" fill="#FFF" opacity="0.7"/>
             </svg>`,
             
             fish: `<svg viewBox="0 0 100 100" class="theme-svg cute-svg">
                 <!-- 大头 -->
                 <ellipse cx="48" cy="38" rx="28" ry="26" fill="#87CEEB"/>
-                <ellipse cx="48" cy="42" rx="22" ry="20" fill="#B0E0E6"/>
-                <!-- 鱼鳍装饰 -->
-                <path d="M 20 35 Q 15 38 20 42" stroke="#6BA8C8" stroke-width="2" fill="none"/>
-                <!-- 眼睛 -->
-                <circle cx="38" cy="34" r="6" fill="#FFF"/>
-                <circle cx="38" cy="34" r="4" fill="#000" class="eye-blink"/>
-                <circle cx="39" cy="32" r="2" fill="#FFF"/>
-                <circle cx="58" cy="34" r="6" fill="#FFF"/>
-                <circle cx="58" cy="34" r="4" fill="#000" class="eye-blink"/>
-                <circle cx="59" cy="32" r="2" fill="#FFF"/>
-                <!-- 嘴巴 -->
-                <ellipse cx="48" cy="48" rx="4" ry="3" fill="#FF9AA2"/>
-                <path d="M 42 48 Q 48 52 54 48" stroke="#6BA8C8" stroke-width="1.5" fill="none"/>
-                <!-- 腮红 -->
-                <circle cx="28" cy="42" r="5" fill="#FFC0CB" opacity="0.5"/>
-                <circle cx="68" cy="42" r="5" fill="#FFC0CB" opacity="0.5"/>
+                <ellipse cx="48" cy="42" rx="24" ry="22" fill="#B0E0E6"/>
+                <!-- 顶部鱼鳍 -->
+                <path d="M 48 12 L 42 20 L 54 20 Z" fill="#6BA8C8" opacity="0.8"/>
+                <!-- 侧鱼鳍装饰 -->
+                <path d="M 20 35 Q 12 38 20 42" fill="#87CEEB" opacity="0.8"/>
+                <!-- 超大萌眼 -->
+                <circle cx="36" cy="34" r="8" fill="#FFF"/>
+                <circle cx="36" cy="34" r="6" fill="#000" class="eye-blink"/>
+                <circle cx="37" cy="31" r="3" fill="#FFF"/>
+                <circle cx="38" cy="30" r="1.5" fill="#FFF"/>
+                <circle cx="60" cy="34" r="8" fill="#FFF"/>
+                <circle cx="60" cy="34" r="6" fill="#000" class="eye-blink"/>
+                <circle cx="61" cy="31" r="3" fill="#FFF"/>
+                <circle cx="62" cy="30" r="1.5" fill="#FFF"/>
+                <!-- 大腮红 -->
+                <circle cx="26" cy="44" r="7" fill="#FFC0CB" opacity="0.7"/>
+                <circle cx="70" cy="44" r="7" fill="#FFC0CB" opacity="0.7"/>
+                <circle cx="24" cy="42" r="3" fill="#FF9AA2" opacity="0.5"/>
+                <circle cx="72" cy="42" r="3" fill="#FF9AA2" opacity="0.5"/>
+                <!-- 小嘴巴 -->
+                <ellipse cx="48" cy="50" rx="5" ry="4" fill="#FF9AA2" opacity="0.8"/>
+                <path d="M 42 50 Q 48 54 54 50" stroke="#6BA8C8" stroke-width="2" fill="none" stroke-linecap="round"/>
                 <!-- 小身体 -->
-                <ellipse cx="48" cy="75" rx="16" ry="18" fill="#87CEEB"/>
-                <ellipse cx="48" cy="75" rx="12" ry="14" fill="#B0E0E6"/>
+                <ellipse cx="48" cy="75" rx="17" ry="19" fill="#87CEEB"/>
+                <ellipse cx="48" cy="76" rx="13" ry="15" fill="#B0E0E6"/>
                 <!-- 鳍（手） -->
-                <ellipse cx="34" cy="70" rx="8" ry="10" fill="#87CEEB" opacity="0.8"/>
-                <ellipse cx="62" cy="70" rx="8" ry="10" fill="#87CEEB" opacity="0.8"/>
-                <!-- 尾巴（脚） -->
-                <path d="M 42 90 L 38 98 L 42 93 L 48 100 L 48 93 L 54 98 L 50 90" fill="#87CEEB"/>
+                <ellipse cx="32" cy="70" rx="9" ry="11" fill="#87CEEB" opacity="0.8" class="wing-flap"/>
+                <ellipse cx="64" cy="70" rx="9" ry="11" fill="#87CEEB" opacity="0.8" class="wing-flap"/>
                 <!-- 鱼鳞装饰 -->
-                <circle cx="48" cy="70" r="2" fill="#6BA8C8" opacity="0.3"/>
-                <circle cx="44" cy="76" r="2" fill="#6BA8C8" opacity="0.3"/>
-                <circle cx="52" cy="76" r="2" fill="#6BA8C8" opacity="0.3"/>
+                <circle cx="44" cy="68" r="2.5" fill="#6BA8C8" opacity="0.4"/>
+                <circle cx="52" cy="68" r="2.5" fill="#6BA8C8" opacity="0.4"/>
+                <circle cx="40" cy="74" r="2" fill="#6BA8C8" opacity="0.3"/>
+                <circle cx="48" cy="75" r="2" fill="#6BA8C8" opacity="0.3"/>
+                <circle cx="56" cy="74" r="2" fill="#6BA8C8" opacity="0.3"/>
+                <circle cx="44" cy="80" r="2" fill="#6BA8C8" opacity="0.3"/>
+                <circle cx="52" cy="80" r="2" fill="#6BA8C8" opacity="0.3"/>
+                <!-- 尾巴 -->
+                <path d="M 40 90 L 34 96 L 40 94 L 46 100 L 46 94 L 52 98 L 48 92" fill="#87CEEB"/>
+                <path d="M 38 92 L 42 96 L 46 92" fill="#B0E0E6" opacity="0.6"/>
             </svg>`,
             
             tiger: `<svg viewBox="0 0 100 100" class="theme-svg cute-svg">
                 <!-- 大头 -->
                 <ellipse cx="50" cy="38" rx="28" ry="26" fill="#FFA849"/>
                 <!-- 老虎耳朵 -->
-                <polygon points="26,18 20,28 30,26" fill="#FFA849"/>
-                <polygon points="74,18 80,28 70,26" fill="#FFA849"/>
-                <polygon points="28,20 25,25 29,25" fill="#FFB6C1"/>
-                <polygon points="72,20 75,25 71,25" fill="#FFB6C1"/>
-                <!-- 老虎条纹 -->
-                <path d="M 30 30 Q 32 32 30 34" stroke="#2C2C2C" stroke-width="2" fill="none"/>
-                <path d="M 70 30 Q 68 32 70 34" stroke="#2C2C2C" stroke-width="2" fill="none"/>
-                <path d="M 35 24 Q 36 26 35 28" stroke="#2C2C2C" stroke-width="1.5" fill="none"/>
-                <path d="M 65 24 Q 64 26 65 28" stroke="#2C2C2C" stroke-width="1.5" fill="none"/>
-                <!-- 眼睛 -->
-                <ellipse cx="40" cy="36" rx="5" ry="6" fill="#000" class="eye-blink"/>
-                <circle cx="41" cy="34" r="2" fill="#FFF"/>
-                <ellipse cx="60" cy="36" rx="5" ry="6" fill="#000" class="eye-blink"/>
-                <circle cx="61" cy="34" r="2" fill="#FFF"/>
+                <polygon points="24,16 18,28 30,26" fill="#FFA849" class="ear-wiggle-left"/>
+                <polygon points="76,16 82,28 70,26" fill="#FFA849" class="ear-wiggle-right"/>
+                <polygon points="26,18 23,24 28,24" fill="#FFB6C1"/>
+                <polygon points="74,18 77,24 72,24" fill="#FFB6C1"/>
+                <!-- 额头王字条纹 -->
+                <path d="M 38 26 L 46 26" stroke="#2C2C2C" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+                <path d="M 54 26 L 62 26" stroke="#2C2C2C" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+                <path d="M 42 22 L 50 22 L 58 22" stroke="#2C2C2C" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+                <!-- 脸部条纹 -->
+                <path d="M 28 32 Q 30 34 28 36" stroke="#2C2C2C" stroke-width="2.5" fill="none"/>
+                <path d="M 72 32 Q 70 34 72 36" stroke="#2C2C2C" stroke-width="2.5" fill="none"/>
+                <path d="M 33 28 Q 34 30 33 32" stroke="#2C2C2C" stroke-width="2" fill="none"/>
+                <path d="M 67 28 Q 66 30 67 32" stroke="#2C2C2C" stroke-width="2" fill="none"/>
+                <!-- 威武大眼 -->
+                <ellipse cx="38" cy="38" rx="6" ry="8" fill="#FFD700"/>
+                <ellipse cx="38" cy="38" rx="5" ry="6" fill="#000" class="eye-blink"/>
+                <circle cx="39" cy="36" r="2.5" fill="#FFF"/>
+                <ellipse cx="62" cy="38" rx="6" ry="8" fill="#FFD700"/>
+                <ellipse cx="62" cy="38" rx="5" ry="6" fill="#000" class="eye-blink"/>
+                <circle cx="63" cy="36" r="2.5" fill="#FFF"/>
                 <!-- 脸颊白色 -->
-                <circle cx="30" cy="44" r="6" fill="#FFF" opacity="0.8"/>
-                <circle cx="70" cy="44" r="6" fill="#FFF" opacity="0.8"/>
+                <ellipse cx="28" cy="46" rx="8" ry="7" fill="#FFF" opacity="0.9"/>
+                <ellipse cx="72" cy="46" rx="8" ry="7" fill="#FFF" opacity="0.9"/>
                 <!-- 鼻子 -->
-                <ellipse cx="50" cy="48" rx="4" ry="4" fill="#2C2C2C"/>
+                <ellipse cx="50" cy="50" rx="5" ry="5" fill="#2C2C2C"/>
+                <circle cx="48" cy="49" r="2" fill="#FFF" opacity="0.5"/>
                 <!-- 嘴巴 -->
-                <path d="M 50 48 L 50 52" stroke="#2C2C2C" stroke-width="1.5"/>
-                <path d="M 42 52 Q 50 56 58 52" stroke="#2C2C2C" stroke-width="1.5" fill="none"/>
-                <!-- 胡须 -->
-                <line x1="25" y1="42" x2="15" y2="40" stroke="#2C2C2C" stroke-width="1"/>
-                <line x1="25" y1="46" x2="15" y2="48" stroke="#2C2C2C" stroke-width="1"/>
-                <line x1="75" y1="42" x2="85" y2="40" stroke="#2C2C2C" stroke-width="1"/>
-                <line x1="75" y1="46" x2="85" y2="48" stroke="#2C2C2C" stroke-width="1"/>
+                <path d="M 50 50 L 50 54" stroke="#2C2C2C" stroke-width="2"/>
+                <path d="M 42 54 Q 50 58 58 54" stroke="#2C2C2C" stroke-width="2" fill="none" stroke-linecap="round"/>
+                <!-- 长胡须 -->
+                <line x1="24" y1="44" x2="10" y2="42" stroke="#2C2C2C" stroke-width="1.5" stroke-linecap="round"/>
+                <line x1="24" y1="48" x2="10" y2="50" stroke="#2C2C2C" stroke-width="1.5" stroke-linecap="round"/>
+                <line x1="76" y1="44" x2="90" y2="42" stroke="#2C2C2C" stroke-width="1.5" stroke-linecap="round"/>
+                <line x1="76" y1="48" x2="90" y2="50" stroke="#2C2C2C" stroke-width="1.5" stroke-linecap="round"/>
                 <!-- 小身体 -->
                 <ellipse cx="50" cy="75" rx="18" ry="20" fill="#FFA849"/>
-                <!-- 条纹 -->
-                <path d="M 40 70 Q 42 72 40 74" stroke="#2C2C2C" stroke-width="2" fill="none"/>
-                <path d="M 60 70 Q 58 72 60 74" stroke="#2C2C2C" stroke-width="2" fill="none"/>
-                <path d="M 45 82 Q 47 84 45 86" stroke="#2C2C2C" stroke-width="1.5" fill="none"/>
-                <path d="M 55 82 Q 53 84 55 86" stroke="#2C2C2C" stroke-width="1.5" fill="none"/>
+                <!-- 肚子条纹 -->
+                <ellipse cx="50" cy="76" rx="13" ry="16" fill="#FFD4A3" opacity="0.7"/>
+                <path d="M 40 68 Q 42 70 40 72" stroke="#2C2C2C" stroke-width="2.5" fill="none"/>
+                <path d="M 60 68 Q 58 70 60 72" stroke="#2C2C2C" stroke-width="2.5" fill="none"/>
+                <path d="M 42 78 Q 44 80 42 82" stroke="#2C2C2C" stroke-width="2" fill="none"/>
+                <path d="M 58 78 Q 56 80 58 82" stroke="#2C2C2C" stroke-width="2" fill="none"/>
+                <path d="M 45 86 Q 47 88 45 90" stroke="#2C2C2C" stroke-width="2" fill="none"/>
+                <path d="M 55 86 Q 53 88 55 90" stroke="#2C2C2C" stroke-width="2" fill="none"/>
                 <!-- 手 -->
-                <ellipse cx="35" cy="72" rx="7" ry="12" fill="#FFA849"/>
-                <ellipse cx="65" cy="72" rx="7" ry="12" fill="#FFA849"/>
+                <ellipse cx="34" cy="72" rx="7" ry="13" fill="#FFA849"/>
+                <ellipse cx="66" cy="72" rx="7" ry="13" fill="#FFA849"/>
                 <!-- 脚 -->
-                <ellipse cx="42" cy="92" rx="6" ry="5" fill="#2C2C2C"/>
-                <ellipse cx="58" cy="92" rx="6" ry="5" fill="#2C2C2C"/>
+                <ellipse cx="42" cy="93" rx="7" ry="6" fill="#2C2C2C"/>
+                <ellipse cx="58" cy="93" rx="7" ry="6" fill="#2C2C2C"/>
+                <circle cx="42" cy="95" r="2.5" fill="#FFF" opacity="0.4"/>
+                <circle cx="58" cy="95" r="2.5" fill="#FFF" opacity="0.4"/>
             </svg>`,
             
             lion: `<svg viewBox="0 0 100 100" class="theme-svg cute-svg">
-                <!-- 鬃毛 -->
-                <circle cx="50" cy="38" r="34" fill="#E8A75C" opacity="0.6"/>
-                <circle cx="35" cy="25" r="10" fill="#E8A75C" opacity="0.7"/>
-                <circle cx="65" cy="25" r="10" fill="#E8A75C" opacity="0.7"/>
-                <circle cx="25" cy="38" r="10" fill="#E8A75C" opacity="0.7"/>
-                <circle cx="75" cy="38" r="10" fill="#E8A75C" opacity="0.7"/>
-                <circle cx="30" cy="52" r="8" fill="#E8A75C" opacity="0.6"/>
-                <circle cx="70" cy="52" r="8" fill="#E8A75C" opacity="0.6"/>
+                <!-- 蓬松鬃毛（多层） -->
+                <circle cx="50" cy="38" r="35" fill="#E8A75C" opacity="0.5"/>
+                <circle cx="32" cy="22" r="11" fill="#E8A75C" opacity="0.7"/>
+                <circle cx="68" cy="22" r="11" fill="#E8A75C" opacity="0.7"/>
+                <circle cx="22" cy="32" r="10" fill="#D4935C" opacity="0.7"/>
+                <circle cx="78" cy="32" r="10" fill="#D4935C" opacity="0.7"/>
+                <circle cx="24" cy="44" r="11" fill="#E8A75C" opacity="0.7"/>
+                <circle cx="76" cy="44" r="11" fill="#E8A75C" opacity="0.7"/>
+                <circle cx="28" cy="54" r="9" fill="#D4935C" opacity="0.6"/>
+                <circle cx="72" cy="54" r="9" fill="#D4935C" opacity="0.6"/>
+                <circle cx="38" cy="60" r="7" fill="#E8A75C" opacity="0.5"/>
+                <circle cx="62" cy="60" r="7" fill="#E8A75C" opacity="0.5"/>
                 <!-- 大头 -->
                 <circle cx="50" cy="38" r="26" fill="#FFB957"/>
-                <!-- 耳朵 -->
-                <circle cx="30" cy="24" r="8" fill="#FFB957"/>
-                <circle cx="70" cy="24" r="8" fill="#FFB957"/>
-                <circle cx="30" cy="24" r="5" fill="#FFA07A"/>
-                <circle cx="70" cy="24" r="5" fill="#FFA07A"/>
-                <!-- 眼睛 -->
-                <circle cx="40" cy="36" r="5" fill="#000" class="eye-blink"/>
-                <circle cx="41" cy="34" r="2" fill="#FFF"/>
-                <circle cx="60" cy="36" r="5" fill="#000" class="eye-blink"/>
-                <circle cx="61" cy="34" r="2" fill="#FFF"/>
+                <!-- 耳朵（藏在鬃毛里） -->
+                <circle cx="30" cy="22" r="9" fill="#FFB957"/>
+                <circle cx="70" cy="22" r="9" fill="#FFB957"/>
+                <circle cx="30" cy="24" r="6" fill="#FFA07A"/>
+                <circle cx="70" cy="24" r="6" fill="#FFA07A"/>
+                <!-- 威严大眼 -->
+                <circle cx="38" cy="36" r="6" fill="#FFD700" opacity="0.8"/>
+                <circle cx="38" cy="36" r="5" fill="#000" class="eye-blink"/>
+                <circle cx="39" cy="34" r="2.5" fill="#FFF"/>
+                <circle cx="40" cy="33" r="1.5" fill="#FFF"/>
+                <circle cx="62" cy="36" r="6" fill="#FFD700" opacity="0.8"/>
+                <circle cx="62" cy="36" r="5" fill="#000" class="eye-blink"/>
+                <circle cx="63" cy="34" r="2.5" fill="#FFF"/>
+                <circle cx="64" cy="33" r="1.5" fill="#FFF"/>
                 <!-- 脸颊 -->
-                <circle cx="32" cy="44" r="6" fill="#FFD4A3" opacity="0.8"/>
-                <circle cx="68" cy="44" r="6" fill="#FFD4A3" opacity="0.8"/>
-                <!-- 鼻子 -->
-                <ellipse cx="50" cy="48" rx="5" ry="4" fill="#4A3428"/>
+                <ellipse cx="30" cy="46" rx="8" ry="6" fill="#FFD4A3" opacity="0.9"/>
+                <ellipse cx="70" cy="46" rx="8" ry="6" fill="#FFD4A3" opacity="0.9"/>
+                <!-- 大鼻子 -->
+                <ellipse cx="50" cy="50" rx="6" ry="5" fill="#4A3428"/>
+                <circle cx="48" cy="49" r="2" fill="#FFF" opacity="0.5"/>
                 <!-- 嘴巴 -->
-                <path d="M 50 48 L 50 52" stroke="#4A3428" stroke-width="1.5"/>
-                <path d="M 42 52 Q 50 56 58 52" stroke="#4A3428" stroke-width="1.5" fill="none"/>
-                <!-- 胡须 -->
-                <line x1="25" y1="42" x2="15" y2="40" stroke="#4A3428" stroke-width="1"/>
-                <line x1="25" y1="46" x2="15" y2="48" stroke="#4A3428" stroke-width="1"/>
-                <line x1="75" y1="42" x2="85" y2="40" stroke="#4A3428" stroke-width="1"/>
-                <line x1="75" y1="46" x2="85" y2="48" stroke="#4A3428" stroke-width="1"/>
+                <path d="M 50 50 L 50 54" stroke="#4A3428" stroke-width="2"/>
+                <path d="M 42 54 Q 50 58 58 54" stroke="#4A3428" stroke-width="2" fill="none" stroke-linecap="round"/>
+                <!-- 长胡须 -->
+                <line x1="24" y1="44" x2="10" y2="42" stroke="#4A3428" stroke-width="1.5" stroke-linecap="round"/>
+                <line x1="24" y1="48" x2="10" y2="50" stroke="#4A3428" stroke-width="1.5" stroke-linecap="round"/>
+                <line x1="76" y1="44" x2="90" y2="42" stroke="#4A3428" stroke-width="1.5" stroke-linecap="round"/>
+                <line x1="76" y1="48" x2="90" y2="50" stroke="#4A3428" stroke-width="1.5" stroke-linecap="round"/>
                 <!-- 小身体 -->
                 <ellipse cx="50" cy="75" rx="18" ry="20" fill="#FFB957"/>
-                <ellipse cx="50" cy="75" rx="13" ry="15" fill="#FFD4A3"/>
+                <ellipse cx="50" cy="76" rx="13" ry="16" fill="#FFD4A3"/>
                 <!-- 手 -->
-                <ellipse cx="35" cy="72" rx="7" ry="12" fill="#FFB957"/>
-                <ellipse cx="65" cy="72" rx="7" ry="12" fill="#FFB957"/>
+                <ellipse cx="34" cy="72" rx="7" ry="13" fill="#FFB957"/>
+                <ellipse cx="66" cy="72" rx="7" ry="13" fill="#FFB957"/>
+                <!-- 爪子 -->
+                <ellipse cx="34" cy="82" rx="5" ry="4" fill="#FFD4A3"/>
+                <ellipse cx="66" cy="82" rx="5" ry="4" fill="#FFD4A3"/>
                 <!-- 脚 -->
-                <ellipse cx="42" cy="92" rx="6" ry="5" fill="#4A3428"/>
-                <ellipse cx="58" cy="92" rx="6" ry="5" fill="#4A3428"/>
+                <ellipse cx="42" cy="93" rx="8" ry="6" fill="#4A3428"/>
+                <ellipse cx="58" cy="93" rx="8" ry="6" fill="#4A3428"/>
+                <circle cx="42" cy="95" r="2.5" fill="#FFD4A3" opacity="0.7"/>
+                <circle cx="58" cy="95" r="2.5" fill="#FFD4A3" opacity="0.7"/>
             </svg>`,
             
             parrot: `<svg viewBox="0 0 100 100" class="theme-svg cute-svg">
@@ -681,36 +872,46 @@ class TaskFlowApp {
             kangaroo: `<svg viewBox="0 0 100 100" class="theme-svg cute-svg">
                 <!-- 大头 -->
                 <ellipse cx="50" cy="36" rx="24" ry="26" fill="#D4A574"/>
-                <!-- 大耳朵 -->
-                <ellipse cx="32" cy="22" rx="10" ry="26" fill="#D4A574" class="ear-wiggle-left"/>
-                <ellipse cx="68" cy="22" rx="10" ry="26" fill="#D4A574" class="ear-wiggle-right"/>
-                <ellipse cx="32" cy="26" rx="6" ry="20" fill="#E8C5A0"/>
-                <ellipse cx="68" cy="26" rx="6" ry="20" fill="#E8C5A0"/>
-                <!-- 眼睛 -->
-                <circle cx="42" cy="36" r="5" fill="#000" class="eye-blink"/>
-                <circle cx="43" cy="34" r="2" fill="#FFF"/>
-                <circle cx="58" cy="36" r="5" fill="#000" class="eye-blink"/>
-                <circle cx="59" cy="34" r="2" fill="#FFF"/>
+                <!-- 超大长耳朵（袋鼠特征） -->
+                <ellipse cx="32" cy="20" rx="11" ry="28" fill="#D4A574" class="ear-wiggle-left"/>
+                <ellipse cx="68" cy="20" rx="11" ry="28" fill="#D4A574" class="ear-wiggle-right"/>
+                <ellipse cx="32" cy="24" rx="6" ry="22" fill="#E8C5A0"/>
+                <ellipse cx="68" cy="24" rx="6" ry="22" fill="#E8C5A0"/>
+                <!-- 耳朵尖 -->
+                <ellipse cx="32" cy="8" rx="6" ry="8" fill="#D4A574" class="ear-wiggle-left"/>
+                <ellipse cx="68" cy="8" rx="6" ry="8" fill="#D4A574" class="ear-wiggle-right"/>
+                <!-- 大眼睛 -->
+                <circle cx="40" cy="36" r="6" fill="#000" class="eye-blink"/>
+                <circle cx="40" cy="33" r="3" fill="#FFF"/>
+                <circle cx="41" cy="32" r="1.5" fill="#FFF"/>
+                <circle cx="60" cy="36" r="6" fill="#000" class="eye-blink"/>
+                <circle cx="60" cy="33" r="3" fill="#FFF"/>
+                <circle cx="61" cy="32" r="1.5" fill="#FFF"/>
+                <!-- 腮红 -->
+                <circle cx="30" cy="44" r="6" fill="#FFB380" opacity="0.6"/>
+                <circle cx="70" cy="44" r="6" fill="#FFB380" opacity="0.6"/>
                 <!-- 鼻子 -->
-                <ellipse cx="50" cy="46" rx="4" ry="3" fill="#8B6B4A"/>
+                <ellipse cx="50" cy="48" rx="4" ry="4" fill="#8B6B4A"/>
+                <circle cx="49" cy="47" r="1.5" fill="#FFF" opacity="0.5"/>
                 <!-- 嘴巴 -->
-                <path d="M 50 46 L 50 50" stroke="#8B6B4A" stroke-width="1.5"/>
-                <path d="M 43 50 Q 50 54 57 50" stroke="#8B6B4A" stroke-width="1.5" fill="none"/>
+                <path d="M 50 48 L 50 52" stroke="#8B6B4A" stroke-width="2"/>
+                <path d="M 42 52 Q 50 56 58 52" stroke="#8B6B4A" stroke-width="2" fill="none" stroke-linecap="round"/>
                 <!-- 小身体 -->
-                <ellipse cx="50" cy="72" rx="16" ry="18" fill="#D4A574"/>
-                <!-- 育儿袋 -->
-                <path d="M 40 68 Q 40 76 50 80 Q 60 76 60 68" stroke="#8B6B4A" stroke-width="1.5" fill="none"/>
-                <ellipse cx="50" cy="73" rx="8" ry="6" fill="#E8C5A0"/>
-                <!-- 小宝宝探头 -->
-                <circle cx="50" cy="72" r="4" fill="#D4A574"/>
-                <circle cx="48" cy="71" r="1" fill="#000"/>
-                <circle cx="52" cy="71" r="1" fill="#000"/>
+                <ellipse cx="50" cy="73" rx="17" ry="19" fill="#D4A574"/>
+                <!-- 育儿袋（会动） -->
+                <path d="M 38 68 Q 38 77 50 82 Q 62 77 62 68" stroke="#8B6B4A" stroke-width="2" fill="none"/>
+                <ellipse cx="50" cy="74" rx="9" ry="7" fill="#E8C5A0"/>
+                <!-- 小宝宝探头（会眨眼） -->
+                <circle cx="50" cy="73" r="5" fill="#D4A574"/>
+                <circle cx="48" cy="72" r="1.5" fill="#000" class="eye-blink"/>
+                <circle cx="52" cy="72" r="1.5" fill="#000" class="eye-blink"/>
+                <path d="M 48 75 Q 50 76 52 75" stroke="#8B6B4A" stroke-width="1" fill="none"/>
                 <!-- 手 -->
-                <ellipse cx="36" cy="70" rx="5" ry="10" fill="#D4A574"/>
-                <ellipse cx="64" cy="70" rx="5" ry="10" fill="#D4A574"/>
-                <!-- 大脚 -->
-                <ellipse cx="44" cy="94" rx="8" ry="5" fill="#8B6B4A"/>
-                <ellipse cx="56" cy="94" rx="8" ry="5" fill="#8B6B4A"/>
+                <ellipse cx="35" cy="71" rx="6" ry="11" fill="#D4A574"/>
+                <ellipse cx="65" cy="71" rx="6" ry="11" fill="#D4A574"/>
+                <!-- 大脚（跳跃动画） -->
+                <ellipse cx="44" cy="94" rx="9" ry="6" fill="#8B6B4A"/>
+                <ellipse cx="56" cy="94" rx="9" ry="6" fill="#8B6B4A"/>
             </svg>`,
             
             shrimp: `<svg viewBox="0 0 100 100" class="theme-svg cute-svg">
@@ -777,32 +978,43 @@ class TaskFlowApp {
             </svg>`,
             
             turtle: `<svg viewBox="0 0 100 100" class="theme-svg cute-svg">
-                <!-- 龟壳 -->
-                <ellipse cx="50" cy="55" rx="30" ry="26" fill="#8B7355"/>
-                <ellipse cx="50" cy="55" rx="26" ry="22" fill="#A89968"/>
-                <!-- 壳纹 -->
-                <circle cx="50" cy="50" r="8" fill="#8B7355" opacity="0.5"/>
-                <circle cx="38" cy="58" r="6" fill="#8B7355" opacity="0.5"/>
-                <circle cx="62" cy="58" r="6" fill="#8B7355" opacity="0.5"/>
-                <circle cx="44" cy="66" r="5" fill="#8B7355" opacity="0.5"/>
-                <circle cx="56" cy="66" r="5" fill="#8B7355" opacity="0.5"/>
-                <!-- 大头从壳里探出 -->
-                <ellipse cx="50" cy="26" rx="18" ry="20" fill="#9ACD32"/>
-                <!-- 眼睛 -->
-                <circle cx="44" cy="24" r="4" fill="#000" class="eye-blink"/>
-                <circle cx="45" cy="22" r="1.5" fill="#FFF"/>
-                <circle cx="56" cy="24" r="4" fill="#000" class="eye-blink"/>
-                <circle cx="57" cy="22" r="1.5" fill="#FFF"/>
-                <!-- 嘴巴 -->
-                <path d="M 44 32 Q 50 35 56 32" stroke="#6B8E23" stroke-width="2" fill="none" stroke-linecap="round"/>
-                <!-- 前腿 -->
-                <ellipse cx="28" cy="60" rx="8" ry="12" fill="#9ACD32"/>
-                <ellipse cx="72" cy="60" rx="8" ry="12" fill="#9ACD32"/>
+                <!-- 龟壳（带动画） -->
+                <ellipse cx="50" cy="56" rx="31" ry="27" fill="#8B7355"/>
+                <ellipse cx="50" cy="56" rx="27" ry="23" fill="#A89968"/>
+                <!-- 壳纹（带脉冲） -->
+                <circle cx="50" cy="51" r="9" fill="#8B7355" opacity="0.6"/>
+                <circle cx="37" cy="59" r="7" fill="#8B7355" opacity="0.5" class="pulse-glow"/>
+                <circle cx="63" cy="59" r="7" fill="#8B7355" opacity="0.5" class="pulse-glow"/>
+                <circle cx="43" cy="67" r="6" fill="#8B7355" opacity="0.5"/>
+                <circle cx="57" cy="67" r="6" fill="#8B7355" opacity="0.5"/>
+                <!-- 壳边缘装饰 -->
+                <ellipse cx="50" cy="56" rx="29" ry="25" fill="none" stroke="#6B5335" stroke-width="1.5" opacity="0.5"/>
+                <!-- 大头从壳里探出（会缩回） -->
+                <ellipse cx="50" cy="24" rx="19" ry="22" fill="#9ACD32" class="turtle-head"/>
+                <ellipse cx="50" cy="26" rx="16" ry="18" fill="#B8E65C"/>
+                <!-- 大眼睛 -->
+                <circle cx="42" cy="22" r="5" fill="#000" class="eye-blink"/>
+                <circle cx="42" cy="20" r="2.5" fill="#FFF"/>
+                <circle cx="43" cy="19" r="1.5" fill="#FFF"/>
+                <circle cx="58" cy="22" r="5" fill="#000" class="eye-blink"/>
+                <circle cx="58" cy="20" r="2.5" fill="#FFF"/>
+                <circle cx="59" cy="19" r="1.5" fill="#FFF"/>
+                <!-- 腮红 -->
+                <circle cx="36" cy="28" r="4" fill="#8B9B4B" opacity="0.5"/>
+                <circle cx="64" cy="28" r="4" fill="#8B9B4B" opacity="0.5"/>
+                <!-- 微笑 -->
+                <path d="M 42 32 Q 50 36 58 32" stroke="#6B8E23" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+                <!-- 前腿（会动） -->
+                <ellipse cx="26" cy="61" rx="9" ry="13" fill="#9ACD32" class="turtle-leg"/>
+                <ellipse cx="74" cy="61" rx="9" ry="13" fill="#9ACD32" class="turtle-leg"/>
+                <!-- 爪子 -->
+                <ellipse cx="26" cy="72" rx="6" ry="4" fill="#8B9B4B"/>
+                <ellipse cx="74" cy="72" rx="6" ry="4" fill="#8B9B4B"/>
                 <!-- 后腿 -->
-                <ellipse cx="32" cy="76" rx="8" ry="10" fill="#9ACD32"/>
-                <ellipse cx="68" cy="76" rx="8" ry="10" fill="#9ACD32"/>
+                <ellipse cx="31" cy="77" rx="8" ry="11" fill="#9ACD32"/>
+                <ellipse cx="69" cy="77" rx="8" ry="11" fill="#9ACD32"/>
                 <!-- 小尾巴 -->
-                <ellipse cx="50" cy="82" rx="4" ry="6" fill="#9ACD32"/>
+                <ellipse cx="50" cy="82" rx="5" ry="7" fill="#9ACD32"/>
             </svg>`
         };
         return svgs[themeId] || '';
@@ -812,48 +1024,76 @@ class TaskFlowApp {
     getStarThemeSVG(themeId) {
         const svgs = {
             liying: `<svg viewBox="0 0 100 100" class="theme-svg star-svg">
-                <!-- 大头 -->
-                <ellipse cx="50" cy="36" rx="24" ry="26" fill="#FFE4C4"/>
-                <!-- 长发 -->
-                <ellipse cx="30" cy="35" rx="12" ry="30" fill="#2C1810"/>
-                <ellipse cx="70" cy="35" rx="12" ry="30" fill="#2C1810"/>
-                <ellipse cx="50" cy="22" rx="26" ry="15" fill="#2C1810"/>
-                <!-- 刘海 -->
-                <path d="M 30 22 Q 35 18 40 22" stroke="#2C1810" stroke-width="3" fill="none"/>
-                <path d="M 42 22 Q 47 18 52 22" stroke="#2C1810" stroke-width="3" fill="none"/>
-                <path d="M 54 22 Q 59 18 64 22" stroke="#2C1810" stroke-width="3" fill="none"/>
-                <!-- 眉毛 -->
-                <path d="M 36 30 Q 42 28 46 30" stroke="#4A3428" stroke-width="1.5" fill="none"/>
-                <path d="M 54 30 Q 58 28 64 30" stroke="#4A3428" stroke-width="1.5" fill="none"/>
-                <!-- 眼睛 -->
-                <ellipse cx="40" cy="36" rx="4" ry="5" fill="#2C1810"/>
-                <circle cx="40" cy="35" r="2" fill="#FFF"/>
-                <ellipse cx="60" cy="36" rx="4" ry="5" fill="#2C1810"/>
-                <circle cx="60" cy="35" r="2" fill="#FFF"/>
+                <!-- 大头（真实比例） -->
+                <ellipse cx="50" cy="35" rx="22" ry="24" fill="#FFE4C4"/>
+                <!-- 脸部高光 -->
+                <ellipse cx="44" cy="32" rx="8" ry="10" fill="#FFF" opacity="0.4"/>
+                <ellipse cx="56" cy="32" rx="8" ry="10" fill="#FFF" opacity="0.4"/>
+                <!-- 真实长发（会飘动） -->
+                <ellipse cx="28" cy="34" rx="13" ry="32" fill="#2C1810" class="hair-sway-left"/>
+                <ellipse cx="72" cy="34" rx="13" ry="32" fill="#2C1810" class="hair-sway-right"/>
+                <ellipse cx="50" cy="20" rx="24" ry="14" fill="#2C1810" class="hair-wave"/>
+                <!-- 发丝细节 -->
+                <path d="M 16 32 Q 18 40 20 48" stroke="#1A0C08" stroke-width="1.5" fill="none"/>
+                <path d="M 20 30 Q 22 38 24 46" stroke="#1A0C08" stroke-width="1.5" fill="none"/>
+                <path d="M 84 32 Q 82 40 80 48" stroke="#1A0C08" stroke-width="1.5" fill="none"/>
+                <path d="M 80 30 Q 78 38 76 46" stroke="#1A0C08" stroke-width="1.5" fill="none"/>
+                <!-- 刘海层次 -->
+                <path d="M 30 20 Q 34 16 38 20" stroke="#2C1810" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+                <path d="M 40 20 Q 44 16 48 20" stroke="#2C1810" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+                <path d="M 50 20 Q 54 16 58 20" stroke="#2C1810" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+                <path d="M 60 20 Q 64 16 68 20" stroke="#2C1810" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+                <!-- 真实眉毛 -->
+                <path d="M 36 28 Q 41 27 45 28" stroke="#4A3428" stroke-width="2" fill="none" stroke-linecap="round"/>
+                <path d="M 55 28 Q 59 27 64 28" stroke="#4A3428" stroke-width="2" fill="none" stroke-linecap="round"/>
+                <!-- 眼睛（真实风格） -->
+                <ellipse cx="40" cy="34" rx="5" ry="6" fill="#2C1810"/>
+                <ellipse cx="40" cy="33" rx="3" ry="4" fill="#4A3428"/>
+                <circle cx="40" cy="32" r="2" fill="#FFF"/>
+                <circle cx="41" cy="31" r="1" fill="#FFF"/>
+                <ellipse cx="60" cy="34" rx="5" ry="6" fill="#2C1810"/>
+                <ellipse cx="60" cy="33" rx="3" ry="4" fill="#4A3428"/>
+                <circle cx="60" cy="32" r="2" fill="#FFF"/>
+                <circle cx="61" cy="31" r="1" fill="#FFF"/>
+                <!-- 上眼线 -->
+                <path d="M 35 31 Q 40 30 45 31" stroke="#2C1810" stroke-width="1.5" fill="none"/>
+                <path d="M 55 31 Q 60 30 65 31" stroke="#2C1810" stroke-width="1.5" fill="none"/>
                 <!-- 睫毛 -->
-                <line x1="37" y1="33" x2="35" y2="31" stroke="#2C1810" stroke-width="1"/>
-                <line x1="43" y1="33" x2="45" y2="31" stroke="#2C1810" stroke-width="1"/>
-                <line x1="57" y1="33" x2="55" y2="31" stroke="#2C1810" stroke-width="1"/>
-                <line x1="63" y1="33" x2="65" y2="31" stroke="#2C1810" stroke-width="1"/>
-                <!-- 腮红 -->
-                <circle cx="32" cy="42" r="5" fill="#FFB6C1" opacity="0.6"/>
-                <circle cx="68" cy="42" r="5" fill="#FFB6C1" opacity="0.6"/>
-                <!-- 鼻子 -->
-                <ellipse cx="50" cy="44" rx="2" ry="3" fill="#FFB6C1" opacity="0.8"/>
-                <!-- 嘴巴 -->
-                <path d="M 44 48 Q 50 52 56 48" stroke="#FF69B4" stroke-width="2" fill="none"/>
-                <!-- 小身体 -->
-                <ellipse cx="50" cy="75" rx="18" ry="22" fill="#FFB6D9"/>
-                <!-- 连衣裙装饰 -->
-                <circle cx="50" cy="68" r="2" fill="#FFF" opacity="0.8"/>
-                <circle cx="45" cy="74" r="1.5" fill="#FFF" opacity="0.8"/>
-                <circle cx="55" cy="74" r="1.5" fill="#FFF" opacity="0.8"/>
-                <!-- 手 -->
-                <ellipse cx="35" cy="74" rx="6" ry="12" fill="#FFE4C4"/>
-                <ellipse cx="65" cy="74" rx="6" ry="12" fill="#FFE4C4"/>
+                <line x1="36" y1="31" x2="33" y2="28" stroke="#2C1810" stroke-width="1.5" stroke-linecap="round"/>
+                <line x1="44" y1="31" x2="47" y2="28" stroke="#2C1810" stroke-width="1.5" stroke-linecap="round"/>
+                <line x1="56" y1="31" x2="53" y2="28" stroke="#2C1810" stroke-width="1.5" stroke-linecap="round"/>
+                <line x1="64" y1="31" x2="67" y2="28" stroke="#2C1810" stroke-width="1.5" stroke-linecap="round"/>
+                <!-- 腮红（更自然） -->
+                <ellipse cx="32" cy="42" rx="6" ry="4" fill="#FFB6C1" opacity="0.5"/>
+                <ellipse cx="68" cy="42" rx="6" ry="4" fill="#FFB6C1" opacity="0.5"/>
+                <!-- 鼻子（立体感） -->
+                <ellipse cx="50" cy="42" rx="2" ry="3" fill="#E8B098" opacity="0.4"/>
+                <line x1="50" y1="39" x2="50" y2="43" stroke="#D4A89A" stroke-width="0.5" opacity="0.3"/>
+                <!-- 嘴巴（更立体） -->
+                <ellipse cx="50" cy="48" rx="5" ry="3" fill="#FF69B4" opacity="0.3"/>
+                <path d="M 45 48 Q 50 51 55 48" stroke="#FF69B4" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+                <!-- 下唇高光 -->
+                <ellipse cx="50" cy="49" rx="3" ry="1" fill="#FFF" opacity="0.4"/>
+                <!-- 小身体（真实衣服） -->
+                <ellipse cx="50" cy="75" rx="19" ry="22" fill="#FFB6D9"/>
+                <!-- 衣服阴影 -->
+                <ellipse cx="50" cy="80" rx="16" ry="18" fill="#E91E63" opacity="0.2"/>
+                <!-- 领口 -->
+                <ellipse cx="50" cy="62" rx="10" ry="3" fill="#FFF" opacity="0.8"/>
+                <!-- 裙子褶皱 -->
+                <path d="M 35 70 Q 38 75 35 80" stroke="#E91E63" stroke-width="1" fill="none" opacity="0.3"/>
+                <path d="M 44 70 Q 47 75 44 80" stroke="#E91E63" stroke-width="1" fill="none" opacity="0.3"/>
+                <path d="M 56 70 Q 53 75 56 80" stroke="#E91E63" stroke-width="1" fill="none" opacity="0.3"/>
+                <path d="M 65 70 Q 62 75 65 80" stroke="#E91E63" stroke-width="1" fill="none" opacity="0.3"/>
+                <!-- 手（真实肤色） -->
+                <ellipse cx="34" cy="74" rx="6" ry="13" fill="#FFE4C4"/>
+                <ellipse cx="66" cy="74" rx="6" ry="13" fill="#FFE4C4"/>
+                <!-- 手指暗示 -->
+                <ellipse cx="34" cy="84" rx="4" ry="3" fill="#FFDAB9"/>
+                <ellipse cx="66" cy="84" rx="4" ry="3" fill="#FFDAB9"/>
                 <!-- 脚 -->
-                <ellipse cx="44" cy="94" rx="5" ry="4" fill="#FFB6D9"/>
-                <ellipse cx="56" cy="94" rx="5" ry="4" fill="#FFB6D9"/>
+                <ellipse cx="44" cy="95" rx="6" ry="4" fill="#FFB6D9"/>
+                <ellipse cx="56" cy="95" rx="6" ry="4" fill="#FFB6D9"/>
             </svg>`,
             
             kobe: `<svg viewBox="0 0 100 100" class="theme-svg star-svg">
@@ -868,51 +1108,76 @@ class TaskFlowApp {
             </svg>`,
             
             taylor: `<svg viewBox="0 0 100 100" class="theme-svg star-svg">
-                <!-- 大头 -->
-                <ellipse cx="50" cy="36" rx="24" ry="26" fill="#FFE4C4"/>
-                <!-- 金色卷发 -->
-                <ellipse cx="32" cy="32" rx="14" ry="28" fill="#FFD700"/>
-                <ellipse cx="68" cy="32" rx="14" ry="28" fill="#FFD700"/>
-                <ellipse cx="50" cy="20" rx="26" ry="14" fill="#FFD700"/>
-                <!-- 卷发效果 -->
-                <circle cx="28" cy="25" r="5" fill="#FFC700"/>
-                <circle cx="72" cy="25" r="5" fill="#FFC700"/>
-                <circle cx="35" cy="40" r="4" fill="#FFC700"/>
-                <circle cx="65" cy="40" r="4" fill="#FFC700"/>
-                <!-- 眉毛 -->
-                <path d="M 36 30 Q 42 29 46 30" stroke="#8B7355" stroke-width="1.5" fill="none"/>
-                <path d="M 54 30 Q 58 29 64 30" stroke="#8B7355" stroke-width="1.5" fill="none"/>
-                <!-- 眼睛 -->
-                <ellipse cx="40" cy="36" rx="4" ry="6" fill="#4169E1"/>
-                <circle cx="40" cy="34" r="2" fill="#FFF" class="sparkle"/>
-                <ellipse cx="60" cy="36" rx="4" ry="6" fill="#4169E1"/>
-                <circle cx="60" cy="34" r="2" fill="#FFF" class="sparkle"/>
-                <!-- 睫毛 -->
-                <line x1="37" y1="33" x2="35" y2="30" stroke="#2C1810" stroke-width="1.2"/>
-                <line x1="43" y1="33" x2="45" y2="30" stroke="#2C1810" stroke-width="1.2"/>
-                <line x1="57" y1="33" x2="55" y2="30" stroke="#2C1810" stroke-width="1.2"/>
-                <line x1="63" y1="33" x2="65" y2="30" stroke="#2C1810" stroke-width="1.2"/>
-                <!-- 腮红 -->
-                <circle cx="32" cy="42" r="5" fill="#FFC0CB" opacity="0.6"/>
-                <circle cx="68" cy="42" r="5" fill="#FFC0CB" opacity="0.6"/>
-                <!-- 鼻子 -->
-                <ellipse cx="50" cy="44" rx="2" ry="3" fill="#FFB6C1" opacity="0.7"/>
-                <!-- 嘴巴 -->
-                <path d="M 44 48 Q 50 52 56 48" stroke="#DC143C" stroke-width="2.5" fill="none"/>
-                <!-- 小身体 -->
-                <ellipse cx="50" cy="75" rx="18" ry="22" fill="#FF69B4"/>
-                <!-- 亮片装饰 -->
-                <circle cx="45" cy="68" r="2" fill="#FFD700" opacity="0.9" class="sparkle"/>
-                <circle cx="55" cy="68" r="2" fill="#FFD700" opacity="0.9" class="sparkle"/>
-                <circle cx="50" cy="72" r="2" fill="#FFD700" opacity="0.9" class="sparkle"/>
-                <circle cx="42" cy="76" r="1.5" fill="#FFD700" opacity="0.8" class="sparkle"/>
-                <circle cx="58" cy="76" r="1.5" fill="#FFD700" opacity="0.8" class="sparkle"/>
+                <!-- 大头（真实比例） -->
+                <ellipse cx="50" cy="35" rx="22" ry="24" fill="#FFE4C4"/>
+                <!-- 脸部高光 -->
+                <ellipse cx="45" cy="30" rx="9" ry="12" fill="#FFF" opacity="0.3"/>
+                <!-- 金色波浪卷发（会飘动） -->
+                <ellipse cx="30" cy="32" rx="15" ry="30" fill="#FFD700" class="hair-sway-left"/>
+                <ellipse cx="70" cy="32" rx="15" ry="30" fill="#FFD700" class="hair-sway-right"/>
+                <ellipse cx="50" cy="18" rx="26" ry="13" fill="#FFD700" class="hair-wave"/>
+                <!-- 卷发层次（会弹跳） -->
+                <circle cx="25" cy="25" r="6" fill="#FFC700" class="accessory-bounce"/>
+                <circle cx="75" cy="25" r="6" fill="#FFC700" class="accessory-bounce"/>
+                <circle cx="32" cy="40" r="5" fill="#FFC700" class="accessory-bounce"/>
+                <circle cx="68" cy="40" r="5" fill="#FFC700" class="accessory-bounce"/>
+                <circle cx="28" cy="48" r="5" fill="#FFB700" class="accessory-bounce"/>
+                <circle cx="72" cy="48" r="5" fill="#FFB700" class="accessory-bounce"/>
+                <!-- 发丝 -->
+                <path d="M 18 35 Q 20 42 22 50" stroke="#E8B800" stroke-width="1.5" fill="none"/>
+                <path d="M 82 35 Q 80 42 78 50" stroke="#E8B800" stroke-width="1.5" fill="none"/>
+                <!-- 精致眉毛 -->
+                <path d="M 36 28 Q 41 27 46 28" stroke="#8B7355" stroke-width="2" fill="none" stroke-linecap="round"/>
+                <path d="M 54 28 Q 59 27 64 28" stroke="#8B7355" stroke-width="2" fill="none" stroke-linecap="round"/>
+                <!-- 美丽的蓝眼睛 -->
+                <ellipse cx="40" cy="34" rx="5" ry="7" fill="#4169E1"/>
+                <ellipse cx="40" cy="33" rx="3" ry="5" fill="#5F89ED"/>
+                <circle cx="40" cy="31" r="2.5" fill="#FFF" class="sparkle"/>
+                <circle cx="41" cy="30" r="1.5" fill="#FFF"/>
+                <ellipse cx="60" cy="34" rx="5" ry="7" fill="#4169E1"/>
+                <ellipse cx="60" cy="33" rx="3" ry="5" fill="#5F89ED"/>
+                <circle cx="60" cy="31" r="2.5" fill="#FFF" class="sparkle"/>
+                <circle cx="61" cy="30" r="1.5" fill="#FFF"/>
+                <!-- 眼线 -->
+                <path d="M 35 32 Q 40 31 45 32" stroke="#2C1810" stroke-width="1.5" fill="none"/>
+                <path d="M 55 32 Q 60 31 65 32" stroke="#2C1810" stroke-width="1.5" fill="none"/>
+                <!-- 长睫毛 -->
+                <line x1="36" y1="31" x2="33" y2="27" stroke="#2C1810" stroke-width="1.5" stroke-linecap="round"/>
+                <line x1="44" y1="31" x2="47" y2="27" stroke="#2C1810" stroke-width="1.5" stroke-linecap="round"/>
+                <line x1="56" y1="31" x2="53" y2="27" stroke="#2C1810" stroke-width="1.5" stroke-linecap="round"/>
+                <line x1="64" y1="31" x2="67" y2="27" stroke="#2C1810" stroke-width="1.5" stroke-linecap="round"/>
+                <!-- 自然腮红 -->
+                <ellipse cx="32" cy="42" rx="7" ry="5" fill="#FFC0CB" opacity="0.5"/>
+                <ellipse cx="68" cy="42" rx="7" ry="5" fill="#FFC0CB" opacity="0.5"/>
+                <!-- 鼻子（立体） -->
+                <ellipse cx="50" cy="42" rx="2" ry="3" fill="#E8B098" opacity="0.4"/>
+                <line x1="50" y1="39" x2="50" y2="43" stroke="#D4A89A" stroke-width="0.5" opacity="0.3"/>
+                <!-- 红唇 -->
+                <ellipse cx="50" cy="49" rx="6" ry="3.5" fill="#DC143C" opacity="0.8"/>
+                <path d="M 44 49 Q 50 52 56 49" stroke="#DC143C" stroke-width="3" fill="none" stroke-linecap="round"/>
+                <ellipse cx="50" cy="50" rx="4" ry="1.5" fill="#FFF" opacity="0.3"/>
+                <!-- 小身体（演出服） -->
+                <ellipse cx="50" cy="75" rx="19" ry="22" fill="#FF69B4"/>
+                <!-- 亮片装饰（更多） -->
+                <circle cx="42" cy="66" r="2" fill="#FFD700" opacity="0.9" class="sparkle"/>
+                <circle cx="48" cy="67" r="2" fill="#FFD700" opacity="0.9" class="sparkle"/>
+                <circle cx="52" cy="67" r="2" fill="#FFD700" opacity="0.9" class="sparkle"/>
+                <circle cx="58" cy="66" r="2" fill="#FFD700" opacity="0.9" class="sparkle"/>
+                <circle cx="45" cy="72" r="1.5" fill="#FFD700" opacity="0.8" class="sparkle"/>
+                <circle cx="55" cy="72" r="1.5" fill="#FFD700" opacity="0.8" class="sparkle"/>
+                <circle cx="40" cy="78" r="1.5" fill="#FFD700" opacity="0.7" class="sparkle"/>
+                <circle cx="60" cy="78" r="1.5" fill="#FFD700" opacity="0.7" class="sparkle"/>
                 <!-- 手 -->
-                <ellipse cx="35" cy="74" rx="6" ry="12" fill="#FFE4C4"/>
-                <ellipse cx="65" cy="74" rx="6" ry="12" fill="#FFE4C4"/>
-                <!-- 脚 -->
-                <ellipse cx="44" cy="94" rx="5" ry="4" fill="#DC143C"/>
-                <ellipse cx="56" cy="94" rx="5" ry="4" fill="#DC143C"/>
+                <ellipse cx="34" cy="74" rx="6" ry="13" fill="#FFE4C4"/>
+                <ellipse cx="66" cy="74" rx="6" ry="13" fill="#FFE4C4"/>
+                <!-- 手部细节 -->
+                <ellipse cx="34" cy="84" rx="4" ry="3" fill="#FFDAB9"/>
+                <ellipse cx="66" cy="84" rx="4" ry="3" fill="#FFDAB9"/>
+                <!-- 脚（高跟鞋） -->
+                <ellipse cx="44" cy="95" rx="6" ry="5" fill="#DC143C"/>
+                <ellipse cx="56" cy="95" rx="6" ry="5" fill="#DC143C"/>
+                <rect x="41" y="93" width="6" height="2" fill="#A00" opacity="0.6"/>
+                <rect x="53" y="93" width="6" height="2" fill="#A00" opacity="0.6"/>
             </svg>`,
             
             messi: `<svg viewBox="0 0 100 100" class="theme-svg star-svg">
@@ -957,68 +1222,97 @@ class TaskFlowApp {
             
             beauty1: `<svg viewBox="0 0 100 100" class="theme-svg star-svg">
                 <!-- 甜美少女 -->
-                <!-- 大头 -->
-                <ellipse cx="50" cy="36" rx="26" ry="28" fill="#FFDFD3"/>
-                <!-- 双马尾 -->
-                <ellipse cx="22" cy="32" rx="10" ry="24" fill="#4A2810" class="ear-wiggle-left"/>
-                <ellipse cx="78" cy="32" rx="10" ry="24" fill="#4A2810" class="ear-wiggle-right"/>
-                <circle cx="22" cy="45" r="8" fill="#4A2810"/>
-                <circle cx="78" cy="45" r="8" fill="#4A2810"/>
-                <!-- 发饰 -->
-                <circle cx="22" cy="20" r="5" fill="#FF69B4"/>
-                <circle cx="78" cy="20" r="5" fill="#FF69B4"/>
-                <circle cx="24" cy="18" r="2" fill="#FFB6D9"/>
-                <circle cx="76" cy="18" r="2" fill="#FFB6D9"/>
-                <!-- 刘海 -->
-                <ellipse cx="50" cy="18" rx="24" ry="10" fill="#4A2810"/>
-                <path d="M 32 18 Q 36 14 40 18" stroke="#4A2810" stroke-width="2.5" fill="none"/>
-                <path d="M 44 18 Q 48 14 52 18" stroke="#4A2810" stroke-width="2.5" fill="none"/>
-                <path d="M 56 18 Q 60 14 64 18" stroke="#4A2810" stroke-width="2.5" fill="none"/>
-                <!-- 眉毛 -->
-                <path d="M 36 28 Q 42 27 46 28" stroke="#8B4513" stroke-width="1.5" fill="none"/>
-                <path d="M 54 28 Q 58 27 64 28" stroke="#8B4513" stroke-width="1.5" fill="none"/>
-                <!-- 大眼睛 -->
-                <ellipse cx="40" cy="34" rx="5" ry="7" fill="#000"/>
-                <circle cx="40" cy="32" r="3" fill="#FFF" class="sparkle"/>
-                <ellipse cx="60" cy="34" rx="5" ry="7" fill="#000"/>
-                <circle cx="60" cy="32" r="3" fill="#FFF" class="sparkle"/>
-                <!-- 睫毛 -->
-                <line x1="36" y1="31" x2="33" y2="28" stroke="#000" stroke-width="1.2"/>
-                <line x1="44" y1="31" x2="47" y2="28" stroke="#000" stroke-width="1.2"/>
-                <line x1="56" y1="31" x2="53" y2="28" stroke="#000" stroke-width="1.2"/>
-                <line x1="64" y1="31" x2="67" y2="28" stroke="#000" stroke-width="1.2"/>
-                <!-- 腮红 -->
-                <circle cx="30" cy="42" r="6" fill="#FFB6C1" opacity="0.7"/>
-                <circle cx="70" cy="42" r="6" fill="#FFB6C1" opacity="0.7"/>
-                <!-- 鼻子 -->
-                <ellipse cx="50" cy="44" rx="2" ry="3" fill="#FFB6C1" opacity="0.6"/>
-                <!-- 嘴巴 -->
-                <path d="M 44 50 Q 50 54 56 50" stroke="#FF69B4" stroke-width="2.5" fill="none"/>
-                <!-- 小身体 -->
+                <!-- 大头（真实比例） -->
+                <ellipse cx="50" cy="34" rx="23" ry="26" fill="#FFDFD3"/>
+                <!-- 脸部高光 -->
+                <ellipse cx="44" cy="30" rx="10" ry="12" fill="#FFF" opacity="0.35"/>
+                <!-- 双马尾（蓬松会摇摆） -->
+                <ellipse cx="20" cy="32" rx="11" ry="26" fill="#4A2810" class="hair-sway-left"/>
+                <ellipse cx="80" cy="32" rx="11" ry="26" fill="#4A2810" class="hair-sway-right"/>
+                <circle cx="20" cy="44" r="9" fill="#4A2810" class="accessory-bounce"/>
+                <circle cx="80" cy="44" r="9" fill="#4A2810" class="accessory-bounce"/>
+                <circle cx="18" cy="50" r="7" fill="#5A3820" class="accessory-bounce"/>
+                <circle cx="82" cy="50" r="7" fill="#5A3820" class="accessory-bounce"/>
+                <!-- 可爱发饰蝴蝶结（会弹跳） -->
+                <circle cx="20" cy="18" r="6" fill="#FF69B4" class="accessory-bounce"/>
+                <circle cx="80" cy="18" r="6" fill="#FF69B4" class="accessory-bounce"/>
+                <circle cx="22" cy="16" r="2.5" fill="#FFB6D9" class="sparkle"/>
+                <circle cx="78" cy="16" r="2.5" fill="#FFB6D9" class="sparkle"/>
+                <ellipse cx="20" cy="18" rx="3" ry="2" fill="#FFF" opacity="0.6" class="sparkle"/>
+                <ellipse cx="80" cy="18" rx="3" ry="2" fill="#FFF" opacity="0.6" class="sparkle"/>
+                <!-- 齐刘海 -->
+                <ellipse cx="50" cy="16" rx="25" ry="10" fill="#4A2810"/>
+                <path d="M 30 16 Q 34 12 38 16" stroke="#4A2810" stroke-width="3" fill="none" stroke-linecap="round"/>
+                <path d="M 42 16 Q 46 12 50 16" stroke="#4A2810" stroke-width="3" fill="none" stroke-linecap="round"/>
+                <path d="M 54 16 Q 58 12 62 16" stroke="#4A2810" stroke-width="3" fill="none" stroke-linecap="round"/>
+                <path d="M 66 16 Q 70 12 74 16" stroke="#4A2810" stroke-width="3" fill="none" stroke-linecap="round"/>
+                <!-- 细眉毛 -->
+                <path d="M 36 26 Q 41 25 46 26" stroke="#8B4513" stroke-width="2" fill="none" stroke-linecap="round"/>
+                <path d="M 54 26 Q 59 25 64 26" stroke="#8B4513" stroke-width="2" fill="none" stroke-linecap="round"/>
+                <!-- 超大动漫眼 -->
+                <ellipse cx="40" cy="32" rx="6" ry="9" fill="#000"/>
+                <ellipse cx="40" cy="31" rx="4" ry="6" fill="#5A3428"/>
+                <circle cx="40" cy="29" r="3.5" fill="#FFF" class="sparkle"/>
+                <circle cx="41" cy="28" r="2" fill="#FFF"/>
+                <circle cx="38" cy="32" r="1.5" fill="#FFF" opacity="0.7"/>
+                <ellipse cx="60" cy="32" rx="6" ry="9" fill="#000"/>
+                <ellipse cx="60" cy="31" rx="4" ry="6" fill="#5A3428"/>
+                <circle cx="60" cy="29" r="3.5" fill="#FFF" class="sparkle"/>
+                <circle cx="61" cy="28" r="2" fill="#FFF"/>
+                <circle cx="58" cy="32" r="1.5" fill="#FFF" opacity="0.7"/>
+                <!-- 长睫毛 -->
+                <line x1="35" y1="29" x2="31" y2="26" stroke="#000" stroke-width="1.5" stroke-linecap="round"/>
+                <line x1="45" y1="29" x2="49" y2="26" stroke="#000" stroke-width="1.5" stroke-linecap="round"/>
+                <line x1="55" y1="29" x2="51" y2="26" stroke="#000" stroke-width="1.5" stroke-linecap="round"/>
+                <line x1="65" y1="29" x2="69" y2="26" stroke="#000" stroke-width="1.5" stroke-linecap="round"/>
+                <!-- 大腮红 -->
+                <ellipse cx="28" cy="42" rx="8" ry="6" fill="#FFB6C1" opacity="0.8"/>
+                <ellipse cx="72" cy="42" rx="8" ry="6" fill="#FFB6C1" opacity="0.8"/>
+                <circle cx="26" cy="40" r="3" fill="#FF9AA2" opacity="0.6"/>
+                <circle cx="74" cy="40" r="3" fill="#FF9AA2" opacity="0.6"/>
+                <!-- 小鼻子 -->
+                <ellipse cx="50" cy="42" rx="2" ry="3" fill="#E8B098" opacity="0.5"/>
+                <!-- 甜美微笑 -->
+                <ellipse cx="50" cy="48" rx="5" ry="3" fill="#FF69B4" opacity="0.7"/>
+                <path d="M 44 48 Q 50 52 56 48" stroke="#FF69B4" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+                <ellipse cx="50" cy="49" rx="3" ry="1.5" fill="#FFF" opacity="0.4"/>
+                <!-- 小身体（连衣裙） -->
                 <ellipse cx="50" cy="76" rx="20" ry="22" fill="#FFB6D9"/>
-                <!-- 领口 -->
-                <ellipse cx="50" cy="64" rx="12" ry="4" fill="#FFF" opacity="0.9"/>
-                <!-- 爱心装饰 -->
-                <path d="M 50 70 Q 48 68 46 70 Q 44 72 46 74 Q 48 76 50 78 Q 52 76 54 74 Q 56 72 54 70 Q 52 68 50 70" fill="#FF69B4" opacity="0.8"/>
+                <!-- 裙子蝴蝶结 -->
+                <circle cx="46" cy="64" r="3" fill="#FF69B4"/>
+                <circle cx="54" cy="64" r="3" fill="#FF69B4"/>
+                <circle cx="50" cy="64" r="2" fill="#FFD700"/>
+                <!-- 爱心图案 -->
+                <path d="M 50 70 Q 48 68 46 70 Q 44 72 46 74 Q 48 76 50 78 Q 52 76 54 74 Q 56 72 54 70 Q 52 68 50 70" fill="#FF69B4" opacity="0.6"/>
+                <!-- 花边装饰 -->
+                <circle cx="38" cy="80" r="1.5" fill="#FFF" opacity="0.7"/>
+                <circle cx="44" cy="82" r="1.5" fill="#FFF" opacity="0.7"/>
+                <circle cx="56" cy="82" r="1.5" fill="#FFF" opacity="0.7"/>
+                <circle cx="62" cy="80" r="1.5" fill="#FFF" opacity="0.7"/>
                 <!-- 手 -->
-                <ellipse cx="34" cy="76" rx="6" ry="14" fill="#FFDFD3"/>
-                <ellipse cx="66" cy="76" rx="6" ry="14" fill="#FFDFD3"/>
-                <!-- 脚 -->
-                <ellipse cx="44" cy="96" rx="6" ry="4" fill="#FFB6D9"/>
-                <ellipse cx="56" cy="96" rx="6" ry="4" fill="#FFB6D9"/>
+                <ellipse cx="33" cy="76" rx="6" ry="14" fill="#FFDFD3"/>
+                <ellipse cx="67" cy="76" rx="6" ry="14" fill="#FFDFD3"/>
+                <!-- 手指 -->
+                <ellipse cx="33" cy="87" rx="4" ry="3" fill="#FFCFC3"/>
+                <ellipse cx="67" cy="87" rx="4" ry="3" fill="#FFCFC3"/>
+                <!-- 脚（可爱小鞋） -->
+                <ellipse cx="44" cy="96" rx="7" ry="5" fill="#FFB6D9"/>
+                <ellipse cx="56" cy="96" rx="7" ry="5" fill="#FFB6D9"/>
+                <ellipse cx="44" cy="94" rx="5" ry="2" fill="#FFF" opacity="0.6"/>
+                <ellipse cx="56" cy="94" rx="5" ry="2" fill="#FFF" opacity="0.6"/>
             </svg>`,
             
             beauty2: `<svg viewBox="0 0 100 100" class="theme-svg star-svg">
                 <!-- 性感御姐 -->
                 <!-- 大头 -->
                 <ellipse cx="50" cy="38" rx="24" ry="26" fill="#F5D5C8"/>
-                <!-- 长发 -->
-                <ellipse cx="28" cy="38" rx="14" ry="34" fill="#2C1810"/>
-                <ellipse cx="72" cy="38" rx="14" ry="34" fill="#2C1810"/>
-                <ellipse cx="50" cy="20" rx="26" ry="12" fill="#2C1810"/>
-                <!-- 侧边卷发 -->
-                <ellipse cx="24" cy="50" rx="8" ry="12" fill="#4A2810"/>
-                <ellipse cx="76" cy="50" rx="8" ry="12" fill="#4A2810"/>
+                <!-- 长发（会飘动） -->
+                <ellipse cx="28" cy="38" rx="14" ry="34" fill="#2C1810" class="hair-sway-left"/>
+                <ellipse cx="72" cy="38" rx="14" ry="34" fill="#2C1810" class="hair-sway-right"/>
+                <ellipse cx="50" cy="20" rx="26" ry="12" fill="#2C1810" class="hair-wave"/>
+                <!-- 侧边卷发（会摆动） -->
+                <ellipse cx="24" cy="50" rx="8" ry="12" fill="#4A2810" class="accessory-bounce"/>
+                <ellipse cx="76" cy="50" rx="8" ry="12" fill="#4A2810" class="accessory-bounce"/>
                 <!-- 眉毛（较细） -->
                 <path d="M 36 30 Q 42 29 47 30" stroke="#2C1810" stroke-width="1.8" fill="none"/>
                 <path d="M 53 30 Q 58 29 64 30" stroke="#2C1810" stroke-width="1.8" fill="none"/>
@@ -1060,17 +1354,17 @@ class TaskFlowApp {
                 <!-- 樱花少女 -->
                 <!-- 大头 -->
                 <ellipse cx="50" cy="36" rx="26" ry="28" fill="#FFE6E6"/>
-                <!-- 樱花粉发 -->
-                <ellipse cx="30" cy="32" rx="16" ry="32" fill="#FFB6D9"/>
-                <ellipse cx="70" cy="32" rx="16" ry="32" fill="#FFB6D9"/>
-                <ellipse cx="50" cy="18" rx="28" ry="14" fill="#FFB6D9"/>
-                <!-- 呆毛 -->
-                <path d="M 50 10 Q 48 2 50 0" stroke="#FFB6D9" stroke-width="3" fill="none" stroke-linecap="round"/>
-                <!-- 樱花装饰 -->
-                <circle cx="30" cy="22" r="4" fill="#FF69B4"/>
-                <circle cx="70" cy="22" r="4" fill="#FF69B4"/>
-                <circle cx="28" cy="20" r="1.5" fill="#FFF"/>
-                <circle cx="72" cy="20" r="1.5" fill="#FFF"/>
+                <!-- 樱花粉发（会飘动） -->
+                <ellipse cx="30" cy="32" rx="16" ry="32" fill="#FFB6D9" class="hair-sway-left"/>
+                <ellipse cx="70" cy="32" rx="16" ry="32" fill="#FFB6D9" class="hair-sway-right"/>
+                <ellipse cx="50" cy="18" rx="28" ry="14" fill="#FFB6D9" class="hair-wave"/>
+                <!-- 呆毛（会摇摆） -->
+                <path d="M 50 10 Q 48 2 50 0" stroke="#FFB6D9" stroke-width="3" fill="none" stroke-linecap="round" class="ear-wiggle"/>
+                <!-- 樱花装饰（会转动） -->
+                <circle cx="30" cy="22" r="4" fill="#FF69B4" class="sparkle"/>
+                <circle cx="70" cy="22" r="4" fill="#FF69B4" class="sparkle"/>
+                <circle cx="28" cy="20" r="1.5" fill="#FFF" class="sparkle"/>
+                <circle cx="72" cy="20" r="1.5" fill="#FFF" class="sparkle"/>
                 <!-- 动漫大眼 -->
                 <ellipse cx="40" cy="34" rx="6" ry="10" fill="#000"/>
                 <ellipse cx="40" cy="32" rx="4" ry="6" fill="#FF69B4"/>
@@ -1104,18 +1398,18 @@ class TaskFlowApp {
                 <!-- 元气妹子 -->
                 <!-- 大头 -->
                 <ellipse cx="50" cy="36" rx="26" ry="28" fill="#FFE4D0"/>
-                <!-- 活力短发 -->
-                <ellipse cx="50" cy="22" rx="28" ry="16" fill="#FF8C69"/>
-                <path d="M 28 24 L 24 28 L 28 28 Z" fill="#FF8C69"/>
-                <path d="M 72 24 L 76 28 L 72 28 Z" fill="#FF8C69"/>
+                <!-- 活力短发（会弹跳） -->
+                <ellipse cx="50" cy="22" rx="28" ry="16" fill="#FF8C69" class="accessory-bounce"/>
+                <path d="M 28 24 L 24 28 L 28 28 Z" fill="#FF8C69" class="hair-sway-left"/>
+                <path d="M 72 24 L 76 28 L 72 28 Z" fill="#FF8C69" class="hair-sway-right"/>
                 <!-- 刘海 -->
                 <path d="M 30 22 Q 34 16 38 22" stroke="#FF8C69" stroke-width="3" fill="none"/>
                 <path d="M 42 22 Q 46 16 50 22" stroke="#FF8C69" stroke-width="3" fill="none"/>
                 <path d="M 54 22 Q 58 16 62 22" stroke="#FF8C69" stroke-width="3" fill="none"/>
                 <path d="M 66 22 Q 70 16 74 22" stroke="#FF8C69" stroke-width="3" fill="none"/>
-                <!-- 发卡 -->
-                <rect x="66" y="20" width="8" height="4" rx="2" fill="#FFD700"/>
-                <circle cx="70" cy="22" r="1.5" fill="#FF69B4"/>
+                <!-- 发卡（会闪烁） -->
+                <rect x="66" y="20" width="8" height="4" rx="2" fill="#FFD700" class="sparkle"/>
+                <circle cx="70" cy="22" r="1.5" fill="#FF69B4" class="pulse-glow"/>
                 <!-- 粗眉毛 -->
                 <path d="M 34 28 Q 40 27 46 28" stroke="#8B4513" stroke-width="2.5" fill="none"/>
                 <path d="M 54 28 Q 60 27 66 28" stroke="#8B4513" stroke-width="2.5" fill="none"/>
@@ -1155,13 +1449,13 @@ class TaskFlowApp {
                 <!-- 爆乳女神 -->
                 <!-- 大头 -->
                 <ellipse cx="50" cy="34" rx="22" ry="24" fill="#FFE4D6"/>
-                <!-- 性感长发 -->
-                <ellipse cx="26" cy="36" rx="14" ry="38" fill="#4A2810"/>
-                <ellipse cx="74" cy="36" rx="14" ry="38" fill="#4A2810"/>
-                <ellipse cx="50" cy="18" rx="24" ry="12" fill="#4A2810"/>
-                <!-- 侧发 -->
-                <ellipse cx="22" cy="48" rx="10" ry="16" fill="#6A3820"/>
-                <ellipse cx="78" cy="48" rx="10" ry="16" fill="#6A3820"/>
+                <!-- 性感长发（会飘动） -->
+                <ellipse cx="26" cy="36" rx="14" ry="38" fill="#4A2810" class="hair-sway-left"/>
+                <ellipse cx="74" cy="36" rx="14" ry="38" fill="#4A2810" class="hair-sway-right"/>
+                <ellipse cx="50" cy="18" rx="24" ry="12" fill="#4A2810" class="hair-wave"/>
+                <!-- 侧发（会摆动） -->
+                <ellipse cx="22" cy="48" rx="10" ry="16" fill="#6A3820" class="accessory-bounce"/>
+                <ellipse cx="78" cy="48" rx="10" ry="16" fill="#6A3820" class="accessory-bounce"/>
                 <!-- 眉毛 -->
                 <path d="M 38 26 Q 44 25 48 26" stroke="#4A2810" stroke-width="2" fill="none"/>
                 <path d="M 52 26 Q 56 25 62 26" stroke="#4A2810" stroke-width="2" fill="none"/>
@@ -1334,6 +1628,183 @@ class TaskFlowApp {
                 <path d="M 65 55 Q 75 60 80 65" stroke="#DC143C" stroke-width="4" fill="none" stroke-linecap="round"/>
                 <circle cx="75" cy="63" r="2" fill="#FF4500" class="fire-pulse"/>
                 <circle cx="78" cy="66" r="1.5" fill="#FFD700" class="fire-pulse"/>
+            </svg>`,
+            
+            vampire: `<svg viewBox="0 0 100 100" class="theme-svg dark-svg">
+                <!-- 大头 -->
+                <ellipse cx="50" cy="36" rx="24" ry="26" fill="#E8D5D0"/>
+                <!-- 吸血鬼发型 -->
+                <ellipse cx="50" cy="18" rx="26" ry="14" fill="#1A0A0A"/>
+                <path d="M 30 18 Q 35 12 40 18" stroke="#1A0A0A" stroke-width="3" fill="none"/>
+                <path d="M 46 18 Q 50 14 54 18" stroke="#1A0A0A" stroke-width="3" fill="none"/>
+                <path d="M 60 18 Q 65 12 70 18" stroke="#1A0A0A" stroke-width="3" fill="none"/>
+                <!-- 红眼睛 -->
+                <ellipse cx="40" cy="34" rx="5" ry="7" fill="#8B0000" class="eye-glow"/>
+                <circle cx="40" cy="32" r="2" fill="#FF0000" class="pulse-glow"/>
+                <ellipse cx="60" cy="34" rx="5" ry="7" fill="#8B0000" class="eye-glow"/>
+                <circle cx="60" cy="32" r="2" fill="#FF0000" class="pulse-glow"/>
+                <!-- 尖牙嘴巴 -->
+                <path d="M 44 46 Q 50 49 56 46" stroke="#8B0000" stroke-width="2" fill="none"/>
+                <polygon points="42,48 44,54 46,48" fill="#FFF"/>
+                <polygon points="54,48 56,54 58,48" fill="#FFF"/>
+                <!-- 披风 -->
+                <ellipse cx="50" cy="75" rx="22" ry="22" fill="#1A0A0A"/>
+                <ellipse cx="50" cy="75" rx="18" ry="18" fill="#8B0000" opacity="0.8"/>
+                <!-- 手 -->
+                <ellipse cx="32" cy="74" rx="6" ry="14" fill="#E8D5D0"/>
+                <ellipse cx="68" cy="74" rx="6" ry="14" fill="#E8D5D0"/>
+                <!-- 蝙蝠装饰 -->
+                <path d="M 45 68 L 40 72 L 45 70 Z" fill="#1A0A0A"/>
+                <path d="M 55 68 L 60 72 L 55 70 Z" fill="#1A0A0A"/>
+            </svg>`,
+            
+            ghost: `<svg viewBox="0 0 100 100" class="theme-svg dark-svg">
+                <!-- 幽灵身体 -->
+                <ellipse cx="50" cy="50" rx="28" ry="35" fill="#E8E8F0" opacity="0.9"/>
+                <ellipse cx="50" cy="48" rx="26" ry="32" fill="#F5F5FF" opacity="0.8"/>
+                <!-- 大头 -->
+                <circle cx="50" cy="35" r="26" fill="#F5F5FF" opacity="0.9"/>
+                <!-- 飘逸效果 -->
+                <circle cx="30" cy="32" r="8" fill="#E8E8F0" opacity="0.7"/>
+                <circle cx="70" cy="32" r="8" fill="#E8E8F0" opacity="0.7"/>
+                <!-- 大眼睛 -->
+                <ellipse cx="38" cy="32" rx="7" ry="10" fill="#000"/>
+                <circle cx="38" cy="29" r="3" fill="#00FFFF" class="pulse-glow"/>
+                <ellipse cx="62" cy="32" rx="7" ry="10" fill="#000"/>
+                <circle cx="62" cy="29" r="3" fill="#00FFFF" class="pulse-glow"/>
+                <!-- O型嘴 -->
+                <ellipse cx="50" cy="46" rx="6" ry="8" fill="#000"/>
+                <!-- 飘带身体 -->
+                <path d="M 28 75 Q 30 85 35 95" fill="#E8E8F0" opacity="0.8"/>
+                <path d="M 42 75 Q 44 88 48 98" fill="#F5F5FF" opacity="0.7"/>
+                <path d="M 58 75 Q 56 88 52 98" fill="#F5F5FF" opacity="0.7"/>
+                <path d="M 72 75 Q 70 85 65 95" fill="#E8E8F0" opacity="0.8"/>
+                <!-- 手 -->
+                <ellipse cx="28" cy="60" rx="8" ry="12" fill="#F5F5FF" opacity="0.8"/>
+                <ellipse cx="72" cy="60" rx="8" ry="12" fill="#F5F5FF" opacity="0.8"/>
+            </svg>`,
+            
+            reaper: `<svg viewBox="0 0 100 100" class="theme-svg dark-svg">
+                <!-- 兜帽 -->
+                <ellipse cx="50" cy="30" rx="30" ry="25" fill="#000"/>
+                <ellipse cx="50" cy="32" rx="28" ry="22" fill="#1A1A1A"/>
+                <!-- 大头（骷髅） -->
+                <ellipse cx="50" cy="40" rx="22" ry="24" fill="#E8E8D0"/>
+                <!-- 眼窝 -->
+                <ellipse cx="40" cy="38" rx="6" ry="8" fill="#000"/>
+                <circle cx="40" cy="38" r="3" fill="#00FF00" class="eye-glow"/>
+                <ellipse cx="60" cy="38" rx="6" ry="8" fill="#000"/>
+                <circle cx="60" cy="38" r="3" fill="#00FF00" class="eye-glow"/>
+                <!-- 鼻孔 -->
+                <ellipse cx="48" cy="46" rx="2" ry="3" fill="#000"/>
+                <ellipse cx="52" cy="46" rx="2" ry="3" fill="#000"/>
+                <!-- 骷髅牙齿 -->
+                <rect x="42" y="52" width="4" height="5" fill="#FFF"/>
+                <rect x="47" y="52" width="3" height="5" fill="#FFF"/>
+                <rect x="51" y="52" width="3" height="5" fill="#FFF"/>
+                <rect x="55" y="52" width="4" height="5" fill="#FFF"/>
+                <!-- 黑袍身体 -->
+                <ellipse cx="50" cy="78" rx="24" ry="20" fill="#000"/>
+                <ellipse cx="50" cy="78" rx="20" ry="16" fill="#1A1A1A"/>
+                <!-- 骷髅手 -->
+                <ellipse cx="30" cy="76" rx="6" ry="14" fill="#E8E8D0"/>
+                <ellipse cx="70" cy="76" rx="6" ry="14" fill="#E8E8D0"/>
+                <!-- 镰刀暗示 -->
+                <path d="M 72 68 Q 80 65 85 70" stroke="#888" stroke-width="3" fill="none"/>
+            </svg>`,
+            
+            demon: `<svg viewBox="0 0 100 100" class="theme-svg dark-svg">
+                <!-- 大头 -->
+                <ellipse cx="50" cy="38" rx="26" ry="24" fill="#8B0000"/>
+                <!-- 恶魔角 -->
+                <path d="M 28 20 Q 25 12 22 18 L 28 24" fill="#4A0000"/>
+                <path d="M 72 20 Q 75 12 78 18 L 72 24" fill="#4A0000"/>
+                <!-- 眼睛（邪恶红光） -->
+                <ellipse cx="38" cy="36" rx="7" ry="6" fill="#FF0000" class="eye-glow"/>
+                <ellipse cx="38" cy="36" rx="4" ry="3" fill="#FFD700" class="pulse-glow"/>
+                <ellipse cx="62" cy="36" rx="7" ry="6" fill="#FF0000" class="eye-glow"/>
+                <ellipse cx="62" cy="36" rx="4" ry="3" fill="#FFD700" class="pulse-glow"/>
+                <!-- 邪恶笑容 -->
+                <path d="M 38 48 Q 50 54 62 48" stroke="#FF4500" stroke-width="2.5" fill="none"/>
+                <polygon points="42,48 44,52 46,48" fill="#FFF"/>
+                <polygon points="54,48 56,52 58,48" fill="#FFF"/>
+                <!-- 身体 -->
+                <ellipse cx="50" cy="75" rx="20" ry="22" fill="#8B0000"/>
+                <ellipse cx="50" cy="75" rx="16" ry="18" fill="#A00000"/>
+                <!-- 火焰装饰 -->
+                <circle cx="40" cy="68" r="3" fill="#FF4500" class="fire-pulse"/>
+                <circle cx="60" cy="68" r="3" fill="#FF4500" class="fire-pulse"/>
+                <!-- 手 -->
+                <ellipse cx="32" cy="74" rx="7" ry="14" fill="#6A0000"/>
+                <ellipse cx="68" cy="74" rx="7" ry="14" fill="#6A0000"/>
+                <!-- 尾巴 -->
+                <path d="M 50 92 Q 60 95 65 88" stroke="#4A0000" stroke-width="4" fill="none" stroke-linecap="round"/>
+            </svg>`,
+            
+            ninja: `<svg viewBox="0 0 100 100" class="theme-svg dark-svg">
+                <!-- 大头 -->
+                <ellipse cx="50" cy="36" rx="24" ry="26" fill="#E8C8A8"/>
+                <!-- 头巾 -->
+                <ellipse cx="50" cy="20" rx="26" ry="16" fill="#1A1A2E"/>
+                <rect x="24" y="26" width="52" height="8" fill="#1A1A2E"/>
+                <!-- 蒙面布 -->
+                <rect x="28" y="40" width="44" height="16" fill="#1A1A2E"/>
+                <!-- 露出的眼睛 -->
+                <ellipse cx="38" cy="34" rx="5" ry="6" fill="#FFF"/>
+                <ellipse cx="38" cy="34" rx="4" ry="5" fill="#2C2C2C" class="eye-blink"/>
+                <circle cx="38" cy="32" r="2" fill="#FFF"/>
+                <ellipse cx="62" cy="34" rx="5" ry="6" fill="#FFF"/>
+                <ellipse cx="62" cy="34" rx="4" ry="5" fill="#2C2C2C" class="eye-blink"/>
+                <circle cx="62" cy="32" r="2" fill="#FFF"/>
+                <!-- 忍者服 -->
+                <ellipse cx="50" cy="76" rx="20" ry="22" fill="#1A1A2E"/>
+                <!-- 腰带 -->
+                <rect x="32" y="64" width="36" height="4" fill="#8B0000"/>
+                <!-- 手里剑暗示 -->
+                <circle cx="28" cy="72" r="3" fill="#888"/>
+                <circle cx="72" cy="72" r="3" fill="#888"/>
+                <!-- 手 -->
+                <ellipse cx="32" cy="74" rx="6" ry="14" fill="#E8C8A8"/>
+                <ellipse cx="68" cy="74" rx="6" ry="14" fill="#E8C8A8"/>
+                <!-- 脚 -->
+                <rect x="40" y="92" width="8" height="8" fill="#1A1A2E"/>
+                <rect x="52" y="92" width="8" height="8" fill="#1A1A2E"/>
+            </svg>`,
+            
+            zombie: `<svg viewBox="0 0 100 100" class="theme-svg dark-svg">
+                <!-- 大头（腐烂） -->
+                <ellipse cx="50" cy="38" rx="25" ry="26" fill="#8B9B6B"/>
+                <!-- 头发稀疏 -->
+                <path d="M 30 18 L 28 24" stroke="#3A3A2A" stroke-width="2"/>
+                <path d="M 40 16 L 38 22" stroke="#3A3A2A" stroke-width="2"/>
+                <path d="M 50 15 L 50 21" stroke="#3A3A2A" stroke-width="2"/>
+                <path d="M 60 16 L 62 22" stroke="#3A3A2A" stroke-width="2"/>
+                <path d="M 70 18 L 72 24" stroke="#3A3A2A" stroke-width="2"/>
+                <!-- 死鱼眼 -->
+                <ellipse cx="38" cy="34" rx="6" ry="8" fill="#E8E8D0"/>
+                <circle cx="38" cy="34" r="4" fill="#8B9B6B" class="eye-blink"/>
+                <circle cx="39" cy="32" r="1.5" fill="#FFF" opacity="0.5"/>
+                <ellipse cx="62" cy="34" rx="6" ry="8" fill="#E8E8D0"/>
+                <circle cx="62" cy="34" r="4" fill="#8B9B6B" class="eye-blink"/>
+                <circle cx="63" cy="32" r="1.5" fill="#FFF" opacity="0.5"/>
+                <!-- 缝合线 -->
+                <line x1="32" y1="28" x2="42" y2="28" stroke="#4A4A3A" stroke-width="1.5"/>
+                <line x1="34" y1="28" x2="34" y2="30" stroke="#4A4A3A" stroke-width="1"/>
+                <line x1="38" y1="28" x2="38" y2="30" stroke="#4A4A3A" stroke-width="1"/>
+                <!-- 张开的嘴 -->
+                <ellipse cx="50" cy="50" rx="8" ry="6" fill="#4A4A3A"/>
+                <rect x="44" y="48" width="3" height="4" fill="#E8E8D0"/>
+                <rect x="53" y="48" width="3" height="4" fill="#E8E8D0"/>
+                <!-- 破烂衣服 -->
+                <ellipse cx="50" cy="76" rx="20" ry="22" fill="#5A5A4A"/>
+                <path d="M 32 70 L 30 75 L 32 80" fill="#4A4A3A"/>
+                <path d="M 68 70 L 70 75 L 68 80" fill="#4A4A3A"/>
+                <!-- 手 -->
+                <ellipse cx="32" cy="76" rx="6" ry="14" fill="#8B9B6B"/>
+                <ellipse cx="68" cy="76" rx="6" ry="14" fill="#8B9B6B"/>
+                <!-- 破鞋 -->
+                <rect x="38" y="92" width="12" height="8" fill="#3A3A2A"/>
+                <rect x="50" y="92" width="12" height="8" fill="#3A3A2A"/>
             </svg>`
         };
         return svgs[themeId] || '';
