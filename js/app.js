@@ -119,7 +119,6 @@ class TaskFlowApp {
                     ${this.getCuteThemeSVG(theme.id)}
                 </div>
                 <h4>${theme.name}</h4>
-                <div class="theme-price">¥${theme.price}</div>
                 <button class="theme-btn buy-btn" onclick="app.purchaseTheme('${theme.id}', ${theme.price})">购买</button>
             </div>
         `).join('');
@@ -135,7 +134,6 @@ class TaskFlowApp {
                     ${this.getStarThemeSVG(theme.id)}
                 </div>
                 <h4>${theme.name}</h4>
-                <div class="theme-price">¥${theme.price}</div>
                 <button class="theme-btn buy-btn" onclick="app.purchaseTheme('${theme.id}', ${theme.price})">购买</button>
             </div>
         `).join('');
@@ -151,7 +149,6 @@ class TaskFlowApp {
                     ${this.getDarkThemeSVG(theme.id)}
                 </div>
                 <h4>${theme.name}</h4>
-                <div class="theme-price">¥${theme.price}</div>
                 <button class="theme-btn buy-btn" onclick="app.purchaseTheme('${theme.id}', ${theme.price})">购买</button>
             </div>
         `).join('');
@@ -207,10 +204,19 @@ class TaskFlowApp {
     }
 
     applyTheme(themeName) {
-        // 检查是否已购买该主题
-        if (!this.purchasedThemes.includes(themeName)) {
-            this.showToast('❌ 请先购买此主题');
+        // 检查是否为免费主题
+        const isFreeTheme = themeName === 'light' || themeName === 'dark';
+        
+        // 如果不是免费主题，检查会员状态
+        if (!isFreeTheme) {
+            if (!window.premiumManager || !window.premiumManager.isPremiumMember()) {
+                this.showToast('❌ 请先升级会员以使用此主题');
+                // 显示会员升级弹窗
+                if (window.premiumManager) {
+                    window.premiumManager.showMembershipModal();
+                }
             return;
+            }
         }
         
         this.currentTheme = themeName;
@@ -248,6 +254,9 @@ class TaskFlowApp {
                    themeName === 'vampire' || themeName === 'ghost' || themeName === 'reaper' ||
                    themeName === 'demon' || themeName === 'ninja' || themeName === 'zombie') {
             svg = this.getDarkThemeSVG(themeName);
+        } else if (themeName === 'dark') {
+            // 深色主题使用骷髅头SVG
+            svg = this.getSkullSVG();
         } else {
             // 默认使用兔子
             svg = this.getCuteThemeSVG('rabbit');
@@ -257,75 +266,77 @@ class TaskFlowApp {
     }
     
     purchaseTheme(themeName, price) {
-        // 检查是否已购买
-        if (this.purchasedThemes.includes(themeName)) {
+        // 免费主题直接应用
+        const isFreeTheme = themeName === 'light' || themeName === 'dark';
+        if (isFreeTheme) {
             this.applyTheme(themeName);
             return;
         }
         
-        // 显示购买确认对话框
-        this.showPurchaseConfirmation(themeName, price);
+        // 检查会员状态
+        if (window.premiumManager && window.premiumManager.isPremiumMember()) {
+            this.applyTheme(themeName);
+        } else {
+            // 显示会员升级提示
+            this.showMembershipPrompt(themeName);
+        }
     }
     
-    showPurchaseConfirmation(themeName, price) {
+    showMembershipPrompt(themeName) {
         const modal = document.createElement('div');
-        modal.className = 'modal payment-modal active';
+        modal.className = 'modal membership-prompt-modal active';
         modal.innerHTML = `
             <div class="modal-content">
                 <div class="modal-header">
-                    <h3>💳 购买主题</h3>
+                    <h3>👑 会员专享主题</h3>
                     <button class="close-btn" onclick="this.closest('.modal').remove()">&times;</button>
                 </div>
                 <div class="modal-body">
-                    <div class="purchase-info">
+                    <div class="prompt-info">
+                        <div class="prompt-icon">🎨</div>
                         <h4>${this.getThemeName(themeName)}</h4>
-                        <p class="purchase-price">¥${price}</p>
-                        <p class="purchase-desc">购买后可永久使用此主题</p>
+                        <p class="prompt-desc">这是会员专享主题，升级会员即可解锁所有主题</p>
                     </div>
-                    <div class="payment-methods">
-                        <h4>选择支付方式：</h4>
-                        <div class="payment-options">
-                            <button class="payment-option" data-method="alipay">
-                                <span class="payment-icon">💳</span>
-                                <span>支付宝</span>
+                    <div class="prompt-benefits">
+                        <h5>✨ 终身会员特权</h5>
+                        <ul>
+                            <li>🎨 解锁所有主题（50+精美主题）</li>
+                            <li>🎁 后续新主题永久免费</li>
+                            <li>👑 专属会员标识</li>
+                            <li>💎 一次购买，永久使用</li>
+                        </ul>
+                    </div>
+                    <button class="upgrade-now-btn" onclick="app.openMembershipModal()">
+                        立即开通终身会员 $9.9
                             </button>
-                            <button class="payment-option" data-method="wechat">
-                                <span class="payment-icon">💚</span>
-                                <span>微信支付</span>
+                    <button class="later-btn" onclick="this.closest('.modal').remove()">
+                        稍后再说
                             </button>
-                        </div>
-                    </div>
-                    <div class="purchase-actions">
-                        <button class="cancel-btn" onclick="this.closest('.modal').remove()">取消</button>
-                        <button class="confirm-btn" onclick="app.completePurchase('${themeName}', ${price}); this.closest('.modal').remove();">
-                            确认购买
-                        </button>
-                    </div>
                 </div>
             </div>
         `;
+        
         document.body.appendChild(modal);
     }
     
-    completePurchase(themeName, price) {
-        // 模拟支付成功
-        this.purchasedThemes.push(themeName);
-        this.saveData();
+    openMembershipModal() {
+        // 关闭提示弹窗
+        document.querySelectorAll('.membership-prompt-modal').forEach(modal => modal.remove());
         
-        // 应用新主题
-        this.applyTheme(themeName);
-        
-        this.showToast(`🎉 购买成功！已应用 ${this.getThemeName(themeName)}`);
-        
-        // 更新主题卡片显示
-        this.updateThemeCards();
+        // 打开会员升级弹窗
+        if (window.premiumManager) {
+            window.premiumManager.showMembershipModal();
+        }
     }
     
     updateThemeCards() {
         // 更新所有主题卡片的状态
+        const isPremium = window.premiumManager && window.premiumManager.isPremiumMember();
+        
         document.querySelectorAll('.theme-card').forEach(card => {
             const themeName = card.dataset.theme;
             const btn = card.querySelector('.theme-btn');
+            const isFreeTheme = themeName === 'light' || themeName === 'dark';
             
             // 更新当前应用的主题
             if (themeName === this.currentTheme) {
@@ -334,14 +345,18 @@ class TaskFlowApp {
                 card.classList.remove('active');
             }
             
-            // 更新付费主题的购买状态
+            // 更新按钮状态
             if (card.classList.contains('premium')) {
-                if (this.purchasedThemes.includes(themeName)) {
+                if (isPremium) {
+                    // 已开通会员
                     btn.textContent = '应用';
                     btn.className = 'theme-btn apply-btn';
                     btn.setAttribute('onclick', `app.applyTheme('${themeName}')`);
                     card.classList.remove('locked');
                 } else {
+                    // 需要会员
+                    btn.textContent = '会员专享';
+                    btn.className = 'theme-btn buy-btn';
                     card.classList.add('locked');
                 }
             }
@@ -1547,6 +1562,35 @@ class TaskFlowApp {
             </svg>`
         };
         return svgs[themeId] || '';
+    }
+    
+    // ===== 骷髅头SVG =====
+    getSkullSVG() {
+        return `<svg viewBox="0 0 100 100" class="theme-svg skull-svg">
+            <!-- 骷髅头主体 -->
+            <ellipse cx="50" cy="35" rx="25" ry="20" fill="#2D2D2D" stroke="#DC143C" stroke-width="2"/>
+            <!-- 眼眶 -->
+            <ellipse cx="42" cy="30" rx="6" ry="8" fill="#000000"/>
+            <ellipse cx="58" cy="30" rx="6" ry="8" fill="#000000"/>
+            <!-- 眼珠 -->
+            <circle cx="42" cy="30" r="2" fill="#DC143C" class="skull-glow"/>
+            <circle cx="58" cy="30" r="2" fill="#DC143C" class="skull-glow"/>
+            <!-- 鼻骨 -->
+            <path d="M50 35 L48 40 L52 40 Z" fill="#1A1A1A"/>
+            <!-- 嘴部 -->
+            <path d="M40 42 Q50 50 60 42" stroke="#DC143C" stroke-width="2" fill="none"/>
+            <!-- 牙齿 -->
+            <rect x="47" y="42" width="2" height="6" fill="#FFFFFF"/>
+            <rect x="51" y="42" width="2" height="6" fill="#FFFFFF"/>
+            <!-- 下颌 -->
+            <ellipse cx="50" cy="60" rx="20" ry="12" fill="#2D2D2D" stroke="#DC143C" stroke-width="2"/>
+            <!-- 下颌牙齿 -->
+            <rect x="45" y="60" width="2" height="4" fill="#FFFFFF"/>
+            <rect x="49" y="60" width="2" height="4" fill="#FFFFFF"/>
+            <rect x="53" y="60" width="2" height="4" fill="#FFFFFF"/>
+            <!-- 装饰性光芒 -->
+            <circle cx="50" cy="50" r="35" fill="none" stroke="#DC143C" stroke-width="1" opacity="0.3" class="skull-aura"/>
+        </svg>`;
     }
     
     // ===== 暗黑版SVG =====

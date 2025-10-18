@@ -230,23 +230,7 @@
 body {
   transition: background-color 0.5s ease, color 0.5s ease;
 }
-
-/* 卡片悬停效果 */
-@keyframes cardHover {
-  from {
-    transform: translateY(0) rotate(0deg);
-    box-shadow: var(--shadow-lg);
-  }
-  to {
-    transform: translateY(-5px) rotate(1deg);
-    box-shadow: var(--shadow-xl);
-  }
-}
-
-.tasks-card:hover,
-.sidebar:hover {
-  animation: cardHover 0.3s ease-out;
-}
+ 
 
 /* 加载状态动画 */
 @keyframes loadingSpinner {

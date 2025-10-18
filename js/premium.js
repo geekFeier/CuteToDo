@@ -1,15 +1,21 @@
-// 高级功能管理器
+// 会员管理器
 
 class PremiumManager {
     constructor() {
         this.isPremium = false;
-        this.subscriptionStatus = 'free';
-        this.premiumFeatures = {
-            themeSwitch: true  // 主题切换功能免费提供给所有用户
-        };
+        this.membershipType = 'free'; // free, premium
+        this.membershipExpiry = null; // 会员到期时间
         
-        this.pricingPlans = {}; // 移除订阅计划
-        this.virtualGoods = {}; // 移除虚拟商品
+        // 会员价格
+        this.membershipPlans = {
+            lifetime: {
+                name: '终身会员',
+                price: 9.9,
+                duration: null, // 永久
+                icon: '👑',
+                badge: '一次购买 永久使用'
+            }
+        };
         
         this.init();
     }
@@ -18,120 +24,325 @@ class PremiumManager {
         this.loadPremiumData();
         this.setupEventListeners();
         this.updatePremiumUI();
+        this.checkMembershipExpiry();
     }
 
     setupEventListeners() {
-        // 主题相关事件监听可以在这里添加
-    }
-
-    // 检查高级功能权限
-    hasFeature(feature) {
-        if (!this.premiumFeatures.hasOwnProperty(feature)) {
-            console.warn(`Unknown premium feature: ${feature}`);
-            return false;
+        // 会员升级按钮
+        const upgradeBtn = document.getElementById('upgradeBtn');
+        if (upgradeBtn) {
+            upgradeBtn.addEventListener('click', () => this.showMembershipModal());
         }
         
-        return this.premiumFeatures[feature] || this.isPremium;
+        // 头部会员按钮
+        const premiumBtn = document.getElementById('premiumBtn');
+        if (premiumBtn) {
+            premiumBtn.addEventListener('click', () => {
+                const shopModal = document.getElementById('shopModal');
+                if (shopModal) {
+                    shopModal.classList.add('active');
+                }
+            });
+        }
     }
 
-    // 启用高级功能
-    enableFeature(feature) {
-        this.premiumFeatures[feature] = true;
+    // 检查会员状态
+    checkMembershipExpiry() {
+        // 终身会员无需检查到期
+        if (this.isPremium && this.membershipType === 'lifetime') {
+            return;
+        }
+        
+        if (this.isPremium && this.membershipExpiry) {
+            const now = new Date().getTime();
+            if (now > this.membershipExpiry) {
+                // 会员已过期（理论上不会发生，因为只有终身会员）
+                this.isPremium = false;
+                this.membershipType = 'free';
         this.savePremiumData();
         this.updatePremiumUI();
-        this.dispatchFeatureChangeEvent(feature, true);
+                this.showMessage('您的会员已到期，请续费以继续使用所有主题', 'warning');
+            }
+        }
     }
 
-    // 禁用高级功能
-    disableFeature(feature) {
-        this.premiumFeatures[feature] = false;
-        this.savePremiumData();
-        this.updatePremiumUI();
-        this.dispatchFeatureChangeEvent(feature, false);
+    // 检查是否为会员
+    isPremiumMember() {
+        this.checkMembershipExpiry();
+        return this.isPremium;
     }
 
-    // 显示主题切换说明
-    showThemeInfo() {
+    // 显示会员升级弹窗
+    showMembershipModal() {
+        // 如果已经是会员，显示会员信息
+        if (this.isPremium) {
+            this.showMembershipInfo();
+            return;
+        }
+        
         const modal = document.createElement('div');
         modal.className = 'modal premium-modal active';
         modal.innerHTML = `
             <div class="modal-content premium-modal-content">
                 <div class="modal-header">
-                    <h3>🎨 主题切换</h3>
+                    <h3>👑 开通终身会员</h3>
                     <button class="close-btn" onclick="this.closest('.modal').remove()">&times;</button>
                 </div>
                 <div class="modal-body">
-                    <div class="theme-info">
-                        <h4>主题切换功能：</h4>
-                        <p>使用右上角的主题切换按钮，可以在浅色和深色主题之间切换。</p>
+                    <div class="membership-content">
+                        <div class="membership-info">
+                            <h4>✨ 终身会员特权</h4>
                         <ul class="benefits-list">
-                            <li>🌞 浅色主题 - 适合白天使用</li>
-                            <li>🌙 深色主题 - 保护夜间视力</li>
+                                <li>🎨 解锁所有主题（50+精美主题）</li>
+                                <li>🐰 可爱版主题包（8款萌系主题）</li>
+                                <li>🔥 暗黑版主题包（12款炫酷主题）</li>
+                                <li>⭐ 明星版主题包（12款明星主题）</li>
+                                <li>🎁 后续新主题永久免费</li>
+                                <li>👑 专属会员标识</li>
+                                <li>💎 一次购买，永久使用</li>
                         </ul>
+                        </div>
+                        
+                        <div class="membership-plans">
+                            ${this.renderMembershipPlans()}
+                        </div>
+                    </div>
+                    
+                    <div class="membership-notice">
+                        <p>💡 升级说明：购买终身会员后，所有主题永久解锁，无需续费</p>
                     </div>
                 </div>
             </div>
         `;
         
         document.body.appendChild(modal);
+        
+        // 添加购买按钮事件
+        modal.querySelectorAll('.buy-membership-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const planType = e.target.dataset.plan;
+                this.purchaseMembership(planType);
+            });
+        });
     }
 
-    // 更新高级功能UI
+    // 渲染会员套餐
+    renderMembershipPlans() {
+        return Object.entries(this.membershipPlans).map(([type, plan]) => `
+            <div class="membership-plan ${type === 'lifetime' ? 'recommended' : ''}">
+                ${plan.badge ? `<div class="plan-badge">${plan.badge}</div>` : ''}
+                <div class="plan-icon">${plan.icon}</div>
+                <h4>${plan.name}</h4>
+                <div class="plan-price">
+                    <span class="price">$${plan.price}</span>
+                    ${plan.duration ? `<span class="duration">/ ${plan.duration}天</span>` : '<span class="duration">永久有效</span>'}
+                </div>
+                <button class="buy-membership-btn" data-plan="${type}">
+                    ${this.membershipType === type && this.isPremium ? '当前套餐' : '立即购买'}
+                </button>
+            </div>
+        `).join('');
+    }
+
+    // 购买会员
+    purchaseMembership(planType) {
+        const plan = this.membershipPlans[planType];
+        if (!plan) return;
+
+        if (confirm(`确认购买 ${plan.name} ($${plan.price})？\n\n这是演示版本，点击确认后将自动激活会员。`)) {
+            // 设置会员状态
+            this.isPremium = true;
+            this.membershipType = planType;
+            
+            // 设置到期时间
+            if (plan.duration) {
+                const now = new Date();
+                this.membershipExpiry = now.getTime() + (plan.duration * 24 * 60 * 60 * 1000);
+            } else {
+                this.membershipExpiry = null; // 终身会员
+            }
+            
+            this.savePremiumData();
+            this.updatePremiumUI();
+            
+            // 关闭弹窗
+            document.querySelectorAll('.premium-modal').forEach(m => m.remove());
+            
+            this.showMessage(`🎉 恭喜！${plan.name}已激活，所有主题已解锁`, 'success');
+            
+            // 触发升级事件
+            this.dispatchUpgradeEvent();
+            
+            // 刷新主题卡片状态
+            if (window.app && window.app.updateThemeCards) {
+                window.app.updateThemeCards();
+            }
+        }
+    }
+
+    // 更新会员UI
     updatePremiumUI() {
-        // 更新按钮状态
+        // 更新会员按钮状态
+        const upgradeBtn = document.getElementById('upgradeBtn');
+        if (upgradeBtn) {
+            if (this.isPremium) {
+                upgradeBtn.innerHTML = `
+                    <span class="btn-icon">👑</span>
+                    <span class="premium-text">终身会员</span>
+                `;
+                upgradeBtn.classList.add('is-premium');
+                upgradeBtn.title = '已开通终身会员';
+            } else {
+                upgradeBtn.innerHTML = `
+                    <span class="btn-icon">👑</span>
+                    <span class="premium-text">升级会员</span>
+                `;
+                upgradeBtn.classList.remove('is-premium');
+                upgradeBtn.title = '升级至终身会员，解锁所有主题';
+            }
+        }
+        
+        // 更新主题按钮
         const premiumBtn = document.getElementById('premiumBtn');
         if (premiumBtn) {
             premiumBtn.innerHTML = '<span class="btn-icon">🎨</span><span class="premium-text">主题</span>';
         }
     }
 
-    // 保存高级功能数据
+    // 获取会员名称
+    getMembershipName() {
+        if (!this.isPremium) return '免费用户';
+        
+        return '终身会员';
+    }
+    
+    // 获取会员剩余天数（终身会员返回null）
+    getRemainingDays() {
+        // 终身会员无到期时间
+        if (this.isPremium && this.membershipType === 'lifetime') {
+            return null;
+        }
+        
+        if (!this.isPremium || !this.membershipExpiry) return null;
+        
+        const now = new Date().getTime();
+        const remaining = this.membershipExpiry - now;
+        return Math.ceil(remaining / (24 * 60 * 60 * 1000));
+    }
+
+    // 保存会员数据
     savePremiumData() {
         const data = {
             isPremium: this.isPremium,
-            subscriptionStatus: this.subscriptionStatus,
-            premiumFeatures: this.premiumFeatures,
-            selectedPlan: this.selectedPlan
+            membershipType: this.membershipType,
+            membershipExpiry: this.membershipExpiry
         };
         
         try {
             chrome.storage.local.set({ premiumData: data });
         } catch (error) {
-            console.error('Failed to save premium data:', error);
+            // 如果不是浏览器扩展环境，使用 localStorage
+            localStorage.setItem('premiumData', JSON.stringify(data));
         }
     }
 
-    // 加载高级功能数据
+    // 加载会员数据
     loadPremiumData() {
         try {
             chrome.storage.local.get(['premiumData'], (result) => {
                 if (result.premiumData) {
                     const data = result.premiumData;
                     this.isPremium = data.isPremium || false;
-                    this.subscriptionStatus = data.subscriptionStatus || 'free';
-                    this.premiumFeatures = { ...this.premiumFeatures, ...data.premiumFeatures };
-                    this.selectedPlan = data.selectedPlan;
+                    this.membershipType = data.membershipType || 'free';
+                    this.membershipExpiry = data.membershipExpiry || null;
+                    this.updatePremiumUI();
                 }
             });
         } catch (error) {
-            console.error('Failed to load premium data:', error);
+            // 如果不是浏览器扩展环境，使用 localStorage
+            const data = localStorage.getItem('premiumData');
+            if (data) {
+                const parsed = JSON.parse(data);
+                this.isPremium = parsed.isPremium || false;
+                this.membershipType = parsed.membershipType || 'free';
+                this.membershipExpiry = parsed.membershipExpiry || null;
+                this.updatePremiumUI();
+            }
         }
-    }
-
-    // 触发功能变化事件
-    dispatchFeatureChangeEvent(feature, enabled) {
-        const event = new CustomEvent('premiumFeatureChanged', {
-            detail: { feature, enabled }
-        });
-        document.dispatchEvent(event);
     }
 
     // 触发升级事件
     dispatchUpgradeEvent() {
         const event = new CustomEvent('premiumUpgraded', {
-            detail: { isPremium: this.isPremium }
+            detail: { 
+                isPremium: this.isPremium,
+                membershipType: this.membershipType
+            }
         });
         document.dispatchEvent(event);
+    }
+    
+    // 测试用：激活会员
+    activatePremiumForTesting() {
+        this.isPremium = true;
+        this.membershipType = 'lifetime';
+        this.membershipExpiry = null;
+        this.savePremiumData();
+        this.updatePremiumUI();
+        this.showMessage('✅ 会员已激活（测试模式）', 'success');
+    }
+    
+    // 测试用：取消会员
+    deactivatePremiumForTesting() {
+        this.isPremium = false;
+        this.membershipType = 'free';
+        this.membershipExpiry = null;
+        this.savePremiumData();
+        this.updatePremiumUI();
+        this.showMessage('❌ 会员已取消（测试模式）', 'info');
+        
+        // 刷新主题卡片状态
+        if (window.app && window.app.updateThemeCards) {
+            window.app.updateThemeCards();
+        }
+    }
+    
+    // 显示会员信息（已开通会员时）
+    showMembershipInfo() {
+        const modal = document.createElement('div');
+        modal.className = 'modal premium-modal active';
+        modal.innerHTML = `
+            <div class="modal-content premium-modal-content">
+                <div class="modal-header">
+                    <h3>👑 终身会员</h3>
+                    <button class="close-btn" onclick="this.closest('.modal').remove()">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="membership-status">
+                        <div class="status-icon">👑</div>
+                        <h4>您已是终身会员</h4>
+                        <p class="status-desc">感谢您的支持！您可以永久使用所有主题功能</p>
+                    </div>
+                    <div class="membership-info">
+                        <h5>✨ 您的专属特权</h5>
+                        <ul class="benefits-list">
+                            <li>🎨 解锁所有主题（50+精美主题）</li>
+                            <li>🐰 可爱版主题包（8款萌系主题）</li>
+                            <li>🔥 暗黑版主题包（12款炫酷主题）</li>
+                            <li>⭐ 明星版主题包（12款明星主题）</li>
+                            <li>🎁 后续新主题永久免费</li>
+                            <li>👑 专属会员标识</li>
+                            <li>💎 永久有效，无需续费</li>
+                        </ul>
+                    </div>
+                    <button class="membership-ok-btn" onclick="this.closest('.modal').remove()">
+                        知道了
+                    </button>
+                </div>
+            </div>
+        `;
+        
+        document.body.appendChild(modal);
     }
 
     // 显示消息

@@ -53,13 +53,13 @@
   
   /* 字体 */
   --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  --font-size-xs: 0.75rem;
-  --font-size-sm: 0.875rem;
-  --font-size-base: 1rem;
-  --font-size-lg: 1.125rem;
-  --font-size-xl: 1.25rem;
-  --font-size-2xl: 1.5rem;
-  --font-size-3xl: 2rem;
+  --font-size-xs: 0.688rem;
+  --font-size-sm: 0.813rem;
+  --font-size-base: 0.938rem;
+  --font-size-lg: 1rem;
+  --font-size-xl: 1.125rem;
+  --font-size-2xl: 1.313rem;
+  --font-size-3xl: 1.75rem;
 }
 
 /* 暗色主题 - 简洁深色 */
@@ -124,7 +124,7 @@ body::before {
 .app-container {
   display: flex;
   min-height: 100vh;
-  max-width: 1200px;
+  max-width: 1050px;
   margin: 0 auto;
   gap: var(--spacing-lg);
   padding: var(--spacing-lg);
@@ -341,7 +341,7 @@ body::before {
 /* ===== 头部样式 - 简洁卡片 ===== */
 .header {
   background: var(--bg-secondary);
-  padding: var(--spacing-lg);
+  padding: var(--spacing-md);
   border-radius: var(--radius-xl);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
   display: flex;
@@ -370,18 +370,18 @@ body::before {
 
 .header-actions {
   display: flex;
-  gap: var(--spacing-md);
+  gap: var(--spacing-sm);
 }
 
 .action-btn {
-  padding: var(--spacing-sm) var(--spacing-md);
+  padding: var(--spacing-xs) var(--spacing-sm);
   background: var(--bg-tertiary);
   border: none;
   border-radius: var(--radius-full);
   cursor: pointer;
   display: flex;
   align-items: center;
-  gap: var(--spacing-sm);
+  gap: var(--spacing-xs);
   font-size: var(--font-size-sm);
   font-weight: 600;
   color: var(--text-secondary);
@@ -392,6 +392,20 @@ body::before {
   color: white;
   border: none;
   box-shadow: 0 2px 8px rgba(102, 126, 234, 0.2);
+}
+
+.upgrade-btn {
+  background: linear-gradient(135deg, #ffd700 0%, #ffb347 100%);
+  color: #1a202c;
+  border: none;
+  box-shadow: 0 2px 8px rgba(255, 215, 0, 0.3);
+  font-weight: 700;
+}
+
+.upgrade-btn.is-premium {
+  background: linear-gradient(135deg, #9333ea 0%, #c084fc 100%);
+  color: white;
+  box-shadow: 0 2px 8px rgba(147, 51, 234, 0.3);
 }
 
 .btn-icon {
@@ -490,8 +504,8 @@ body::before {
 .task-item {
   display: flex;
   align-items: center;
-  gap: var(--spacing-md);
-  padding: var(--spacing-md);
+  gap: var(--spacing-sm);
+  padding: var(--spacing-sm) var(--spacing-md);
   background: var(--bg-tertiary);
   border-radius: var(--radius-lg);
   border: none;
@@ -564,8 +578,8 @@ body::before {
 }
 
 .task-action-btn {
-  width: 32px;
-  height: 32px;
+  width: 28px;
+  height: 28px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -573,7 +587,7 @@ body::before {
   border: none;
   border-radius: var(--radius-md);
   cursor: pointer;
-  font-size: var(--font-size-base);
+  font-size: var(--font-size-sm);
 }
 
 /* ===== 添加任务区域 ===== */
@@ -583,8 +597,8 @@ body::before {
 
 .add-task-input {
   display: flex;
-  gap: var(--spacing-md);
-  padding: var(--spacing-md);
+  gap: var(--spacing-sm);
+  padding: var(--spacing-sm);
   background: var(--bg-tertiary);
   border-radius: var(--radius-lg);
   border: none;
@@ -606,8 +620,8 @@ body::before {
 }
 
 .add-btn {
-  width: 40px;
-  height: 40px;
+  width: 36px;
+  height: 36px;
   background: var(--gradient-primary);
   border: none;
   border-radius: var(--radius-lg);
@@ -619,7 +633,7 @@ body::before {
 }
 
 .add-icon {
-  font-size: var(--font-size-xl);
+  font-size: var(--font-size-lg);
   font-weight: 300;
   color: white;
 }
@@ -685,7 +699,7 @@ body::before {
 }
 
 .modal-header {
-  padding: var(--spacing-xl);
+  padding: var(--spacing-md) var(--spacing-lg);
   border-bottom: 2px solid var(--border-color);
   display: flex;
   justify-content: space-between;
@@ -705,20 +719,20 @@ body::before {
 }
 
 .modal-header h3 {
-  font-size: var(--font-size-xl);
+  font-size: var(--font-size-lg);
   font-weight: 700;
   color: var(--text-primary);
   margin: 0;
 }
 
 .close-btn {
-  width: 36px;
-  height: 36px;
+  width: 28px;
+  height: 28px;
   background: var(--bg-tertiary);
   border: none;
   border-radius: var(--radius-full);
   cursor: pointer;
-  font-size: var(--font-size-xl);
+  font-size: var(--font-size-lg);
   color: var(--text-secondary);
   display: flex;
   align-items: center;
@@ -727,29 +741,29 @@ body::before {
 }
 
 .modal-body {
-  padding: var(--spacing-xl);
+  padding: var(--spacing-md) var(--spacing-lg);
 }
 
 /* ===== 主题选择 ===== */
 .themes-content {
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-2xl);
+  gap: var(--spacing-lg);
 }
 
 .themes-section h3 {
-  font-size: var(--font-size-xl);
+  font-size: var(--font-size-base);
   font-weight: 700;
   color: var(--text-primary);
-  margin-bottom: var(--spacing-lg);
+  margin-bottom: var(--spacing-sm);
   display: flex;
   align-items: center;
-  gap: var(--spacing-sm);
+  gap: var(--spacing-xs);
 }
 
 .premium-badge {
-  font-size: var(--font-size-sm);
-  padding: var(--spacing-xs) var(--spacing-md);
+  font-size: var(--font-size-xs);
+  padding: 2px var(--spacing-sm);
   background: var(--gradient-primary);
   color: white;
   border-radius: var(--radius-full);
@@ -1480,5 +1494,325 @@ body.theme-dark .theme-circle[data-theme="dark"] .circle-bg {
   border-radius: var(--radius-full);
 }
 
+
+/* ===== 会员升级弹窗样式 ===== */
+.premium-modal .modal-content {
+  max-width: 600px;
+}
+
+.membership-info {
+  background: var(--bg-tertiary);
+  padding: var(--spacing-md);
+  border-radius: var(--radius-lg);
+  margin-bottom: var(--spacing-md);
+}
+
+.membership-info h4 {
+  font-size: var(--font-size-base);
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0 0 var(--spacing-sm) 0;
+}
+
+.membership-info h5 {
+  font-size: var(--font-size-sm);
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: var(--spacing-xs);
+}
+
+.benefits-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+}
+
+.benefits-list li {
+  color: var(--text-secondary);
+  font-size: var(--font-size-sm);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  padding: var(--spacing-xs) 0;
+}
+
+.membership-plans {
+  display: flex;
+  justify-content: center;
+  gap: var(--spacing-md);
+  margin-bottom: var(--spacing-md);
+}
+
+/* 整体布局：左侧特权，右侧付费框 */
+.premium-modal .modal-body {
+  display: flex;
+  flex-direction: column;
+}
+
+.membership-content {
+  display: flex;
+  gap: var(--spacing-lg);
+  align-items: flex-start;
+  margin-bottom: var(--spacing-md);
+}
+
+.membership-info {
+  flex: 1;
+  margin-bottom: 0;
+}
+
+.membership-plans {
+  flex: 1;
+  margin-bottom: 0;
+}
+
+.membership-plan {
+  background: var(--bg-tertiary);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-md) var(--spacing-lg);
+  text-align: center;
+  position: relative;
+  border: 2px solid transparent;
+  transition: all 0.3s ease;
+  max-width: 350px;
+  width: 100%;
+}
+
+.membership-plan:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+  border-color: var(--accent-primary);
+}
+
+.membership-plan.recommended {
+  border-color: #ffd700;
+  background: linear-gradient(135deg, rgba(255, 215, 0, 0.08), rgba(255, 179, 71, 0.08));
+  box-shadow: 0 4px 20px rgba(255, 215, 0, 0.2);
+}
+
+.plan-badge {
+  position: absolute;
+  top: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: linear-gradient(135deg, #ffd700 0%, #ffb347 100%);
+  color: #1a202c;
+  padding: 2px var(--spacing-sm);
+  border-radius: var(--radius-full);
+  font-size: 0.65rem;
+  font-weight: 700;
+  box-shadow: var(--shadow-sm);
+  white-space: nowrap;
+}
+
+.plan-icon {
+  font-size: 2.5rem;
+  margin-bottom: var(--spacing-xs);
+  margin-top: var(--spacing-sm);
+}
+
+.membership-plan h4 {
+  font-size: var(--font-size-base);
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: var(--spacing-xs);
+}
+
+.plan-price {
+  margin-bottom: var(--spacing-sm);
+}
+
+.plan-price .price {
+  font-size: var(--font-size-xl);
+  font-weight: 700;
+  color: var(--accent-primary);
+  display: block;
+}
+
+.plan-price .duration {
+  font-size: var(--font-size-xs);
+  color: var(--text-muted);
+  display: block;
+  margin-top: 2px;
+}
+
+.buy-membership-btn {
+  width: 100%;
+  padding: var(--spacing-sm) var(--spacing-md);
+  background: linear-gradient(135deg, #ffd700 0%, #ffb347 100%);
+  color: #1a202c;
+  border: none;
+  border-radius: var(--radius-lg);
+  font-size: var(--font-size-base);
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: var(--font-family);
+  box-shadow: 0 2px 8px rgba(255, 215, 0, 0.3);
+}
+
+.buy-membership-btn:hover {
+  transform: scale(1.05);
+  box-shadow: var(--shadow-lg);
+}
+
+.buy-membership-btn:active {
+  transform: scale(0.98);
+}
+
+.membership-notice {
+  text-align: center;
+  color: var(--text-muted);
+  font-size: var(--font-size-xs);
+  padding: var(--spacing-sm);
+  background: var(--bg-tertiary);
+  border-radius: var(--radius-lg);
+}
+
+/* ===== 会员提示弹窗样式 ===== */
+.membership-prompt-modal .modal-content {
+  max-width: 400px;
+}
+
+.prompt-info {
+  text-align: center;
+  margin-bottom: var(--spacing-md);
+}
+
+.prompt-icon {
+  font-size: 2.5rem;
+  margin-bottom: var(--spacing-sm);
+}
+
+.prompt-info h4 {
+  font-size: var(--font-size-base);
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: var(--spacing-xs);
+}
+
+.prompt-desc {
+  font-size: var(--font-size-sm);
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+.prompt-benefits {
+  background: var(--bg-tertiary);
+  padding: var(--spacing-md);
+  border-radius: var(--radius-lg);
+  margin-bottom: var(--spacing-md);
+}
+
+.prompt-benefits h5 {
+  font-size: var(--font-size-sm);
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: var(--spacing-xs);
+}
+
+.prompt-benefits ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.prompt-benefits li {
+  padding: var(--spacing-xs) 0;
+  color: var(--text-secondary);
+  font-size: var(--font-size-xs);
+}
+
+.upgrade-now-btn {
+  width: 100%;
+  padding: var(--spacing-sm) var(--spacing-md);
+  background: linear-gradient(135deg, #ffd700 0%, #ffb347 100%);
+  color: #1a202c;
+  border: none;
+  border-radius: var(--radius-lg);
+  font-size: var(--font-size-sm);
+  font-weight: 700;
+  cursor: pointer;
+  margin-bottom: var(--spacing-sm);
+  transition: all 0.3s ease;
+  font-family: var(--font-family);
+}
+
+.upgrade-now-btn:hover {
+  transform: scale(1.05);
+  box-shadow: var(--shadow-lg);
+}
+
+.later-btn {
+  width: 100%;
+  padding: var(--spacing-sm) var(--spacing-md);
+  background: var(--bg-tertiary);
+  color: var(--text-secondary);
+  border: none;
+  border-radius: var(--radius-lg);
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: var(--font-family);
+}
+
+.later-btn:hover {
+  background: var(--bg-secondary);
+}
+
+/* ===== 会员专享标识 ===== */
+.member-only {
+  background: linear-gradient(135deg, #ffd700 0%, #ffb347 100%);
+  color: #1a202c;
+}
+
+/* ===== 会员状态显示 ===== */
+.membership-status {
+  text-align: center;
+  padding: var(--spacing-md);
+  margin-bottom: var(--spacing-sm);
+}
+
+.status-icon {
+  font-size: 2.5rem;
+  margin-bottom: var(--spacing-sm);
+}
+
+.membership-status h4 {
+  font-size: var(--font-size-base);
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: var(--spacing-xs);
+}
+
+.status-desc {
+  font-size: var(--font-size-sm);
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+.membership-ok-btn {
+  width: 100%;
+  padding: var(--spacing-sm) var(--spacing-md);
+  background: var(--gradient-primary);
+  color: white;
+  border: none;
+  border-radius: var(--radius-lg);
+  font-size: var(--font-size-sm);
+  font-weight: 700;
+  cursor: pointer;
+  margin-top: var(--spacing-sm);
+  transition: all 0.3s ease;
+  font-family: var(--font-family);
+}
+
+.membership-ok-btn:hover {
+  transform: scale(1.02);
+  box-shadow: var(--shadow-lg);
+}
 
 /* ===== 动画类 ===== */
