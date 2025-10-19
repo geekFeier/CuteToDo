@@ -1,6 +1,6 @@
 /* 动画效果样式 */
 
-/* 页面加载动画 */
+/* 页面加载动画 - 已禁用 */
 @keyframes pageLoad {
   from {
     opacity: 0;
@@ -13,10 +13,10 @@
 }
 
 .app-container {
-  animation: pageLoad 0.6s ease-out;
+  /* animation: pageLoad 0.6s ease-out; */
 }
 
-/* 任务项动画 */
+/* 任务项动画 - 已禁用 */
 @keyframes taskSlideIn {
   from {
     opacity: 0;
@@ -29,16 +29,16 @@
 }
 
 .task-item {
-  animation: taskSlideIn 0.4s ease-out;
+  /* animation: taskSlideIn 0.4s ease-out; */
 }
 
-.task-item:nth-child(1) { animation-delay: 0.1s; }
-.task-item:nth-child(2) { animation-delay: 0.2s; }
-.task-item:nth-child(3) { animation-delay: 0.3s; }
-.task-item:nth-child(4) { animation-delay: 0.4s; }
-.task-item:nth-child(5) { animation-delay: 0.5s; }
+.task-item:nth-child(1) { /* animation-delay: 0.1s; */ }
+.task-item:nth-child(2) { /* animation-delay: 0.2s; */ }
+.task-item:nth-child(3) { /* animation-delay: 0.3s; */ }
+.task-item:nth-child(4) { /* animation-delay: 0.4s; */ }
+.task-item:nth-child(5) { /* animation-delay: 0.5s; */ }
 
-/* 任务完成动画 */
+/* 任务完成动画 - 已禁用 */
 @keyframes taskComplete {
   0% {
     transform: scale(1);
@@ -56,7 +56,7 @@
 }
 
 .task-item.completed {
-  animation: taskComplete 0.6s ease-out;
+  /* animation: taskComplete 0.6s ease-out; */
 }
 
 /* 复选框动画 */

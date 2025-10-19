@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
-  "name": "CuteToDo - 智能待办事项",
+  "name": "CuteToDo - Smart Task Manager",
   "version": "1.0.0",
-  "description": "现代化的待办事项管理工具，支持暗色模式、动态效果和付费高级功能",
+  "description": "Modern task management tool with dark mode, dynamic effects and premium features",
   
   "permissions": [
     "storage",

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,124 +13,121 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body class="theme-light">
-    <!-- 主容器 -->
+    <!-- Main Container -->
     <div class="app-container">
-        <!-- 侧边栏 -->
+        <!-- Sidebar -->
         <aside class="sidebar">
-            <!-- 进度条 -->
-            <div class="progress-section">
-                <div class="progress-bar">
-                    <div class="progress-fill" id="progressFill"></div>
-                </div>
-                <div class="progress-label">今日进度</div>
-            </div>
-
-            <!-- 吉祥物区域 -->
-            <div class="mascot-area">
-                <div class="mascot" id="mascot">
-                    <div class="mascot-body">
-                        <svg class="rabbit-svg" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-                            <!-- 左耳 -->
-                            <ellipse class="ear-left" cx="70" cy="50" rx="15" ry="45" fill="#FFB6C1" opacity="0.9"/>
-                            <ellipse cx="70" cy="50" rx="8" ry="35" fill="#FFC0CB"/>
-                            
-                            <!-- 右耳 -->
-                            <ellipse class="ear-right" cx="130" cy="50" rx="15" ry="45" fill="#FFB6C1" opacity="0.9"/>
-                            <ellipse cx="130" cy="50" rx="8" ry="35" fill="#FFC0CB"/>
-                            
-                            <!-- 头部 -->
-                            <circle cx="100" cy="100" r="50" fill="#FFFFFF"/>
-                            <circle cx="100" cy="100" r="48" fill="#FFE4E1"/>
-                            
-                            <!-- 左眼 -->
-                            <g class="eye-left">
-                                <circle cx="85" cy="95" r="8" fill="#2C3E50"/>
-                                <circle cx="87" cy="93" r="3" fill="#FFFFFF"/>
-                            </g>
-                            
-                            <!-- 右眼 -->
-                            <g class="eye-right">
-                                <circle cx="115" cy="95" r="8" fill="#2C3E50"/>
-                                <circle cx="117" cy="93" r="3" fill="#FFFFFF"/>
-                            </g>
-                            
-                            <!-- 腮红 -->
-                            <circle cx="70" cy="105" r="8" fill="#FFB6C1" opacity="0.5"/>
-                            <circle cx="130" cy="105" r="8" fill="#FFB6C1" opacity="0.5"/>
-                            
-                            <!-- 鼻子 -->
-                            <ellipse cx="100" cy="108" rx="4" ry="5" fill="#FFB6C1"/>
-                            
-                            <!-- 嘴巴 -->
-                            <path d="M 100 108 Q 95 115 90 112" stroke="#2C3E50" stroke-width="2" fill="none" stroke-linecap="round"/>
-                            <path d="M 100 108 Q 105 115 110 112" stroke="#2C3E50" stroke-width="2" fill="none" stroke-linecap="round"/>
-                            
-                            <!-- 身体 -->
-                            <ellipse cx="100" cy="160" rx="40" ry="35" fill="#FFFFFF"/>
-                            <ellipse cx="100" cy="160" rx="38" ry="33" fill="#FFE4E1"/>
-                            
-                            <!-- 左手 -->
-                            <ellipse class="arm-left" cx="70" cy="155" rx="12" ry="20" fill="#FFE4E1"/>
-                            
-                            <!-- 右手 -->
-                            <ellipse class="arm-right" cx="130" cy="155" rx="12" ry="20" fill="#FFE4E1"/>
-                            
-                            <!-- 尾巴 -->
-                            <circle class="tail" cx="100" cy="190" r="8" fill="#FFFFFF"/>
-                            <circle cx="100" cy="190" r="6" fill="#FFE4E1"/>
-                        </svg>
-                    </div>
-                    <div class="mascot-message" id="mascotMessage">加油完成任务！</div>
-                </div>
-            </div>
-        </aside>
-
-        <!-- 主内容区域 -->
-        <main class="main-content">
-            <!-- 头部 -->
-            <header class="header">
+            <!-- Date and Settings Area -->
+            <div class="sidebar-header">
                 <div class="date-info">
                     <h1 class="current-date" id="currentDate"></h1>
                 </div>
                 
                 <div class="header-actions">
-                    <button class="action-btn" id="settingsBtn" title="设置">
-                        <span class="btn-icon">⚙️</span>
-                    </button>
-                    <button class="action-btn premium-btn" id="premiumBtn" title="主题设置">
+                    <button class="action-btn premium-btn" id="premiumBtn" title="Theme Settings">
                         <span class="btn-icon">🎨</span>
-                        <span class="premium-text">主题</span>
+                        <span class="premium-text">Themes</span>
                     </button>
-                    <button class="action-btn upgrade-btn" id="upgradeBtn" title="升级会员">
+                    <button class="action-btn upgrade-btn" id="upgradeBtn" title="Upgrade">
                         <span class="btn-icon">👑</span>
-                        <span class="premium-text">升级会员</span>
+                        <span class="premium-text">Upgrade</span>
                     </button>
                 </div>
-            </header>
+            </div>
 
-            <!-- 任务列表 -->
+            <!-- Progress Bar -->
+            <div class="progress-section">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+                <div class="progress-label">Today's Progress</div>
+            </div>
+
+            <!-- Mascot Area -->
+            <div class="mascot-area">
+                <div class="mascot" id="mascot">
+                    <div class="mascot-body">
+                        <svg class="rabbit-svg" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                            <!-- Left Ear -->
+                            <ellipse class="ear-left" cx="70" cy="50" rx="15" ry="45" fill="#FFB6C1" opacity="0.9"/>
+                            <ellipse cx="70" cy="50" rx="8" ry="35" fill="#FFC0CB"/>
+                            
+                            <!-- Right Ear -->
+                            <ellipse class="ear-right" cx="130" cy="50" rx="15" ry="45" fill="#FFB6C1" opacity="0.9"/>
+                            <ellipse cx="130" cy="50" rx="8" ry="35" fill="#FFC0CB"/>
+                            
+                            <!-- Head -->
+                            <circle cx="100" cy="100" r="50" fill="#FFFFFF"/>
+                            <circle cx="100" cy="100" r="48" fill="#FFE4E1"/>
+                            
+                            <!-- Left Eye -->
+                            <g class="eye-left">
+                                <circle cx="85" cy="95" r="8" fill="#2C3E50"/>
+                                <circle cx="87" cy="93" r="3" fill="#FFFFFF"/>
+                            </g>
+                            
+                            <!-- Right Eye -->
+                            <g class="eye-right">
+                                <circle cx="115" cy="95" r="8" fill="#2C3E50"/>
+                                <circle cx="117" cy="93" r="3" fill="#FFFFFF"/>
+                            </g>
+                            
+                            <!-- Blush -->
+                            <circle cx="70" cy="105" r="8" fill="#FFB6C1" opacity="0.5"/>
+                            <circle cx="130" cy="105" r="8" fill="#FFB6C1" opacity="0.5"/>
+                            
+                            <!-- Nose -->
+                            <ellipse cx="100" cy="108" rx="4" ry="5" fill="#FFB6C1"/>
+                            
+                            <!-- Mouth -->
+                            <path d="M 100 108 Q 95 115 90 112" stroke="#2C3E50" stroke-width="2" fill="none" stroke-linecap="round"/>
+                            <path d="M 100 108 Q 105 115 110 112" stroke="#2C3E50" stroke-width="2" fill="none" stroke-linecap="round"/>
+                            
+                            <!-- Body -->
+                            <ellipse cx="100" cy="160" rx="40" ry="35" fill="#FFFFFF"/>
+                            <ellipse cx="100" cy="160" rx="38" ry="33" fill="#FFE4E1"/>
+                            
+                            <!-- Left Arm -->
+                            <ellipse class="arm-left" cx="70" cy="155" rx="12" ry="20" fill="#FFE4E1"/>
+                            
+                            <!-- Right Arm -->
+                            <ellipse class="arm-right" cx="130" cy="155" rx="12" ry="20" fill="#FFE4E1"/>
+                            
+                            <!-- Tail -->
+                            <circle class="tail" cx="100" cy="190" r="8" fill="#FFFFFF"/>
+                            <circle cx="100" cy="190" r="6" fill="#FFE4E1"/>
+                        </svg>
+                    </div>
+                    <div class="mascot-message" id="mascotMessage">Keep going!</div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <!-- Tasks List -->
             <div class="tasks-container">
                 <div class="tasks-card">
                     <div class="tasks-header">
-                        <h2 class="tasks-title">今日任务</h2>
+                        <h2 class="tasks-title">Today's Tasks</h2>
                         <div class="tasks-stats">
                             <span class="stat-item">
-                                完成: <span id="completedCount">0</span>
+                                Completed: <span id="completedCount">0</span>
                             </span>
                             <span class="stat-item">
-                                总计: <span id="totalCount">0</span>
+                                Total: <span id="totalCount">0</span>
                             </span>
                         </div>
                     </div>
 
                     <div class="tasks-list" id="tasksList">
-                        <!-- 任务项将动态添加到这里 -->
+                        <!-- Task items will be dynamically added here -->
                     </div>
 
-                    <!-- 添加任务输入框 -->
+                    <!-- Add Task Input -->
                     <div class="add-task-section">
                         <div class="add-task-input">
-                            <input type="text" id="taskInput" placeholder="添加新任务..." maxlength="200">
+                            <input type="text" id="taskInput" placeholder="Add a new task..." maxlength="200">
                             <button class="add-btn" id="addTaskBtn">
                                 <span class="add-icon">+</span>
                             </button>
@@ -138,48 +135,58 @@
                     </div>
                 </div>
             </div>
+
+            <!-- History Tasks Area -->
+            <div class="history-container" id="historyContainer">
+                <div class="history-header">
+                    <h3>📋 History</h3>
+                </div>
+                <div id="historyList" class="history-list">
+                    <!-- History tasks will be displayed here -->
+                </div>
+            </div>
         </main>
     </div>
 
-    <!-- 主题设置模态框 -->
+    <!-- Theme Settings Modal -->
     <div class="modal" id="shopModal">
         <div class="modal-content">
             <div class="modal-header">
-                <h3>🎨 主题设置</h3>
+                <h3>🎨 Theme Settings</h3>
                 <button class="close-btn" id="closeShopBtn">&times;</button>
             </div>
             <div class="modal-body">
                 <div class="themes-content" id="themesContent">
-                    <!-- 免费主题 -->
+                    <!-- Free Themes -->
                     <div class="themes-section">
-                        <h3>🆓 免费主题</h3>
+                        <h3>🆓 Free Themes</h3>
                         <div class="free-themes-simple">
-                            <div class="theme-circle" data-theme="light" onclick="app.applyTheme('light')" title="浅色主题">
+                            <div class="theme-circle" data-theme="light" onclick="app.applyTheme('light')" title="Light Theme">
                                 <div class="circle-bg light-circle"></div>
-                                <span class="circle-label">浅色</span>
+                                <span class="circle-label">Light</span>
                             </div>
-                            <div class="theme-circle" data-theme="dark" onclick="app.applyTheme('dark')" title="深色主题">
+                            <div class="theme-circle" data-theme="dark" onclick="app.applyTheme('dark')" title="Dark Theme">
                                 <div class="circle-bg dark-circle"></div>
-                                <span class="circle-label">深色</span>
+                                <span class="circle-label">Dark</span>
                             </div>
                         </div>
                     </div>
                     
-                    <!-- 可爱版主题 -->
+                    <!-- Cute Themes -->
                     <div class="themes-section">
-                        <h3>🎀 可爱版 <span class="premium-badge member-only">会员专享</span></h3>
+                        <h3>🎀 Cute <span class="premium-badge member-only">Premium</span></h3>
                         <div class="themes-grid" id="cuteThemesGrid"></div>
                     </div>
                     
-                    <!-- 暗黑版主题 -->
+                    <!-- Dark Themes -->
                     <div class="themes-section">
-                        <h3>🔥 暗黑版 <span class="premium-badge member-only">会员专享</span></h3>
+                        <h3>🔥 Dark <span class="premium-badge member-only">Premium</span></h3>
                         <div class="themes-grid" id="darkThemesGrid"></div>
                     </div>
                     
-                    <!-- 明星版主题 -->
+                    <!-- Star Themes -->
                     <div class="themes-section">
-                        <h3>⭐ 明星版 <span class="premium-badge member-only">会员专享</span></h3>
+                        <h3>⭐ Star <span class="premium-badge member-only">Premium</span></h3>
                         <div class="themes-grid" id="starThemesGrid"></div>
                     </div>
                 </div>
@@ -187,27 +194,45 @@
         </div>
     </div>
 
-    <!-- 设置模态框 -->
-    <div class="modal" id="settingsModal">
+    <!-- Premium Membership Modal -->
+    <div class="modal" id="membershipModal">
         <div class="modal-content">
             <div class="modal-header">
-                <h3>⚙️ 设置</h3>
-                <button class="close-btn" id="closeSettingsBtn">&times;</button>
+                <h3>👑 Premium Exclusive</h3>
+                <button class="close-btn" id="closeMembershipBtn">&times;</button>
             </div>
             <div class="modal-body">
-                <div class="setting-group">
-                    <label>自动保存</label>
-                    <input type="checkbox" id="autoSave" checked>
-                </div>
-                <div class="setting-group">
-                    <label>动画效果</label>
-                    <input type="checkbox" id="animations" checked>
+                <div class="membership-content">
+                    <div class="membership-intro">
+                        <h4>🎨 Unlock All Beautiful Themes</h4>
+                        <p>Become a member to access all cute, star, and dark themes, and personalize your task management!</p>
+                    </div>
+                    <div class="membership-benefits">
+                        <div class="benefit-item">
+                            <span class="benefit-icon">🎨</span>
+                            <span>50+ Beautiful Themes</span>
+                        </div>
+                        <div class="benefit-item">
+                            <span class="benefit-icon">⚡</span>
+                            <span>Premium Features</span>
+                        </div>
+                        <div class="benefit-item">
+                            <span class="benefit-icon">🔄</span>
+                            <span>Continuous Updates</span>
+                        </div>
+                    </div>
+                    <div class="membership-actions">
+                        <button class="upgrade-btn-large" onclick="app.openMembershipModal(); app.closeModal('membershipModal')">
+                            <span class="btn-icon">👑</span>
+                            <span>Upgrade Now</span>
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- 脚本 -->
+    <!-- Scripts -->
     <script src="js/app.js"></script>
     <script src="js/animations.js"></script>
     <script src="js/premium.js"></script>

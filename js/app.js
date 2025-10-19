@@ -1,21 +1,18 @@
-// CuteToDo - 主要应用程序逻辑
+// CuteToDo - Main Application Logic
 
 class TaskFlowApp {
     constructor() {
         this.tasks = [];
+        this.taskHistory = {}; // History tasks storage {date: tasks[]}
         this.currentTheme = 'light';
-        // 调试模式：解锁所有主题
+        // Debug mode: unlock all themes
         this.purchasedThemes = this.getAllThemeNames();
         this.userStats = {
             completedToday: 0
         };
         this.isPremium = false;
-        this.settings = {
-            autoSave: true,
-            animations: true
-        };
         
-        // 主题数据
+        // Theme data
         this.themesData = this.initThemesData();
         
         this.init();
@@ -34,78 +31,80 @@ class TaskFlowApp {
     initThemesData() {
         return {
             cute: [
-                // 小动物
-                { id: 'cat', name: '猫咪', price: 9.9 },
-                { id: 'dog', name: '小狗', price: 9.9 },
-                { id: 'rabbit', name: '兔子', price: 9.9 },
-                { id: 'fox', name: '狐狸', price: 9.9 },
-                { id: 'panda', name: '熊猫', price: 9.9 },
-                { id: 'parrot', name: '鹦鹉', price: 9.9 },
-                { id: 'kangaroo', name: '袋鼠', price: 9.9 },
-                // 猛兽
-                { id: 'tiger', name: '老虎', price: 9.9 },
-                { id: 'lion', name: '狮子', price: 9.9 },
-                // 水生动物
-                { id: 'fish', name: '小鱼', price: 9.9 },
-                { id: 'shrimp', name: '小虾', price: 9.9 },
-                { id: 'dolphin', name: '海豚', price: 9.9 },
-                { id: 'turtle', name: '乌龟', price: 9.9 },
-                // 植物
-                { id: 'sunflower', name: '向日葵', price: 9.9 }
+                // Animals
+                { id: 'cat', name: 'Cat', price: 9.9 },
+                { id: 'dog', name: 'Dog', price: 9.9 },
+                { id: 'rabbit', name: 'Rabbit', price: 9.9 },
+                { id: 'fox', name: 'Fox', price: 9.9 },
+                { id: 'panda', name: 'Panda', price: 9.9 },
+                { id: 'parrot', name: 'Parrot', price: 9.9 },
+                { id: 'kangaroo', name: 'Kangaroo', price: 9.9 },
+                // Wild Animals
+                { id: 'tiger', name: 'Tiger', price: 9.9 },
+                { id: 'lion', name: 'Lion', price: 9.9 },
+                // Aquatic Animals
+                { id: 'fish', name: 'Fish', price: 9.9 },
+                { id: 'shrimp', name: 'Shrimp', price: 9.9 },
+                { id: 'dolphin', name: 'Dolphin', price: 9.9 },
+                { id: 'turtle', name: 'Turtle', price: 9.9 },
+                // Plants
+                { id: 'sunflower', name: 'Sunflower', price: 9.9 }
             ],
             star: [
-                // 明星
-                { id: 'liying', name: '赵丽颖', price: 12.9 },
+                // Stars
+                { id: 'liying', name: 'Zhao Liying', price: 12.9 },
                 { id: 'taylor', name: 'Taylor', price: 12.9 },
-                // 美女
-                { id: 'beauty1', name: '甜美少女', price: 12.9 },
-                { id: 'beauty2', name: '性感御姐', price: 12.9 },
-                { id: 'beauty3', name: '爆乳女神', price: 12.9 },
-                // 动漫
-                { id: 'anime1', name: '樱花少女', price: 12.9 },
-                { id: 'anime2', name: '元气妹子', price: 12.9 },
-                // 猛男和名人
-                { id: 'muscleman', name: '肌肉猛男', price: 12.9 },
-                { id: 'kobe', name: '科比', price: 12.9 },
-                { id: 'messi', name: '梅西', price: 12.9 },
-                { id: 'musk', name: '马斯克', price: 12.9 },
-                { id: 'jobs', name: '乔布斯', price: 12.9 }
+                // Beauty
+                { id: 'beauty1', name: 'Sweet Girl', price: 12.9 },
+                { id: 'beauty2', name: 'Elegant Lady', price: 12.9 },
+                { id: 'beauty3', name: 'Gorgeous', price: 12.9 },
+                // Anime
+                { id: 'anime1', name: 'Sakura Girl', price: 12.9 },
+                { id: 'anime2', name: 'Energetic', price: 12.9 },
+                // Athletes & Celebrities
+                { id: 'muscleman', name: 'Muscleman', price: 12.9 },
+                { id: 'kobe', name: 'Kobe', price: 12.9 },
+                { id: 'messi', name: 'Messi', price: 12.9 },
+                { id: 'musk', name: 'Musk', price: 12.9 },
+                { id: 'jobs', name: 'Jobs', price: 12.9 }
             ],
             dark: [
-                { id: 'tech', name: '科技', price: 9.9 },
-                { id: 'galaxy', name: '星空', price: 9.9 },
-                { id: 'wukong', name: '悟空', price: 9.9 },
-                { id: 'cyberpunk', name: '赛博朋克', price: 9.9 },
-                { id: 'matrix', name: '黑客帝国', price: 9.9 },
-                { id: 'dragon', name: '龙', price: 9.9 },
-                { id: 'vampire', name: '血族', price: 9.9 },
-                { id: 'ghost', name: '幽灵', price: 9.9 },
-                { id: 'reaper', name: '死神', price: 9.9 },
-                { id: 'demon', name: '恶魔', price: 9.9 },
-                { id: 'ninja', name: '忍者', price: 9.9 },
-                { id: 'zombie', name: '僵尸', price: 9.9 }
+                { id: 'tech', name: 'Tech', price: 9.9 },
+                { id: 'galaxy', name: 'Galaxy', price: 9.9 },
+                { id: 'wukong', name: 'Wukong', price: 9.9 },
+                { id: 'cyberpunk', name: 'Cyberpunk', price: 9.9 },
+                { id: 'matrix', name: 'Matrix', price: 9.9 },
+                { id: 'dragon', name: 'Dragon', price: 9.9 },
+                { id: 'vampire', name: 'Vampire', price: 9.9 },
+                { id: 'ghost', name: 'Ghost', price: 9.9 },
+                { id: 'reaper', name: 'Reaper', price: 9.9 },
+                { id: 'demon', name: 'Demon', price: 9.9 },
+                { id: 'ninja', name: 'Ninja', price: 9.9 },
+                { id: 'zombie', name: 'Zombie', price: 9.9 }
             ]
         };
     }
 
     async init() {
         await this.loadData();
+        this.checkAndArchiveTasks(); // Check and archive tasks
+        this.checkPremiumStatus(); // Check premium status
         this.setupEventListeners();
         this.updateUI();
         this.updateDate();
         this.startIdleAnimations();
         this.renderThemeGrids();
         
-        // 显示欢迎消息
+        // Show welcome message
         this.showWelcomeMessage();
     }
     
     renderThemeGrids() {
-        // 渲染可爱版主题
+        // Render cute themes
         this.renderCuteThemes();
-        // 渲染明星版主题
+        // Render star themes
         this.renderStarThemes();
-        // 渲染暗黑版主题
+        // Render dark themes
         this.renderDarkThemes();
     }
     
@@ -114,12 +113,12 @@ class TaskFlowApp {
         if (!grid) return;
         
         grid.innerHTML = this.themesData.cute.map(theme => `
-            <div class="theme-card premium" data-theme="${theme.id}">
+            <div class="theme-card premium clickable" data-theme="${theme.id}" onclick="app.handleThemeClick('${theme.id}')">
                 <div class="theme-preview ${theme.id}-preview">
                     ${this.getCuteThemeSVG(theme.id)}
                 </div>
                 <h4>${theme.name}</h4>
-                <button class="theme-btn buy-btn" onclick="app.purchaseTheme('${theme.id}', ${theme.price})">购买</button>
+                ${!this.isPremium ? '<div class="member-only-badge" title="Premium">👑</div>' : ''}
             </div>
         `).join('');
     }
@@ -129,12 +128,12 @@ class TaskFlowApp {
         if (!grid) return;
         
         grid.innerHTML = this.themesData.star.map(theme => `
-            <div class="theme-card premium" data-theme="${theme.id}">
+            <div class="theme-card premium clickable" data-theme="${theme.id}" onclick="app.handleThemeClick('${theme.id}')">
                 <div class="theme-preview ${theme.id}-preview">
                     ${this.getStarThemeSVG(theme.id)}
                 </div>
                 <h4>${theme.name}</h4>
-                <button class="theme-btn buy-btn" onclick="app.purchaseTheme('${theme.id}', ${theme.price})">购买</button>
+                ${!this.isPremium ? '<div class="member-only-badge" title="Premium">👑</div>' : ''}
             </div>
         `).join('');
     }
@@ -144,18 +143,18 @@ class TaskFlowApp {
         if (!grid) return;
         
         grid.innerHTML = this.themesData.dark.map(theme => `
-            <div class="theme-card premium" data-theme="${theme.id}">
+            <div class="theme-card premium clickable" data-theme="${theme.id}" onclick="app.handleThemeClick('${theme.id}')">
                 <div class="theme-preview ${theme.id}-preview">
                     ${this.getDarkThemeSVG(theme.id)}
                 </div>
                 <h4>${theme.name}</h4>
-                <button class="theme-btn buy-btn" onclick="app.purchaseTheme('${theme.id}', ${theme.price})">购买</button>
+                ${!this.isPremium ? '<div class="member-only-badge" title="Premium">👑</div>' : ''}
             </div>
         `).join('');
     }
 
     setupEventListeners() {
-        // 任务相关
+        // Task related
         document.getElementById('addTaskBtn').addEventListener('click', () => {
             this.addTask();
         });
@@ -166,34 +165,21 @@ class TaskFlowApp {
             }
         });
 
-        // 主题设置按钮
+        // Theme settings button
         document.getElementById('premiumBtn').addEventListener('click', () => {
             this.openModal('shopModal');
         });
 
-        document.getElementById('settingsBtn').addEventListener('click', () => {
-            this.openModal('settingsModal');
-        });
 
-        // 关闭模态框
+        // Close modal buttons
         document.querySelectorAll('.close-btn').forEach(btn => {
             btn.addEventListener('click', (e) => {
                 this.closeModal(e.target.closest('.modal').id);
             });
         });
 
-        // 设置
-        document.getElementById('autoSave').addEventListener('change', (e) => {
-            this.settings.autoSave = e.target.checked;
-            this.saveData();
-        });
 
-        document.getElementById('animations').addEventListener('change', (e) => {
-            this.settings.animations = e.target.checked;
-            this.saveData();
-        });
-
-        // 点击模态框背景关闭
+        // Click modal overlay to close
         document.querySelectorAll('.modal').forEach(modal => {
             modal.addEventListener('click', (e) => {
                 if (e.target === modal) {
@@ -204,31 +190,25 @@ class TaskFlowApp {
     }
 
     applyTheme(themeName) {
-        // 检查是否为免费主题
+        // Check if it's a free theme
         const isFreeTheme = themeName === 'light' || themeName === 'dark';
         
-        // 如果不是免费主题，检查会员状态
-        if (!isFreeTheme) {
-            if (!window.premiumManager || !window.premiumManager.isPremiumMember()) {
-                this.showToast('❌ 请先升级会员以使用此主题');
-                // 显示会员升级弹窗
-                if (window.premiumManager) {
-                    window.premiumManager.showMembershipModal();
-                }
+        // If not a free theme and not a premium member, show upgrade prompt
+        if (!isFreeTheme && !this.isPremium) {
+            this.showToast('❌ Please upgrade to premium to use this theme');
+            this.showMembershipModal();
             return;
-            }
         }
         
         this.currentTheme = themeName;
         document.body.className = `theme-${themeName}`;
         this.saveData();
-        this.playSound('theme-switch');
-        this.showToast(`✅ 已应用 ${this.getThemeName(themeName)}`);
+        this.showToast(`✅ Applied ${this.getThemeName(themeName)}`);
         
-        // 更新侧边栏吉祥物
+        // Update sidebar mascot
         this.updateMascot(themeName);
         
-        // 更新主题卡片的选中状态
+        // Update theme card active state
         this.updateThemeCards();
     }
     
@@ -236,7 +216,7 @@ class TaskFlowApp {
         const mascotBody = document.querySelector('.mascot-body');
         if (!mascotBody) return;
         
-        // 获取对应主题的SVG
+        // Get corresponding theme SVG
         let svg = '';
         if (themeName === 'cat' || themeName === 'dog' || themeName === 'rabbit' || 
             themeName === 'panda' || themeName === 'fox' || themeName === 'parrot' || 
@@ -255,10 +235,10 @@ class TaskFlowApp {
                    themeName === 'demon' || themeName === 'ninja' || themeName === 'zombie') {
             svg = this.getDarkThemeSVG(themeName);
         } else if (themeName === 'dark') {
-            // 深色主题使用骷髅头SVG
+            // Dark theme uses skull SVG
             svg = this.getSkullSVG();
         } else {
-            // 默认使用兔子
+            // Default to rabbit
             svg = this.getCuteThemeSVG('rabbit');
         }
         
@@ -266,18 +246,18 @@ class TaskFlowApp {
     }
     
     purchaseTheme(themeName, price) {
-        // 免费主题直接应用
+        // Free themes apply directly
         const isFreeTheme = themeName === 'light' || themeName === 'dark';
         if (isFreeTheme) {
             this.applyTheme(themeName);
             return;
         }
         
-        // 检查会员状态
-        if (window.premiumManager && window.premiumManager.isPremiumMember()) {
+        // Check premium status
+        if (this.isPremium) {
             this.applyTheme(themeName);
         } else {
-            // 显示会员升级提示
+            // Show premium upgrade prompt
             this.showMembershipPrompt(themeName);
         }
     }
@@ -288,29 +268,29 @@ class TaskFlowApp {
         modal.innerHTML = `
             <div class="modal-content">
                 <div class="modal-header">
-                    <h3>👑 会员专享主题</h3>
+                    <h3>👑 Premium Exclusive Theme</h3>
                     <button class="close-btn" onclick="this.closest('.modal').remove()">&times;</button>
                 </div>
                 <div class="modal-body">
                     <div class="prompt-info">
                         <div class="prompt-icon">🎨</div>
                         <h4>${this.getThemeName(themeName)}</h4>
-                        <p class="prompt-desc">这是会员专享主题，升级会员即可解锁所有主题</p>
+                        <p class="prompt-desc">This is a premium exclusive theme. Upgrade to unlock all themes</p>
                     </div>
                     <div class="prompt-benefits">
-                        <h5>✨ 终身会员特权</h5>
+                        <h5>✨ Lifetime Premium Benefits</h5>
                         <ul>
-                            <li>🎨 解锁所有主题（50+精美主题）</li>
-                            <li>🎁 后续新主题永久免费</li>
-                            <li>👑 专属会员标识</li>
-                            <li>💎 一次购买，永久使用</li>
+                            <li>🎨 Unlock all themes (50+ beautiful themes)</li>
+                            <li>🎁 All future themes free forever</li>
+                            <li>👑 Exclusive member badge</li>
+                            <li>💎 One-time purchase, lifetime access</li>
                         </ul>
                     </div>
                     <button class="upgrade-now-btn" onclick="app.openMembershipModal()">
-                        立即开通终身会员 $9.9
+                        Activate Lifetime Membership $9.9
                             </button>
                     <button class="later-btn" onclick="this.closest('.modal').remove()">
-                        稍后再说
+                        Maybe Later
                             </button>
                 </div>
             </div>
@@ -320,44 +300,35 @@ class TaskFlowApp {
     }
     
     openMembershipModal() {
-        // 关闭提示弹窗
+        // Close prompt modal
         document.querySelectorAll('.membership-prompt-modal').forEach(modal => modal.remove());
         
-        // 打开会员升级弹窗
+        // Open premium upgrade modal
         if (window.premiumManager) {
             window.premiumManager.showMembershipModal();
         }
     }
     
     updateThemeCards() {
-        // 更新所有主题卡片的状态
-        const isPremium = window.premiumManager && window.premiumManager.isPremiumMember();
-        
+        // Update all theme card status
         document.querySelectorAll('.theme-card').forEach(card => {
             const themeName = card.dataset.theme;
-            const btn = card.querySelector('.theme-btn');
             const isFreeTheme = themeName === 'light' || themeName === 'dark';
             
-            // 更新当前应用的主题
+            // Update currently applied theme
             if (themeName === this.currentTheme) {
                 card.classList.add('active');
             } else {
                 card.classList.remove('active');
             }
             
-            // 更新按钮状态
-            if (card.classList.contains('premium')) {
-                if (isPremium) {
-                    // 已开通会员
-                    btn.textContent = '应用';
-                    btn.className = 'theme-btn apply-btn';
-                    btn.setAttribute('onclick', `app.applyTheme('${themeName}')`);
-                    card.classList.remove('locked');
+            // Update premium badge display
+            const memberBadge = card.querySelector('.member-only-badge');
+            if (memberBadge) {
+                if (this.isPremium || isFreeTheme) {
+                    memberBadge.style.display = 'none';
                 } else {
-                    // 需要会员
-                    btn.textContent = '会员专享';
-                    btn.className = 'theme-btn buy-btn';
-                    card.classList.add('locked');
+                    memberBadge.style.display = 'block';
                 }
             }
         });
@@ -365,30 +336,30 @@ class TaskFlowApp {
     
     getThemeName(themeName) {
         const themeNames = {
-            'light': '浅色', 'dark': '深色',
-            'cat': '猫咪', 'dog': '小狗', 'rabbit': '兔子', 
-            'panda': '熊猫', 'fox': '狐狸', 'parrot': '鹦鹉', 
-            'kangaroo': '袋鼠', 'sunflower': '向日葵',
-            'tiger': '老虎', 'lion': '狮子',
-            'fish': '小鱼', 'shrimp': '小虾', 'dolphin': '海豚', 'turtle': '乌龟',
-            'liying': '赵丽颖', 'taylor': 'Taylor Swift',
-            'beauty1': '甜美少女', 'beauty2': '性感御姐', 'beauty3': '爆乳女神',
-            'anime1': '樱花少女', 'anime2': '元气妹子',
-            'muscleman': '肌肉猛男',
-            'kobe': '科比', 'messi': '梅西', 'musk': '马斯克', 'jobs': '乔布斯',
-            'tech': '科技', 'galaxy': '星空', 'wukong': '悟空',
-            'cyberpunk': '赛博朋克', 'matrix': '黑客帝国', 'dragon': '龙',
-            'vampire': '血族', 'ghost': '幽灵', 'reaper': '死神',
-            'demon': '恶魔', 'ninja': '忍者', 'zombie': '僵尸'
+            'light': 'Light', 'dark': 'Dark',
+            'cat': 'Cat', 'dog': 'Dog', 'rabbit': 'Rabbit', 
+            'panda': 'Panda', 'fox': 'Fox', 'parrot': 'Parrot', 
+            'kangaroo': 'Kangaroo', 'sunflower': 'Sunflower',
+            'tiger': 'Tiger', 'lion': 'Lion',
+            'fish': 'Fish', 'shrimp': 'Shrimp', 'dolphin': 'Dolphin', 'turtle': 'Turtle',
+            'liying': 'Zhao Liying', 'taylor': 'Taylor Swift',
+            'beauty1': 'Sweet Girl', 'beauty2': 'Elegant Lady', 'beauty3': 'Gorgeous',
+            'anime1': 'Sakura Girl', 'anime2': 'Energetic',
+            'muscleman': 'Muscleman',
+            'kobe': 'Kobe', 'messi': 'Messi', 'musk': 'Musk', 'jobs': 'Jobs',
+            'tech': 'Tech', 'galaxy': 'Galaxy', 'wukong': 'Wukong',
+            'cyberpunk': 'Cyberpunk', 'matrix': 'Matrix', 'dragon': 'Dragon',
+            'vampire': 'Vampire', 'ghost': 'Ghost', 'reaper': 'Reaper',
+            'demon': 'Demon', 'ninja': 'Ninja', 'zombie': 'Zombie'
         };
         return themeNames[themeName] || themeName;
     }
     
-    // ===== 可爱版SVG =====
+    // ===== Cute Theme SVG =====
     getCuteThemeSVG(themeId) {
         const svgs = {
             cat: `<svg viewBox="0 0 100 100" class="theme-svg cute-svg">
-                <!-- 橘猫大头 -->
+                <!-- Orange cat head -->
                 <circle cx="50" cy="38" r="28" fill="#FF9955"/>
                 <!-- 橘猫条纹 -->
                 <path d="M 30 28 Q 32 30 30 32" stroke="#E67722" stroke-width="2.5" fill="none"/>
@@ -1035,7 +1006,7 @@ class TaskFlowApp {
         return svgs[themeId] || '';
     }
     
-    // ===== 明星版SVG =====
+    // ===== Star Theme SVG =====
     getStarThemeSVG(themeId) {
         const svgs = {
             liying: `<svg viewBox="0 0 100 100" class="theme-svg star-svg">
@@ -1564,10 +1535,10 @@ class TaskFlowApp {
         return svgs[themeId] || '';
     }
     
-    // ===== 骷髅头SVG =====
+    // ===== Skull SVG =====
     getSkullSVG() {
         return `<svg viewBox="0 0 100 100" class="theme-svg skull-svg">
-            <!-- 骷髅头主体 -->
+            <!-- Skull main body -->
             <ellipse cx="50" cy="35" rx="25" ry="20" fill="#2D2D2D" stroke="#DC143C" stroke-width="2"/>
             <!-- 眼眶 -->
             <ellipse cx="42" cy="30" rx="6" ry="8" fill="#000000"/>
@@ -1593,7 +1564,7 @@ class TaskFlowApp {
         </svg>`;
     }
     
-    // ===== 暗黑版SVG =====
+    // ===== Dark Theme SVG =====
     getDarkThemeSVG(themeId) {
         const svgs = {
             tech: `<svg viewBox="0 0 100 100" class="theme-svg dark-svg">
@@ -1874,8 +1845,7 @@ class TaskFlowApp {
         
         this.updateUI();
         this.saveData();
-        this.playSound('task-add');
-        this.animateTaskAddition();
+        // this.animateTaskAddition(); // Disabled
     }
 
     toggleTask(id) {
@@ -1886,11 +1856,9 @@ class TaskFlowApp {
         
         if (task.completed) {
             this.userStats.completedToday++;
-            this.playSound('task-complete');
-            this.animateTaskCompletion(id);
+            // this.animateTaskCompletion(id); // Disabled
         } else {
             this.userStats.completedToday = Math.max(0, this.userStats.completedToday - 1);
-            this.playSound('task-undo');
         }
 
         this.updateUI();
@@ -1902,7 +1870,6 @@ class TaskFlowApp {
         this.tasks = this.tasks.filter(t => t.id !== id);
         this.updateUI();
         this.saveData();
-        this.playSound('task-delete');
     }
 
     editTask(id, newText) {
@@ -1918,6 +1885,7 @@ class TaskFlowApp {
         this.renderTasks();
         this.updateStats();
         this.updateProgress();
+        this.showTaskHistory();
     }
 
     renderTasks() {
@@ -1927,8 +1895,8 @@ class TaskFlowApp {
             tasksList.innerHTML = `
                 <div class="empty-state">
                     <div class="empty-icon">📝</div>
-                    <h3>还没有任务</h3>
-                    <p>添加你的第一个任务开始使用吧！</p>
+                    <h3>No tasks yet</h3>
+                    <p>Add your first task to get started!</p>
                 </div>
             `;
             return;
@@ -1938,8 +1906,8 @@ class TaskFlowApp {
             <div class="task-item ${task.completed ? 'completed' : ''}" data-id="${task.id}">
                 <div class="task-checkbox ${task.completed ? 'checked' : ''}" 
                      onclick="app.toggleTask(${task.id})"></div>
-                <div class="task-content">
-                    <div class="task-text">${this.escapeHtml(task.text)}</div>
+                <div class="task-content" onclick="app.startEditTask(${task.id})" style="cursor: pointer;">
+                    <div class="task-text" data-task-id="${task.id}">${this.escapeHtml(task.text)}</div>
                     <div class="task-meta">
                         <span>${this.formatDate(task.createdAt)}</span>
                         <span>•</span>
@@ -1947,10 +1915,10 @@ class TaskFlowApp {
                     </div>
                 </div>
                 <div class="task-actions">
-                    <button class="task-action-btn" onclick="app.editTaskPrompt(${task.id})" title="编辑">
+                    <button class="task-action-btn" onclick="app.startEditTask(${task.id})" title="Edit">
                         ✏️
                     </button>
-                    <button class="task-action-btn" onclick="app.deleteTask(${task.id})" title="删除">
+                    <button class="task-action-btn" onclick="app.deleteTask(${task.id})" title="Delete">
                         🗑️
                     </button>
                 </div>
@@ -1958,14 +1926,66 @@ class TaskFlowApp {
         `).join('');
     }
 
-    editTaskPrompt(id) {
+    startEditTask(id) {
         const task = this.tasks.find(t => t.id === id);
         if (!task) return;
 
-        const newText = prompt('编辑任务:', task.text);
-        if (newText && newText.trim() !== task.text) {
-            this.editTask(id, newText.trim());
-        }
+        // Find task text element
+        const taskTextElement = document.querySelector(`.task-text[data-task-id="${id}"]`);
+        if (!taskTextElement) return;
+        
+        // Save original text
+        const originalText = task.text;
+        
+        // Create input field
+        const input = document.createElement('input');
+        input.type = 'text';
+        input.value = task.text;
+        input.className = 'task-edit-input';
+        input.maxLength = 200;
+        
+        // Replace text with input
+        taskTextElement.style.display = 'none';
+        taskTextElement.parentNode.insertBefore(input, taskTextElement);
+        input.focus();
+        input.select();
+        
+        // Save edit
+        const saveEdit = () => {
+            const newText = input.value.trim();
+            if (newText && newText !== originalText) {
+                this.editTask(id, newText);
+            } else {
+                // If no change, just re-render
+                this.renderTasks();
+            }
+        };
+        
+        // Cancel edit
+        const cancelEdit = () => {
+            this.renderTasks();
+        };
+        
+        // Listen for keyboard events
+        input.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                saveEdit();
+            } else if (e.key === 'Escape') {
+                e.preventDefault();
+                cancelEdit();
+            }
+        });
+        
+        // Save on blur
+        input.addEventListener('blur', () => {
+            setTimeout(saveEdit, 100);
+        });
+    }
+    
+    editTaskPrompt(id) {
+        // Keep this method in case other places call it
+        this.startEditTask(id);
     }
 
     updateStats() {
@@ -1984,7 +2004,7 @@ class TaskFlowApp {
         const progressFill = document.getElementById('progressFill');
         progressFill.style.width = `${progress}%`;
         
-        // 更新进度条颜色
+        // Update progress bar color
         if (progress === 100) {
             progressFill.style.background = 'linear-gradient(90deg, #10b981, #34d399)';
         } else if (progress >= 75) {
@@ -2005,7 +2025,7 @@ class TaskFlowApp {
             day: 'numeric' 
         };
         
-        const dateStr = now.toLocaleDateString('zh-CN', options);
+        const dateStr = now.toLocaleDateString('en-US', options);
         document.getElementById('currentDate').textContent = dateStr;
     }
 
@@ -2016,30 +2036,26 @@ class TaskFlowApp {
         
         if (modalId === 'shopModal') {
             this.loadShopContent();
-            // 延迟更新以确保DOM已渲染
+            // Delay update to ensure DOM is rendered
             setTimeout(() => {
                 this.updateThemeCards();
             }, 100);
         }
-        
-        this.playSound('modal-open');
     }
 
     closeModal(modalId) {
         const modal = document.getElementById(modalId);
         modal.classList.remove('active');
         document.body.style.overflow = '';
-        
-        this.playSound('modal-close');
     }
 
     loadShopContent() {
-        // 重新渲染所有主题网格
+        // Re-render all theme grids
         this.renderThemeGrids();
     }
 
     startIdleAnimations() {
-        // 吉祥物空闲动画
+        // Mascot idle animation
         setInterval(() => {
             const mascot = document.querySelector('.mascot-body');
             if (mascot && !mascot.classList.contains('celebrate')) {
@@ -2050,7 +2066,7 @@ class TaskFlowApp {
             }
         }, 10000);
 
-        // 随机鼓励消息
+        // Random encouragement messages
         setInterval(() => {
             this.updateMascotMessage();
         }, 30000);
@@ -2058,12 +2074,12 @@ class TaskFlowApp {
 
     updateMascotMessage() {
         const messages = [
-            '加油完成任务！',
-            '你今天很棒！',
-            '保持专注！',
-            '一步一步来！',
-            '相信自己！',
-            '坚持下去！'
+            'Keep going!',
+            'You\'re doing great!',
+            'Stay focused!',
+            'One step at a time!',
+            'Believe in yourself!',
+            'Keep it up!'
         ];
         
         const randomMessage = messages[Math.floor(Math.random() * messages.length)];
@@ -2091,7 +2107,7 @@ class TaskFlowApp {
         if (taskItem) {
             taskItem.classList.add('completed');
             
-            // 吉祥物庆祝动画
+            // Mascot celebration animation
             const mascot = document.querySelector('.mascot-body');
             if (mascot) {
                 mascot.classList.add('celebrate');
@@ -2100,14 +2116,12 @@ class TaskFlowApp {
                 }, 800);
             }
             
-            // 粒子效果
+            // Particle effect
             this.createParticleEffect(taskItem);
         }
     }
 
     createParticleEffect(element) {
-        if (!this.settings.animations) return;
-        
         const rect = element.getBoundingClientRect();
         const colors = ['#3b82f6', '#8b5cf6', '#10b981', '#f59e0b'];
         
@@ -2141,27 +2155,179 @@ class TaskFlowApp {
 
     showWelcomeMessage() {
         setTimeout(() => {
-            this.showToast('🎉 欢迎使用 CuteToDo！');
+            this.showToast('🎉 Welcome to CuteToDo!');
         }, 1000);
+
+        // Listen for premium upgrade event
+        window.addEventListener('premiumUpgraded', (event) => {
+            this.isPremium = event.detail.isPremium;
+            console.log('Premium upgraded, isPremium:', this.isPremium); // Debug log
+            
+            // Update theme cards immediately
+            this.updateThemeCards();
+            
+            // If theme modal is open, re-render theme grids
+            const shopModal = document.getElementById('shopModal');
+            if (shopModal && shopModal.classList.contains('active')) {
+                console.log('Shop modal is active, re-rendering theme grids'); // Debug log
+                this.renderThemeGrids();
+            }
+            
+            this.saveData(); // Save premium status
+            this.showToast('🎉 Premium activated, all themes unlocked!');
+        });
     }
 
-    playSound(soundName) {
-        if (!this.settings.soundEffects) return;
+
+    // ===== History Task Management =====
+    
+    // Check and archive tasks
+    checkAndArchiveTasks() {
+        const today = this.getDateString(new Date());
+        const yesterday = this.getDateString(new Date(Date.now() - 24 * 60 * 60 * 1000));
         
-        // 这里可以添加音效播放逻辑
-        console.log(`Playing sound: ${soundName}`);
+        // If no task history for today, create today's record
+        if (!this.taskHistory[today]) {
+            this.taskHistory[today] = [];
+        }
+        
+        // Archive yesterday's tasks to history
+        if (this.tasks.length > 0) {
+            const yesterdayTasks = this.tasks.filter(task => {
+                const taskDate = new Date(task.createdAt);
+                return this.getDateString(taskDate) === yesterday;
+            });
+            
+            if (yesterdayTasks.length > 0) {
+                this.taskHistory[yesterday] = yesterdayTasks;
+                // Remove yesterday's tasks from current tasks
+                this.tasks = this.tasks.filter(task => {
+                    const taskDate = new Date(task.createdAt);
+                    return this.getDateString(taskDate) === today;
+                });
+            }
+        }
+    }
+    
+    // Get date string (YYYY-MM-DD)
+    getDateString(date) {
+        return date.toISOString().split('T')[0];
+    }
+    
+    // Show task history
+    showTaskHistory() {
+        this.renderTaskHistory();
+    }
+    
+    // Render task history
+    renderTaskHistory() {
+        const historyList = document.getElementById('historyList');
+        const historyContainer = document.getElementById('historyContainer');
+        if (!historyList || !historyContainer) return;
+        
+        historyList.innerHTML = '';
+        
+        const dates = Object.keys(this.taskHistory).sort((a, b) => new Date(b) - new Date(a));
+        
+        if (dates.length === 0) {
+            historyContainer.style.display = 'none';
+            return;
+        }
+        
+        // Show history task container
+        historyContainer.style.display = 'block';
+        
+        dates.forEach(date => {
+            const tasks = this.taskHistory[date];
+            if (tasks.length === 0) return;
+            
+            // Sort tasks by creation time
+            const sortedTasks = tasks.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
+            
+            const dateElement = document.createElement('div');
+            dateElement.className = 'history-date';
+            dateElement.innerHTML = `
+                <h4>${this.formatDate(date)}</h4>
+                <div class="history-tasks">
+                    ${sortedTasks.map(task => `
+                        <div class="history-task ${task.completed ? 'completed' : ''}">
+                            <span class="task-status">${task.completed ? '✅' : '⏳'}</span>
+                            <span class="task-text">${task.text}</span>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+            
+            historyList.appendChild(dateElement);
+        });
+    }
+    
+    // Format date display
+    formatDate(dateString) {
+        const date = new Date(dateString);
+        const today = new Date();
+        const yesterday = new Date(today.getTime() - 24 * 60 * 60 * 1000);
+        
+        if (this.getDateString(date) === this.getDateString(today)) {
+            return 'Today';
+        } else if (this.getDateString(date) === this.getDateString(yesterday)) {
+            return 'Yesterday';
+        } else {
+            return date.toLocaleDateString('en-US', { 
+                month: 'short', 
+                day: 'numeric',
+                weekday: 'short'
+            });
+        }
+    }
+
+    // Show premium exclusive modal
+    showMembershipModal() {
+        this.openModal('membershipModal');
+    }
+
+    // Check premium status
+    checkPremiumStatus() {
+        // Check if premiumManager exists and get premium status
+        if (window.premiumManager) {
+            const isPremium = window.premiumManager.isPremiumMember();
+            if (isPremium !== this.isPremium) {
+                this.isPremium = isPremium;
+                this.updateThemeCards();
+                this.renderThemeGrids(); // Re-render theme grids
+                this.saveData();
+            }
+        }
+    }
+
+    // Handle theme click
+    handleThemeClick(themeId) {
+        // Check if it's a free theme
+        const isFreeTheme = themeId === 'light' || themeId === 'dark';
+        
+        console.log('Theme clicked:', themeId, 'isFreeTheme:', isFreeTheme, 'isPremium:', this.isPremium); // Debug log
+        
+        if (isFreeTheme || this.isPremium) {
+            // Free theme or premium user, apply theme directly
+            console.log('Applying theme directly'); // Debug log
+            this.applyTheme(themeId);
+            // Close theme modal
+            this.closeModal('shopModal');
+        } else {
+            // Non-premium user clicked paid theme, show premium modal
+            console.log('Showing membership modal'); // Debug log
+            this.showMembershipModal();
+        }
     }
 
     async saveData() {
-        if (!this.settings.autoSave) return;
-        
         const data = {
             tasks: this.tasks,
+            taskHistory: this.taskHistory,
             currentTheme: this.currentTheme,
             purchasedThemes: this.purchasedThemes,
             userStats: this.userStats,
-            isPremium: this.isPremium,
-            settings: this.settings
+            isPremium: this.isPremium
         };
         
         try {
@@ -2177,18 +2343,13 @@ class TaskFlowApp {
             if (result.taskflowData) {
                 const data = result.taskflowData;
                 this.tasks = data.tasks || [];
+                this.taskHistory = data.taskHistory || {};
                 this.currentTheme = data.currentTheme || 'light';
                 this.purchasedThemes = data.purchasedThemes || ['light', 'dark'];
                 this.userStats = data.userStats || this.userStats;
                 this.isPremium = data.isPremium || false;
-                this.settings = { ...this.settings, ...data.settings };
-                
-                // 应用主题
+                // Apply theme
                 document.body.className = `theme-${this.currentTheme}`;
-                
-                // 应用设置
-                document.getElementById('autoSave').checked = this.settings.autoSave;
-                document.getElementById('animations').checked = this.settings.animations;
             }
         } catch (error) {
             console.error('Failed to load data:', error);
@@ -2206,27 +2367,27 @@ class TaskFlowApp {
         const now = new Date();
         const diff = now - date;
         
-        if (diff < 60000) { // 1分钟内
-            return '刚刚';
-        } else if (diff < 3600000) { // 1小时内
-            return `${Math.floor(diff / 60000)}分钟前`;
-        } else if (diff < 86400000) { // 1天内
-            return `${Math.floor(diff / 3600000)}小时前`;
+        if (diff < 60000) { // Within 1 minute
+            return 'Just now';
+        } else if (diff < 3600000) { // Within 1 hour
+            return `${Math.floor(diff / 60000)} min ago`;
+        } else if (diff < 86400000) { // Within 1 day
+            return `${Math.floor(diff / 3600000)} hr ago`;
         } else {
-            return date.toLocaleDateString('zh-CN');
+            return date.toLocaleDateString('en-US');
         }
     }
 }
 
-// 全局应用实例
+// Global app instance
 let app;
 
-// 页面加载完成后初始化应用
+// Initialize app after page load
 document.addEventListener('DOMContentLoaded', () => {
     app = new TaskFlowApp();
 });
 
-// 页面卸载前保存数据
+// Save data before page unload
 window.addEventListener('beforeunload', () => {
     if (app) {
         app.saveData();
