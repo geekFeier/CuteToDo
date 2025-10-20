@@ -87,28 +87,52 @@ class ThemeManager {
     }
 
     // 应用指定主题
-    applyTheme(themeName) {
+    async applyTheme(themeName) {
+        // Prevent recursive calls
+        if (this._applyingTheme) {
+            console.log('ThemeManager: Theme application already in progress, skipping');
+            return;
+        }
+        
         if (!this.availableThemes[themeName] && !this.userThemes[themeName]) {
             console.warn(`Theme ${themeName} not found`);
             return;
         }
 
-        this.currentTheme = themeName;
-        
-        // 移除所有主题类
-        document.body.className = document.body.className.replace(/theme-\w+/g, '');
-        
-        // 添加新主题类
-        document.body.classList.add(`theme-${themeName}`);
-        
-        // 更新主题切换器状态
-        this.updateThemeToggle();
-        
-        // 保存主题数据
-        this.saveThemeData();
-        
-        // 触发主题变化事件
-        this.dispatchThemeChangeEvent(themeName);
+        // If theme is already applied, skip
+        if (this.currentTheme === themeName) {
+            console.log('ThemeManager: Theme already applied:', themeName);
+            return;
+        }
+
+        this._applyingTheme = true;
+        try {
+            this.currentTheme = themeName;
+            
+            // 移除所有主题类
+            document.body.className = document.body.className.replace(/theme-\w+/g, '');
+            
+            // 添加新主题类
+            document.body.classList.add(`theme-${themeName}`);
+            
+            // 更新主题切换器状态
+            this.updateThemeToggle();
+            
+            // 保存主题数据
+            this.saveThemeData();
+            
+            // Persist to API (don't await to avoid blocking)
+            if (window.CuteToDoAPI && window.CuteToDoAPI.ThemeAPI) {
+                window.CuteToDoAPI.ThemeAPI.set(themeName).catch(e => {
+                    console.error('Failed to persist theme via API:', e);
+                });
+            }
+            
+            // 触发主题变化事件
+            this.dispatchThemeChangeEvent(themeName);
+        } finally {
+            this._applyingTheme = false;
+        }
     }
 
     // 应用当前主题

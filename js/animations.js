@@ -7,31 +7,10 @@ class AnimationManager {
         this.isAnimating = false;
     }
 
-    // 页面进入动画
+    // 页面进入动画 - 已禁用
     initPageAnimations() {
-        if (!this.animationsEnabled) return;
-
-        // 延迟加载动画
-        const elements = [
-            { selector: '.sidebar', delay: 100 },
-            { selector: '.header', delay: 200 },
-            { selector: '.tasks-card', delay: 300 },
-            { selector: '.virtual-goods .good-item', delay: 400, stagger: 100 }
-        ];
-
-        elements.forEach(({ selector, delay, stagger }) => {
-            setTimeout(() => {
-                const els = document.querySelectorAll(selector);
-                els.forEach((el, index) => {
-                    setTimeout(() => {
-                        el.classList.add('bounce-in');
-                        setTimeout(() => {
-                            el.classList.remove('bounce-in');
-                        }, 600);
-                    }, stagger ? index * stagger : 0);
-                });
-            }, delay);
-        });
+        // 禁用首次进入动画
+        return;
     }
 
     // 任务项进入动画
@@ -500,7 +479,8 @@ class AnimationManager {
     // 初始化动画系统
     init() {
         this.preloadAnimations();
-        this.initPageAnimations();
+        // 禁用首次进入动画
+        // this.initPageAnimations();
         
         // 监听设置变化
         document.addEventListener('animationSettingsChanged', (e) => {

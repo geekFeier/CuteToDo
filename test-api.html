@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>API Test - CuteToDo</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; max-width: 800px; margin: 0 auto; }
+        .test-section { margin: 20px 0; padding: 15px; border: 1px solid #ddd; border-radius: 5px; }
+        button { padding: 10px 15px; margin: 5px; cursor: pointer; }
+        pre { background: #f5f5f5; padding: 10px; border-radius: 3px; overflow-x: auto; }
+        .success { color: green; }
+        .error { color: red; }
+    </style>
+</head>
+<body>
+    <h1>CuteToDo API Test</h1>
+    
+    <div class="test-section">
+        <h2>Tasks API</h2>
+        <button onclick="testListTasks()">List Tasks</button>
+        <button onclick="testCreateTask()">Create Task</button>
+        <button onclick="testUpdateTask()">Update Task</button>
+        <button onclick="testDeleteTask()">Delete Task</button>
+        <pre id="tasks-result"></pre>
+    </div>
+    
+    <div class="test-section">
+        <h2>Theme API</h2>
+        <button onclick="testGetTheme()">Get Theme</button>
+        <button onclick="testSetTheme()">Set Theme (dark)</button>
+        <pre id="theme-result"></pre>
+    </div>
+    
+    <div class="test-section">
+        <h2>Premium API</h2>
+        <button onclick="testGetPremium()">Get Premium Status</button>
+        <button onclick="testCheckout()">Checkout Premium</button>
+        <pre id="premium-result"></pre>
+    </div>
+
+    <script src="js/api.js"></script>
+    <script>
+        const API_BASE = 'http://localhost:4000';
+        window.CUTE_TODO_API_BASE = API_BASE;
+        
+        let lastTaskId = null;
+        
+        async function testListTasks() {
+            const result = document.getElementById('tasks-result');
+            try {
+                const tasks = await window.CuteToDoAPI.TasksAPI.list();
+                result.innerHTML = '<span class="success">✓ Success</span>\n' + JSON.stringify(tasks, null, 2);
+                if (tasks.length > 0) lastTaskId = tasks[0].id;
+            } catch (err) {
+                result.innerHTML = '<span class="error">✗ Error: ' + err.message + '</span>';
+            }
+        }
+        
+        async function testCreateTask() {
+            const result = document.getElementById('tasks-result');
+            try {
+                const task = await window.CuteToDoAPI.TasksAPI.create({
+                    title: 'Test task ' + Date.now(),
+                    notes: 'Test notes',
+                    priority: 'normal',
+                    completed: false
+                });
+                result.innerHTML = '<span class="success">✓ Created</span>\n' + JSON.stringify(task, null, 2);
+                lastTaskId = task.id;
+            } catch (err) {
+                result.innerHTML = '<span class="error">✗ Error: ' + err.message + '</span>';
+            }
+        }
+        
+        async function testUpdateTask() {
+            const result = document.getElementById('tasks-result');
+            if (!lastTaskId) {
+                result.innerHTML = '<span class="error">✗ No task ID. Create a task first.</span>';
+                return;
+            }
+            try {
+                const task = await window.CuteToDoAPI.TasksAPI.update(lastTaskId, { completed: true });
+                result.innerHTML = '<span class="success">✓ Updated</span>\n' + JSON.stringify(task, null, 2);
+            } catch (err) {
+                result.innerHTML = '<span class="error">✗ Error: ' + err.message + '</span>';
+            }
+        }
+        
+        async function testDeleteTask() {
+            const result = document.getElementById('tasks-result');
+            if (!lastTaskId) {
+                result.innerHTML = '<span class="error">✗ No task ID. Create a task first.</span>';
+                return;
+            }
+            try {
+                await window.CuteToDoAPI.TasksAPI.remove(lastTaskId);
+                result.innerHTML = '<span class="success">✓ Deleted task ' + lastTaskId + '</span>';
+                lastTaskId = null;
+            } catch (err) {
+                result.innerHTML = '<span class="error">✗ Error: ' + err.message + '</span>';
+            }
+        }
+        
+        async function testGetTheme() {
+            const result = document.getElementById('theme-result');
+            try {
+                const theme = await window.CuteToDoAPI.ThemeAPI.get();
+                result.innerHTML = '<span class="success">✓ Success</span>\n' + JSON.stringify(theme, null, 2);
+            } catch (err) {
+                result.innerHTML = '<span class="error">✗ Error: ' + err.message + '</span>';
+            }
+        }
+        
+        async function testSetTheme() {
+            const result = document.getElementById('theme-result');
+            try {
+                const resp = await window.CuteToDoAPI.ThemeAPI.set('dark');
+                result.innerHTML = '<span class="success">✓ Success</span>\n' + JSON.stringify(resp, null, 2);
+            } catch (err) {
+                result.innerHTML = '<span class="error">✗ Error: ' + err.message + '</span>';
+            }
+        }
+        
+        async function testGetPremium() {
+            const result = document.getElementById('premium-result');
+            try {
+                const premium = await window.CuteToDoAPI.PremiumAPI.status();
+                result.innerHTML = '<span class="success">✓ Success</span>\n' + JSON.stringify(premium, null, 2);
+            } catch (err) {
+                result.innerHTML = '<span class="error">✗ Error: ' + err.message + '</span>';
+            }
+        }
+        
+        async function testCheckout() {
+            const result = document.getElementById('premium-result');
+            try {
+                const resp = await window.CuteToDoAPI.PremiumAPI.checkout();
+                result.innerHTML = '<span class="success">✓ Success</span>\n' + JSON.stringify(resp, null, 2);
+            } catch (err) {
+                result.innerHTML = '<span class="error">✗ Error: ' + err.message + '</span>';
+            }
+        }
+    </script>
+</body>
+</html>
+

@@ -142,44 +142,45 @@ class PremiumManager {
     }
 
     // Purchase membership
-    purchaseMembership(planType) {
+    async purchaseMembership(planType) {
         const plan = this.membershipPlans[planType];
         if (!plan) return;
 
-        if (confirm(`Confirm purchase ${plan.name} ($${plan.price})?\n\nThis is a demo version. Click OK to automatically activate membership.`)) {
-            // Set membership status
-            this.isPremium = true;
-            this.membershipType = planType;
-            
-            // Set expiry time
-            if (plan.duration) {
-                const now = new Date();
-                this.membershipExpiry = now.getTime() + (plan.duration * 24 * 60 * 60 * 1000);
-            } else {
-                this.membershipExpiry = null; // Lifetime membership
+        if (!confirm(`Confirm purchase ${plan.name} ($${plan.price})?\n\nClick OK to proceed.`)) return;
+
+        try {
+            if (window.CuteToDoAPI && window.CuteToDoAPI.PremiumAPI) {
+                const resp = await window.CuteToDoAPI.PremiumAPI.checkout();
+                if (!resp || !resp.success) throw new Error('Checkout failed');
             }
-            
-            this.savePremiumData();
-            this.updatePremiumUI();
-            
-            // Close modal
-            document.querySelectorAll('.premium-modal').forEach(m => m.remove());
-            
-            this.showMessage(`🎉 Congratulations! ${plan.name} activated, all themes unlocked`, 'success');
-            
-            // Trigger upgrade event
-            this.dispatchUpgradeEvent();
-            
-            // Refresh theme card status
-            if (window.app) {
-                // Update premium status in app.js
-                window.app.isPremium = this.isPremium;
-                window.app.updateThemeCards();
-                // If theme modal is open, re-render theme grids
-                const shopModal = document.getElementById('shopModal');
-                if (shopModal && shopModal.classList.contains('active')) {
-                    window.app.renderThemeGrids();
-                }
+        } catch (e) {
+            console.error('Premium checkout failed:', e);
+            this.showMessage('Checkout failed, please try again later', 'error');
+            return;
+        }
+
+        // Set membership status
+        this.isPremium = true;
+        this.membershipType = planType;
+        this.membershipExpiry = null;
+        this.savePremiumData();
+        this.updatePremiumUI();
+
+        // Close modal
+        document.querySelectorAll('.premium-modal').forEach(m => m.remove());
+
+        this.showMessage(`🎉 Congratulations! ${plan.name} activated, all themes unlocked`, 'success');
+
+        // Trigger upgrade event
+        this.dispatchUpgradeEvent();
+
+        // Refresh theme card status
+        if (window.app) {
+            window.app.isPremium = this.isPremium;
+            window.app.updateThemeCards();
+            const shopModal = document.getElementById('shopModal');
+            if (shopModal && shopModal.classList.contains('active')) {
+                window.app.renderThemeGrids();
             }
         }
     }

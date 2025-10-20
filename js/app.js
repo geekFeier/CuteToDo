@@ -86,9 +86,12 @@ class TaskFlowApp {
     }
 
     async init() {
+        if (this._initializing || this._initialized) return;
+        this._initializing = true;
+        
         await this.loadData();
         this.checkAndArchiveTasks(); // Check and archive tasks
-        this.checkPremiumStatus(); // Check premium status
+        await this.checkPremiumStatus(); // Check premium status - await it!
         this.setupEventListeners();
         this.updateUI();
         this.updateDate();
@@ -97,6 +100,9 @@ class TaskFlowApp {
         
         // Show welcome message
         this.showWelcomeMessage();
+        
+        this._initialized = true;
+        this._initializing = false;
     }
     
     renderThemeGrids() {
@@ -189,7 +195,13 @@ class TaskFlowApp {
         });
     }
 
-    applyTheme(themeName) {
+    async applyTheme(themeName) {
+        // Prevent recursive calls
+        if (this._applyingTheme) {
+            console.log('Theme application already in progress, skipping');
+            return;
+        }
+        
         // Check if it's a free theme
         const isFreeTheme = themeName === 'light' || themeName === 'dark';
         
@@ -200,16 +212,35 @@ class TaskFlowApp {
             return;
         }
         
-        this.currentTheme = themeName;
-        document.body.className = `theme-${themeName}`;
-        this.saveData();
-        this.showToast(`✅ Applied ${this.getThemeName(themeName)}`);
+        // If theme is already applied, skip
+        if (this.currentTheme === themeName) {
+            console.log('Theme already applied:', themeName);
+            return;
+        }
         
-        // Update sidebar mascot
-        this.updateMascot(themeName);
-        
-        // Update theme card active state
-        this.updateThemeCards();
+        this._applyingTheme = true;
+        try {
+            this.currentTheme = themeName;
+            document.body.className = `theme-${themeName}`;
+            
+            // Persist to API (don't await to avoid blocking UI)
+            if (window.CuteToDoAPI && window.CuteToDoAPI.ThemeAPI) {
+                window.CuteToDoAPI.ThemeAPI.set(themeName).catch(e => {
+                    console.error('Failed to persist theme to API:', e);
+                });
+            }
+            
+            this.saveData();
+            this.showToast(`✅ Applied ${this.getThemeName(themeName)}`);
+            
+            // Update sidebar mascot
+            this.updateMascot(themeName);
+            
+            // Update theme card active state
+            this.updateThemeCards();
+        } finally {
+            this._applyingTheme = false;
+        }
     }
     
     updateMascot(themeName) {
@@ -1825,30 +1856,36 @@ class TaskFlowApp {
         return svgs[themeId] || '';
     }
 
-    addTask() {
+    async addTask() {
         const input = document.getElementById('taskInput');
         const text = input.value.trim();
         
         if (!text) return;
 
-        const task = {
-            id: Date.now(),
-            text: text,
-            completed: false,
-            createdAt: new Date().toISOString(),
-            priority: 'normal',
-            category: 'general'
-        };
+        try {
+            if (window.CuteToDoAPI && window.CuteToDoAPI.TasksAPI) {
+                const created = await window.CuteToDoAPI.TasksAPI.create({ title: text, notes: '', priority: 'normal', completed: false });
+                // Map backend task to frontend shape
+                const mapped = { id: created.id, text: created.title, completed: created.completed, createdAt: new Date(created.createdAt).toISOString(), priority: created.priority || 'normal', category: 'general' };
+                this.tasks.push(mapped);
+            } else {
+                // Fallback local add
+                const task = { id: Date.now(), text, completed: false, createdAt: new Date().toISOString(), priority: 'normal', category: 'general' };
+                this.tasks.push(task);
+            }
+        } catch (e) {
+            console.error('Failed to create task via API:', e);
+            this.showToast('Failed to add task');
+            return;
+        }
 
-        this.tasks.push(task);
         input.value = '';
-        
         this.updateUI();
         this.saveData();
         // this.animateTaskAddition(); // Disabled
     }
 
-    toggleTask(id) {
+    async toggleTask(id) {
         const task = this.tasks.find(t => t.id === id);
         if (!task) return;
 
@@ -1861,21 +1898,43 @@ class TaskFlowApp {
             this.userStats.completedToday = Math.max(0, this.userStats.completedToday - 1);
         }
 
+        try {
+            if (window.CuteToDoAPI && window.CuteToDoAPI.TasksAPI) {
+                await window.CuteToDoAPI.TasksAPI.update(String(id), { completed: task.completed });
+            }
+        } catch (e) {
+            console.error('Failed to update task via API:', e);
+        }
+
         this.updateUI();
         this.updateProgress();
         this.saveData();
     }
 
-    deleteTask(id) {
+    async deleteTask(id) {
+        try {
+            if (window.CuteToDoAPI && window.CuteToDoAPI.TasksAPI) {
+                await window.CuteToDoAPI.TasksAPI.remove(String(id));
+            }
+        } catch (e) {
+            console.error('Failed to delete task via API:', e);
+        }
         this.tasks = this.tasks.filter(t => t.id !== id);
         this.updateUI();
         this.saveData();
     }
 
-    editTask(id, newText) {
+    async editTask(id, newText) {
         const task = this.tasks.find(t => t.id === id);
         if (task) {
             task.text = newText;
+            try {
+                if (window.CuteToDoAPI && window.CuteToDoAPI.TasksAPI) {
+                    await window.CuteToDoAPI.TasksAPI.update(String(id), { title: newText });
+                }
+            } catch (e) {
+                console.error('Failed to edit task via API:', e);
+            }
             this.updateUI();
             this.saveData();
         }
@@ -2154,9 +2213,10 @@ class TaskFlowApp {
     }
 
     showWelcomeMessage() {
-        setTimeout(() => {
-            this.showToast('🎉 Welcome to CuteToDo!');
-        }, 1000);
+        // 禁用首次欢迎消息
+        // setTimeout(() => {
+        //     this.showToast('🎉 Welcome to CuteToDo!');
+        // }, 1000);
 
         // Listen for premium upgrade event
         window.addEventListener('premiumUpgraded', (event) => {
@@ -2287,14 +2347,28 @@ class TaskFlowApp {
     }
 
     // Check premium status
-    checkPremiumStatus() {
-        // Check if premiumManager exists and get premium status
+    async checkPremiumStatus() {
+        try {
+            if (window.CuteToDoAPI && window.CuteToDoAPI.PremiumAPI) {
+                const { premium } = await window.CuteToDoAPI.PremiumAPI.status();
+                if (premium !== this.isPremium) {
+                    this.isPremium = premium;
+                    this.updateThemeCards();
+                    this.renderThemeGrids();
+                    this.saveData();
+                }
+                return;
+            }
+        } catch (e) {
+            console.error('Failed to fetch premium status via API:', e);
+        }
+        // Fallback to premiumManager if API unavailable
         if (window.premiumManager) {
             const isPremium = window.premiumManager.isPremiumMember();
             if (isPremium !== this.isPremium) {
                 this.isPremium = isPremium;
                 this.updateThemeCards();
-                this.renderThemeGrids(); // Re-render theme grids
+                this.renderThemeGrids();
                 this.saveData();
             }
         }
@@ -2321,38 +2395,78 @@ class TaskFlowApp {
     }
 
     async saveData() {
-        const data = {
-            tasks: this.tasks,
-            taskHistory: this.taskHistory,
-            currentTheme: this.currentTheme,
-            purchasedThemes: this.purchasedThemes,
-            userStats: this.userStats,
-            isPremium: this.isPremium
-        };
-        
-        try {
-            await chrome.storage.local.set({ taskflowData: data });
-        } catch (error) {
-            console.error('Failed to save data:', error);
+        // Debounce save to prevent excessive calls
+        if (this._saveTimeout) {
+            clearTimeout(this._saveTimeout);
         }
+        
+        this._saveTimeout = setTimeout(async () => {
+            const data = {
+                // tasks are persisted via API
+                taskHistory: this.taskHistory,
+                currentTheme: this.currentTheme,
+                purchasedThemes: this.purchasedThemes,
+                userStats: this.userStats,
+                isPremium: this.isPremium
+            };
+            
+            try {
+                await chrome.storage.local.set({ taskflowData: data });
+                console.log('Data saved to local storage');
+            } catch (error) {
+                console.error('Failed to save data:', error);
+            }
+        }, 300); // 300ms debounce
     }
 
     async loadData() {
+        // Prevent multiple simultaneous loads
+        if (this._loadingData) {
+            console.log('Data loading already in progress');
+            return;
+        }
+        
+        this._loadingData = true;
         try {
-            const result = await chrome.storage.local.get(['taskflowData']);
-            if (result.taskflowData) {
-                const data = result.taskflowData;
-                this.tasks = data.tasks || [];
-                this.taskHistory = data.taskHistory || {};
-                this.currentTheme = data.currentTheme || 'light';
-                this.purchasedThemes = data.purchasedThemes || ['light', 'dark'];
-                this.userStats = data.userStats || this.userStats;
-                this.isPremium = data.isPremium || false;
-                // Apply theme
-                document.body.className = `theme-${this.currentTheme}`;
+            // Load from API first
+            try {
+                if (window.CuteToDoAPI) {
+                    if (window.CuteToDoAPI.TasksAPI) {
+                        const items = await window.CuteToDoAPI.TasksAPI.list();
+                        this.tasks = (items || []).map(t => ({ id: t.id, text: t.title, completed: t.completed, createdAt: new Date(t.createdAt).toISOString(), priority: t.priority || 'normal', category: 'general' }));
+                    }
+                    if (window.CuteToDoAPI.ThemeAPI) {
+                        const { theme } = await window.CuteToDoAPI.ThemeAPI.get();
+                        this.currentTheme = theme || 'light';
+                        // Directly set class without triggering applyTheme
+                        document.body.className = `theme-${this.currentTheme}`;
+                    }
+                    if (window.CuteToDoAPI.PremiumAPI) {
+                        const { premium } = await window.CuteToDoAPI.PremiumAPI.status();
+                        this.isPremium = Boolean(premium);
+                    }
+                }
+            } catch (e) {
+                console.error('Failed to load from API, falling back to local storage:', e);
             }
-        } catch (error) {
-            console.error('Failed to load data:', error);
+
+            // Merge in any additional local data (history/stats)
+            try {
+                const result = await chrome.storage.local.get(['taskflowData']);
+                if (result.taskflowData) {
+                    const data = result.taskflowData;
+                    this.taskHistory = data.taskHistory || {};
+                    this.purchasedThemes = data.purchasedThemes || ['light', 'dark'];
+                    this.userStats = data.userStats || this.userStats;
+                    if (!document.body.className.includes(`theme-`)) {
+                        document.body.className = `theme-${this.currentTheme}`;
+                    }
+                }
+            } catch (error) {
+                console.error('Failed to load local data:', error);
+            }
+        } finally {
+            this._loadingData = false;
         }
     }
 
