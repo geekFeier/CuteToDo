@@ -1,12 +1,9 @@
 # Dependencies
 node_modules/
-package-lock.json
+ 
 
-# Environment variables
-.env
+ 
 
-# Old JSON data files (可在迁移后删除)
-data/
 
 # Logs
 *.log
