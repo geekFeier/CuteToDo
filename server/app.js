@@ -35,10 +35,19 @@ async function connectDB() {
   }
 }
 
-// 中间件：获取用户ID（目前使用默认值，后续可扩展为真实的用户认证）
+// 中间件：获取用户ID（支持多用户数据隔离）
 function getUserId(req) {
-  // 从 header 中获取 userId，如果没有则使用默认值
-  return req.headers['x-user-id'] || 'default';
+  // 从 header 中获取 userId，支持多用户隔离
+  const userId = req.headers['x-user-id'];
+  const userName = req.headers['x-user-name'];
+  
+  if (userId && userId !== 'default') {
+    console.log(`User: ${userName || 'Unknown'} (${userId})`);
+    return userId;
+  }
+  
+  console.log('Using default user');
+  return 'default';
 }
 
 // Tasks API

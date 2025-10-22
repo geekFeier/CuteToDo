@@ -2801,8 +2801,41 @@ class TaskFlowApp {
     
     // Delete history task
     async deleteHistoryTask(id, date) {
-        const tasks = this.taskHistory[date];
-        if (!tasks) return;
+        console.log('Deleting history task:', id, 'date:', date);
+        
+        // 查找并删除任务
+        let taskFound = false;
+        if (date === 'today') {
+            // Handle current task
+            const taskIndex = this.tasks.findIndex(t => t.id === id);
+            if (taskIndex !== -1) {
+                this.tasks.splice(taskIndex, 1);
+                taskFound = true;
+            }
+        } else {
+            // Handle history task - 在所有历史任务中查找
+            for (const dateKey in this.taskHistory) {
+                const tasks = this.taskHistory[dateKey];
+                if (tasks) {
+                    const taskIndex = tasks.findIndex(t => t.id === id);
+                    if (taskIndex !== -1) {
+                        tasks.splice(taskIndex, 1);
+                        taskFound = true;
+                        
+                        // If no tasks left for this date, remove the date entry
+                        if (tasks.length === 0) {
+                            delete this.taskHistory[dateKey];
+                        }
+                        break;
+                    }
+                }
+            }
+        }
+        
+        if (!taskFound) {
+            console.error('Task not found for deletion:', id);
+            return;
+        }
         
         try {
             if (window.CuteToDoAPI && window.CuteToDoAPI.TasksAPI) {
@@ -2810,14 +2843,6 @@ class TaskFlowApp {
             }
         } catch (e) {
             console.error('Failed to delete history task via API:', e);
-        }
-        
-        // Remove from history
-        this.taskHistory[date] = tasks.filter(t => t.id !== id);
-        
-        // If no tasks left for this date, remove the date entry
-        if (this.taskHistory[date].length === 0) {
-            delete this.taskHistory[date];
         }
         
         this.updateUI();
@@ -2905,8 +2930,8 @@ class TaskFlowApp {
         
         this._saveTimeout = setTimeout(async () => {
             const data = {
-                // tasks are persisted via API
-                taskHistory: this.taskHistory,
+                // tasks and taskHistory are persisted via API, don't save to local storage
+                // taskHistory: this.taskHistory, // 注释掉，历史任务通过API管理
                 currentTheme: this.currentTheme,
                 purchasedThemes: this.purchasedThemes,
                 userStats: this.userStats,
@@ -2993,13 +3018,14 @@ class TaskFlowApp {
                 console.error('Failed to load from API, falling back to local storage:', e);
             }
 
-            // Merge in any additional local data (history/stats)
+            // Merge in any additional local data (only non-task data)
             try {
                 if (typeof chrome !== 'undefined' && chrome.storage && chrome.storage.local) {
                 const result = await chrome.storage.local.get(['taskflowData']);
                 if (result.taskflowData) {
                     const data = result.taskflowData;
-                    this.taskHistory = data.taskHistory || {};
+                    // 不要覆盖从API加载的任务历史，只加载其他数据
+                    // this.taskHistory = data.taskHistory || {}; // 注释掉这行
                     this.purchasedThemes = data.purchasedThemes || ['light', 'dark'];
                     this.userStats = data.userStats || this.userStats;
                     if (!document.body.className.includes(`theme-`)) {
@@ -3011,7 +3037,8 @@ class TaskFlowApp {
                     const storedData = localStorage.getItem('taskflowData');
                     if (storedData) {
                         const data = JSON.parse(storedData);
-                        this.taskHistory = data.taskHistory || {};
+                        // 不要覆盖从API加载的任务历史，只加载其他数据
+                        // this.taskHistory = data.taskHistory || {}; // 注释掉这行
                         this.purchasedThemes = data.purchasedThemes || ['light', 'dark'];
                         this.userStats = data.userStats || this.userStats;
                         if (!document.body.className.includes(`theme-`)) {

@@ -5,11 +5,15 @@ async function apiRequest(path, options = {}) {
   const timeoutId = setTimeout(() => controller.abort(), 5000); // 5s timeout
   
   try {
+    // 获取用户ID头部信息
+    const userHeaders = window.UserManager ? window.UserManager.getAuthHeaders() : {};
+    
     const res = await fetch(`${API_BASE}${path}`, {
       ...options,
       signal: controller.signal,
       headers: {
         'Content-Type': 'application/json',
+        ...userHeaders, // 添加用户ID头部
         ...(options.headers || {})
       }
     });
