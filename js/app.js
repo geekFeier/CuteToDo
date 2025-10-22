@@ -266,8 +266,8 @@ class TaskFlowApp {
                    themeName === 'demon' || themeName === 'ninja' || themeName === 'zombie') {
             svg = this.getDarkThemeSVG(themeName);
         } else if (themeName === 'dark') {
-            // Dark theme uses skull SVG
-            svg = this.getSkullSVG();
+            // Dark theme uses ninja SVG
+            svg = this.getDarkThemeSVG('ninja');
         } else {
             // Default to rabbit
             svg = this.getCuteThemeSVG('rabbit');
@@ -1950,22 +1950,29 @@ class TaskFlowApp {
     renderTasks() {
         const tasksList = document.getElementById('tasksList');
         
-        if (this.tasks.length === 0) {
+        // Filter tasks to show only today's tasks
+        const today = this.getDateString(new Date());
+        const todayTasks = this.tasks.filter(task => {
+            const taskDate = new Date(task.createdAt);
+            return this.getDateString(taskDate) === today;
+        });
+        
+        if (todayTasks.length === 0) {
             tasksList.innerHTML = `
                 <div class="empty-state">
                     <div class="empty-icon">📝</div>
-                    <h3>No tasks yet</h3>
+                    <h3>No tasks for today</h3>
                     <p>Add your first task to get started!</p>
                 </div>
             `;
             return;
         }
 
-        tasksList.innerHTML = this.tasks.map(task => `
+        tasksList.innerHTML = todayTasks.map(task => `
             <div class="task-item ${task.completed ? 'completed' : ''}" data-id="${task.id}">
                 <div class="task-checkbox ${task.completed ? 'checked' : ''}" 
-                     onclick="app.toggleTask(${task.id})"></div>
-                <div class="task-content" onclick="app.startEditTask(${task.id})" style="cursor: pointer;">
+                     onclick="app.toggleTask('${task.id}')"></div>
+                <div class="task-content" onclick="app.startEditTask('${task.id}')" style="cursor: pointer;">
                     <div class="task-text" data-task-id="${task.id}">${this.escapeHtml(task.text)}</div>
                     <div class="task-meta">
                         <span>${this.formatDate(task.createdAt)}</span>
@@ -1974,10 +1981,10 @@ class TaskFlowApp {
                     </div>
                 </div>
                 <div class="task-actions">
-                    <button class="task-action-btn" onclick="app.startEditTask(${task.id})" title="Edit">
+                    <button class="task-action-btn" onclick="app.startEditTask('${task.id}')" title="Edit">
                         ✏️
                     </button>
-                    <button class="task-action-btn" onclick="app.deleteTask(${task.id})" title="Delete">
+                    <button class="task-action-btn" onclick="app.showDeleteConfirmation('${task.id}', 'today')" title="Delete">
                         🗑️
                     </button>
                 </div>
@@ -2007,10 +2014,18 @@ class TaskFlowApp {
         taskTextElement.style.display = 'none';
         taskTextElement.parentNode.insertBefore(input, taskTextElement);
         input.focus();
-        input.select();
+        // Position cursor at the end instead of selecting all text
+        input.setSelectionRange(input.value.length, input.value.length);
+        
+        // Flag to prevent accidental blur events
+        let isEditing = true;
+        let blurTimeout = null;
+        let isClicking = false;
         
         // Save edit
         const saveEdit = () => {
+            if (!isEditing) return;
+            isEditing = false;
             const newText = input.value.trim();
             if (newText && newText !== originalText) {
                 this.editTask(id, newText);
@@ -2022,6 +2037,8 @@ class TaskFlowApp {
         
         // Cancel edit
         const cancelEdit = () => {
+            if (!isEditing) return;
+            isEditing = false;
             this.renderTasks();
         };
         
@@ -2036,9 +2053,50 @@ class TaskFlowApp {
             }
         });
         
-        // Save on blur
-        input.addEventListener('blur', () => {
-            setTimeout(saveEdit, 100);
+        // Handle mouse events to prevent blur issues
+        input.addEventListener('mousedown', (e) => {
+            e.stopPropagation();
+            isClicking = true;
+        });
+        
+        input.addEventListener('mouseup', (e) => {
+            e.stopPropagation();
+            isClicking = false;
+        });
+        
+        input.addEventListener('click', (e) => {
+            e.stopPropagation();
+        });
+        
+        // Handle blur event more carefully
+        input.addEventListener('blur', (e) => {
+            // Don't save if we're in the middle of a click
+            if (isClicking) {
+                return;
+            }
+            
+            if (blurTimeout) {
+                clearTimeout(blurTimeout);
+            }
+            blurTimeout = setTimeout(() => {
+                if (isEditing && !isClicking) {
+                    saveEdit();
+                }
+            }, 200);
+        });
+        
+        // Prevent blur when hovering
+        input.addEventListener('mouseenter', () => {
+            if (blurTimeout) {
+                clearTimeout(blurTimeout);
+            }
+        });
+        
+        // Handle focus to ensure input stays focused
+        input.addEventListener('focus', () => {
+            if (blurTimeout) {
+                clearTimeout(blurTimeout);
+            }
         });
     }
     
@@ -2048,16 +2106,30 @@ class TaskFlowApp {
     }
 
     updateStats() {
-        const completed = this.tasks.filter(t => t.completed).length;
-        const total = this.tasks.length;
+        // Only count today's tasks
+        const today = this.getDateString(new Date());
+        const todayTasks = this.tasks.filter(task => {
+            const taskDate = new Date(task.createdAt);
+            return this.getDateString(taskDate) === today;
+        });
+        
+        const completed = todayTasks.filter(t => t.completed).length;
+        const total = todayTasks.length;
         
         document.getElementById('completedCount').textContent = completed;
         document.getElementById('totalCount').textContent = total;
     }
 
     updateProgress() {
-        const completed = this.tasks.filter(t => t.completed).length;
-        const total = this.tasks.length;
+        // Only count today's tasks
+        const today = this.getDateString(new Date());
+        const todayTasks = this.tasks.filter(task => {
+            const taskDate = new Date(task.createdAt);
+            return this.getDateString(taskDate) === today;
+        });
+        
+        const completed = todayTasks.filter(t => t.completed).length;
+        const total = todayTasks.length;
         const progress = total > 0 ? (completed / total) * 100 : 0;
         
         const progressFill = document.getElementById('progressFill');
@@ -2244,28 +2316,45 @@ class TaskFlowApp {
     // Check and archive tasks
     checkAndArchiveTasks() {
         const today = this.getDateString(new Date());
-        const yesterday = this.getDateString(new Date(Date.now() - 24 * 60 * 60 * 1000));
         
         // If no task history for today, create today's record
         if (!this.taskHistory[today]) {
             this.taskHistory[today] = [];
         }
         
-        // Archive yesterday's tasks to history
+        // Archive all tasks created before today to history
         if (this.tasks.length > 0) {
-            const yesterdayTasks = this.tasks.filter(task => {
+            const tasksToArchive = this.tasks.filter(task => {
                 const taskDate = new Date(task.createdAt);
-                return this.getDateString(taskDate) === yesterday;
+                const taskDateString = this.getDateString(taskDate);
+                return taskDateString !== today;
             });
             
-            if (yesterdayTasks.length > 0) {
-                this.taskHistory[yesterday] = yesterdayTasks;
-                // Remove yesterday's tasks from current tasks
+            // Group tasks by date and add to history
+            tasksToArchive.forEach(task => {
+                const taskDate = new Date(task.createdAt);
+                const taskDateString = this.getDateString(taskDate);
+                
+                if (!this.taskHistory[taskDateString]) {
+                    this.taskHistory[taskDateString] = [];
+                }
+                
+                // Only add if not already in history
+                const existsInHistory = this.taskHistory[taskDateString].some(historyTask => 
+                    historyTask.id === task.id
+                );
+                
+                if (!existsInHistory) {
+                    this.taskHistory[taskDateString].push(task);
+                }
+            });
+            
+            // Remove archived tasks from current tasks
                 this.tasks = this.tasks.filter(task => {
                     const taskDate = new Date(task.createdAt);
-                    return this.getDateString(taskDate) === today;
+                const taskDateString = this.getDateString(taskDate);
+                return taskDateString === today;
                 });
-            }
         }
     }
     
@@ -2287,9 +2376,13 @@ class TaskFlowApp {
         
         historyList.innerHTML = '';
         
-        const dates = Object.keys(this.taskHistory).sort((a, b) => new Date(b) - new Date(a));
+        // Get only history tasks (exclude today's tasks)
+        const allTasks = [];
+        Object.values(this.taskHistory).forEach(historyTasks => {
+            allTasks.push(...historyTasks);
+        });
         
-        if (dates.length === 0) {
+        if (allTasks.length === 0) {
             historyContainer.style.display = 'none';
             return;
         }
@@ -2297,30 +2390,440 @@ class TaskFlowApp {
         // Show history task container
         historyContainer.style.display = 'block';
         
-        dates.forEach(date => {
-            const tasks = this.taskHistory[date];
-            if (tasks.length === 0) return;
+        // Update history header to include toggle inline
+        const historyHeader = document.querySelector('.history-header');
+        if (historyHeader) {
+            historyHeader.style.cssText = `
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 16px;
+            `;
+            historyHeader.innerHTML = `
+                <h3>📋 History</h3>
+            `;
             
-            // Sort tasks by creation time
-            const sortedTasks = tasks.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
+        }
+        
+        // Sort all tasks by creation time (newest first)
+        const sortedTasks = allTasks.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+        
+        // Add all tasks directly - 显示所有任务
+        sortedTasks.forEach(task => {
+            const taskElement = document.createElement('div');
+            taskElement.className = 'task-item';
+            if (task.completed) {
+                taskElement.classList.add('completed');
+            }
+            taskElement.setAttribute('data-id', task.id);
+            taskElement.setAttribute('data-completed', task.completed);
+            taskElement.style.display = 'flex';
+            taskElement.style.marginBottom = '8px';
             
-            const dateElement = document.createElement('div');
-            dateElement.className = 'history-date';
-            dateElement.innerHTML = `
-                <h4>${this.formatDate(date)}</h4>
-                <div class="history-tasks">
-                    ${sortedTasks.map(task => `
-                        <div class="history-task ${task.completed ? 'completed' : ''}">
-                            <span class="task-status">${task.completed ? '✅' : '⏳'}</span>
-                            <span class="task-text">${task.text}</span>
+            // Determine if task is in current tasks or history
+            const isCurrentTask = this.tasks.some(t => t.id === task.id);
+            const date = isCurrentTask ? 'today' : this.getDateString(new Date(task.createdAt));
+            
+            taskElement.innerHTML = `
+                <div class="task-checkbox ${task.completed ? 'checked' : ''}" 
+                     onclick="app.toggleHistoryTask('${task.id}', '${date}')"></div>
+                <div class="task-content" onclick="app.startEditHistoryTask('${task.id}', '${date}')" style="cursor: pointer;">
+                    <div class="task-text" data-task-id="${task.id}">${this.escapeHtml(task.text)}</div>
                         </div>
-                    `).join('')}
+                <div class="task-actions">
+                    <button class="task-action-btn" onclick="app.startEditHistoryTask('${task.id}', '${date}')" title="Edit">
+                        ✏️
+                    </button>
+                    <button class="task-action-btn" onclick="app.showDeleteConfirmation('${task.id}', '${date}')" title="Delete">
+                        🗑️
+                    </button>
                 </div>
             `;
             
-            historyList.appendChild(dateElement);
+            historyList.appendChild(taskElement);
         });
     }
+    
+    // Toggle history task completion
+    async toggleHistoryTask(id, date) {
+        let task;
+        
+        if (date === 'today') {
+            // Handle current task
+            task = this.tasks.find(t => t.id === id);
+            if (!task) return;
+            task.completed = !task.completed;
+        } else {
+            // Handle history task - 在所有历史任务中查找
+            for (const dateKey in this.taskHistory) {
+                const tasks = this.taskHistory[dateKey];
+                if (tasks) {
+                    task = tasks.find(t => t.id === id);
+                    if (task) {
+                        task.completed = !task.completed;
+                        break;
+                    }
+                }
+            }
+            if (!task) return;
+        }
+        
+        try {
+            if (window.CuteToDoAPI && window.CuteToDoAPI.TasksAPI) {
+                await window.CuteToDoAPI.TasksAPI.update(String(id), { completed: task.completed });
+            }
+        } catch (e) {
+            console.error('Failed to update history task via API:', e);
+        }
+        
+        this.updateUI();
+        this.saveData();
+    }
+    
+    // Start editing history task
+    startEditHistoryTask(id, date) {
+        console.log('Starting edit for task:', id, 'date:', date);
+        
+        // 查找历史任务，可能在不同的日期组中
+        let task = null;
+        if (date === 'today') {
+            task = this.tasks.find(t => t.id === id);
+            console.log('Found in today tasks:', !!task);
+        } else {
+            // 在所有历史任务中查找
+            for (const dateKey in this.taskHistory) {
+                const tasks = this.taskHistory[dateKey];
+                if (tasks) {
+                    task = tasks.find(t => t.id === id);
+                    if (task) {
+                        console.log('Found in history tasks for date', dateKey, ':', !!task);
+                        break;
+                    }
+                }
+            }
+            if (!task) {
+                console.log('No tasks found in any history date');
+            }
+        }
+        
+        if (!task) {
+            console.error('Task not found:', id);
+            return;
+        }
+        
+        // Find task text element - 更新选择器以匹配新的结构
+        const taskTextElement = document.querySelector(`.task-text[data-task-id="${id}"]`);
+        if (!taskTextElement) {
+            console.error('Task text element not found for id:', id);
+            return;
+        }
+        
+        // Save original text
+        const originalText = task.text;
+        
+        // Create input field
+        const input = document.createElement('input');
+        input.type = 'text';
+        input.value = task.text;
+        input.className = 'task-edit-input';
+        input.maxLength = 200;
+        
+        // Replace text with input
+        taskTextElement.style.display = 'none';
+        taskTextElement.parentNode.insertBefore(input, taskTextElement);
+        input.focus();
+        // Position cursor at the end instead of selecting all text
+        input.setSelectionRange(input.value.length, input.value.length);
+        
+        // Flag to prevent accidental blur events
+        let isEditing = true;
+        let blurTimeout = null;
+        let isClicking = false;
+        
+        // Save edit
+        const saveEdit = () => {
+            if (!isEditing) return;
+            isEditing = false;
+            const newText = input.value.trim();
+            if (newText && newText !== originalText) {
+                this.editHistoryTask(id, date, newText);
+            } else {
+                // If no change, just re-render
+                this.renderTaskHistory();
+            }
+        };
+        
+        // Cancel edit
+        const cancelEdit = () => {
+            if (!isEditing) return;
+            isEditing = false;
+            this.renderTaskHistory();
+        };
+        
+        // Listen for keyboard events
+        input.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                saveEdit();
+            } else if (e.key === 'Escape') {
+                e.preventDefault();
+                cancelEdit();
+            }
+        });
+        
+        // Handle mouse events to prevent blur issues
+        input.addEventListener('mousedown', (e) => {
+            e.stopPropagation();
+            isClicking = true;
+        });
+        
+        input.addEventListener('mouseup', (e) => {
+            e.stopPropagation();
+            isClicking = false;
+        });
+        
+        input.addEventListener('click', (e) => {
+            e.stopPropagation();
+        });
+        
+        // Handle blur event more carefully
+        input.addEventListener('blur', (e) => {
+            // Don't save if we're in the middle of a click
+            if (isClicking) {
+                return;
+            }
+            
+            if (blurTimeout) {
+                clearTimeout(blurTimeout);
+            }
+            blurTimeout = setTimeout(() => {
+                if (isEditing && !isClicking) {
+                    saveEdit();
+                }
+            }, 200);
+        });
+        
+        // Prevent blur when hovering
+        input.addEventListener('mouseenter', () => {
+            if (blurTimeout) {
+                clearTimeout(blurTimeout);
+            }
+        });
+        
+        // Handle focus to ensure input stays focused
+        input.addEventListener('focus', () => {
+            if (blurTimeout) {
+                clearTimeout(blurTimeout);
+            }
+        });
+    }
+    
+    // Edit history task
+    async editHistoryTask(id, date, newText) {
+        console.log('Editing task:', id, 'date:', date, 'newText:', newText);
+        
+        // 查找并更新任务
+        let task = null;
+        if (date === 'today') {
+            task = this.tasks.find(t => t.id === id);
+            if (task) {
+                task.text = newText;
+                console.log('Updated today task');
+            }
+        } else {
+            // 在所有历史任务中查找
+            for (const dateKey in this.taskHistory) {
+                const tasks = this.taskHistory[dateKey];
+                if (tasks) {
+                    task = tasks.find(t => t.id === id);
+                    if (task) {
+                        task.text = newText;
+                        console.log('Updated history task in date:', dateKey);
+                        break;
+                    }
+                }
+            }
+        }
+        
+        if (!task) {
+            console.error('Task not found for editing:', id);
+            return;
+        }
+        
+        try {
+            if (window.CuteToDoAPI && window.CuteToDoAPI.TasksAPI) {
+                await window.CuteToDoAPI.TasksAPI.update(String(id), { title: newText });
+            }
+        } catch (e) {
+            console.error('Failed to edit history task via API:', e);
+        }
+        
+        this.updateUI();
+        this.saveData();
+    }
+    
+    // Show delete confirmation bubble
+    showDeleteConfirmation(id, date) {
+        let task;
+        if (date === 'today') {
+            task = this.tasks.find(t => t.id === id);
+        } else {
+            task = this.taskHistory[date]?.find(t => t.id === id);
+        }
+        if (!task) return;
+        
+        // 找到删除按钮元素
+        const deleteBtn = document.querySelector(`button[onclick*="showDeleteConfirmation('${id}'"]`);
+        if (!deleteBtn) return;
+        
+        // 获取删除按钮的位置
+        const btnRect = deleteBtn.getBoundingClientRect();
+        
+        // 创建简洁的确认气泡
+        const bubble = document.createElement('div');
+        bubble.className = 'delete-confirmation-bubble';
+        bubble.style.cssText = `
+            position: fixed;
+            top: ${btnRect.top - 6}px;
+            left: ${btnRect.left - 80}px;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 5px;
+            padding: 6px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            z-index: 10000;
+            min-width: 140px;
+            animation: fadeInScale 0.2s ease;
+        `;
+        
+        bubble.innerHTML = `
+            <div style="margin-bottom: 8px; text-align: center;">
+                <div style="font-size: 13px; color: var(--text-secondary); margin-bottom: 3px;">确认删除？</div>
+                <div style="font-size: 11px; color: var(--text-tertiary); max-width: 120px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">"${this.escapeHtml(task.text)}"</div>
+            </div>
+            <div style="display: flex; gap: 4px; justify-content: center;">
+                <button class="confirm-btn" style="
+                    background: #dc3545;
+                    color: white;
+                    border: 1px solid #dc3545;
+                    padding: 3px 8px;
+                    border-radius: 3px;
+                    cursor: pointer;
+                    font-size: 10px;
+                    font-weight: 500;
+                    min-width: 40px;
+                    transition: all 0.2s ease;
+                ">确认</button>
+                <button class="cancel-btn" style="
+                    background: #6c757d;
+                    color: white;
+                    border: 1px solid #6c757d;
+                    padding: 3px 8px;
+                    border-radius: 3px;
+                    cursor: pointer;
+                    font-size: 10px;
+                    font-weight: 500;
+                    min-width: 40px;
+                    transition: all 0.2s ease;
+                ">取消</button>
+            </div>
+        `;
+        
+        // 添加动画样式
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes fadeInScale {
+                from {
+                    opacity: 0;
+                    transform: scale(0.9);
+                }
+                to {
+                    opacity: 1;
+                    transform: scale(1);
+                }
+            }
+            .delete-confirmation-bubble .confirm-btn:hover {
+                background: #c82333;
+                border-color: #c82333;
+                transform: translateY(-1px);
+            }
+            .delete-confirmation-bubble .cancel-btn:hover {
+                background: #5a6268;
+                border-color: #5a6268;
+                transform: translateY(-1px);
+            }
+        `;
+        document.head.appendChild(style);
+        
+        // 添加半透明背景
+        const backdrop = document.createElement('div');
+        backdrop.style.cssText = `
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.1);
+            z-index: 9999;
+        `;
+        
+        document.body.appendChild(backdrop);
+        document.body.appendChild(bubble);
+        
+        // 事件监听器
+        const confirmBtn = bubble.querySelector('.confirm-btn');
+        const cancelBtn = bubble.querySelector('.cancel-btn');
+        
+        const cleanup = () => {
+            if (document.body.contains(backdrop)) {
+                document.body.removeChild(backdrop);
+            }
+            if (document.body.contains(bubble)) {
+                document.body.removeChild(bubble);
+            }
+            if (document.head.contains(style)) {
+                document.head.removeChild(style);
+            }
+        };
+        
+        confirmBtn.addEventListener('click', async () => {
+            if (date === 'today') {
+                await this.deleteTask(id);
+            } else {
+                await this.deleteHistoryTask(id, date);
+            }
+            cleanup();
+        });
+        
+        cancelBtn.addEventListener('click', cleanup);
+        backdrop.addEventListener('click', cleanup);
+    }
+    
+    // Delete history task
+    async deleteHistoryTask(id, date) {
+        const tasks = this.taskHistory[date];
+        if (!tasks) return;
+        
+        try {
+            if (window.CuteToDoAPI && window.CuteToDoAPI.TasksAPI) {
+                await window.CuteToDoAPI.TasksAPI.remove(String(id));
+            }
+        } catch (e) {
+            console.error('Failed to delete history task via API:', e);
+        }
+        
+        // Remove from history
+        this.taskHistory[date] = tasks.filter(t => t.id !== id);
+        
+        // If no tasks left for this date, remove the date entry
+        if (this.taskHistory[date].length === 0) {
+            delete this.taskHistory[date];
+        }
+        
+        this.updateUI();
+        this.saveData();
+    }
+    
     
     // Format date display
     formatDate(dateString) {
@@ -2411,8 +2914,14 @@ class TaskFlowApp {
             };
             
             try {
+                if (typeof chrome !== 'undefined' && chrome.storage && chrome.storage.local) {
                 await chrome.storage.local.set({ taskflowData: data });
-                console.log('Data saved to local storage');
+                    console.log('Data saved to chrome storage');
+                } else {
+                    // Fallback to localStorage for web browser environment
+                    localStorage.setItem('taskflowData', JSON.stringify(data));
+                    console.log('Data saved to localStorage');
+                }
             } catch (error) {
                 console.error('Failed to save data:', error);
             }
@@ -2432,14 +2941,48 @@ class TaskFlowApp {
             try {
                 if (window.CuteToDoAPI) {
                     if (window.CuteToDoAPI.TasksAPI) {
-                        const items = await window.CuteToDoAPI.TasksAPI.list();
-                        this.tasks = (items || []).map(t => ({ id: t.id, text: t.title, completed: t.completed, createdAt: new Date(t.createdAt).toISOString(), priority: t.priority || 'normal', category: 'general' }));
+                        // 分别加载今日任务和历史任务
+                        const [todayTasks, historyTasks] = await Promise.all([
+                            window.CuteToDoAPI.TasksAPI.getToday(),
+                            window.CuteToDoAPI.TasksAPI.getHistory(true) // 默认显示所有任务（包括已完成的）
+                        ]);
+                        
+                        // 处理今日任务
+                        this.tasks = (todayTasks || []).map(t => ({ 
+                            id: t.id, 
+                            text: t.title, 
+                            completed: t.completed, 
+                            createdAt: new Date(t.createdAt).toISOString(), 
+                            priority: t.priority || 'normal', 
+                            category: 'general' 
+                        }));
+                        
+                        // 处理历史任务
+                        this.taskHistory = {};
+                        (historyTasks || []).forEach(task => {
+                            const taskDate = new Date(task.createdAt);
+                            const dateString = this.getDateString(taskDate);
+                            
+                            if (!this.taskHistory[dateString]) {
+                                this.taskHistory[dateString] = [];
+                            }
+                            
+                            this.taskHistory[dateString].push({
+                                id: task.id,
+                                text: task.title,
+                                completed: task.completed,
+                                priority: task.priority || 'normal',
+                                createdAt: task.createdAt
+                            });
+                        });
                     }
                     if (window.CuteToDoAPI.ThemeAPI) {
                         const { theme } = await window.CuteToDoAPI.ThemeAPI.get();
                         this.currentTheme = theme || 'light';
                         // Directly set class without triggering applyTheme
                         document.body.className = `theme-${this.currentTheme}`;
+                        // Update mascot SVG for the loaded theme
+                        this.updateMascot(this.currentTheme);
                     }
                     if (window.CuteToDoAPI.PremiumAPI) {
                         const { premium } = await window.CuteToDoAPI.PremiumAPI.status();
@@ -2452,6 +2995,7 @@ class TaskFlowApp {
 
             // Merge in any additional local data (history/stats)
             try {
+                if (typeof chrome !== 'undefined' && chrome.storage && chrome.storage.local) {
                 const result = await chrome.storage.local.get(['taskflowData']);
                 if (result.taskflowData) {
                     const data = result.taskflowData;
@@ -2460,6 +3004,21 @@ class TaskFlowApp {
                     this.userStats = data.userStats || this.userStats;
                     if (!document.body.className.includes(`theme-`)) {
                         document.body.className = `theme-${this.currentTheme}`;
+                        }
+                    }
+                } else {
+                    // Fallback to localStorage for web browser environment
+                    const storedData = localStorage.getItem('taskflowData');
+                    if (storedData) {
+                        const data = JSON.parse(storedData);
+                        this.taskHistory = data.taskHistory || {};
+                        this.purchasedThemes = data.purchasedThemes || ['light', 'dark'];
+                        this.userStats = data.userStats || this.userStats;
+                        if (!document.body.className.includes(`theme-`)) {
+                            document.body.className = `theme-${this.currentTheme}`;
+                            // Update mascot SVG for the loaded theme
+                            this.updateMascot(this.currentTheme);
+                        }
                     }
                 }
             } catch (error) {
@@ -2499,6 +3058,8 @@ let app;
 // Initialize app after page load
 document.addEventListener('DOMContentLoaded', () => {
     app = new TaskFlowApp();
+    // Make app globally available
+    window.app = app;
 });
 
 // Save data before page unload

@@ -3683,65 +3683,70 @@ body.theme-light .header::after {
 
 /* 白色主题保持简洁，只保留兔子SVG装饰 */
 
-/* 深色主题 - 骷髅头暗黑主题 */
+/* 深色主题 - 忍者暗黑主题 */
 body.theme-dark {
-  --bg-primary: #000000;
-  --bg-secondary: #1A1A1A;
-  --bg-tertiary: #2D2D2D;
-  --text-primary: #FFFFFF;
-  --text-secondary: #CCCCCC;
-  --accent-primary: #DC143C;
-  --accent-secondary: #8B0000;
-  --gradient-primary: linear-gradient(135deg, #DC143C 0%, #8B0000 100%);
+  --bg-primary: #0a0a0f;
+  --bg-secondary: #15151f;
+  --bg-tertiary: #20202f;
+  --text-primary: #D8D8E8;
+  --text-secondary: #B8B8C8;
+  --accent-primary: #5A5A7A;
+  --accent-secondary: #3A3A5A;
+  --gradient-primary: linear-gradient(135deg, #1A1A2E 0%, #5A5A7A 100%);
 }
 
 body.theme-dark::before {
   content: '';
   position: fixed;
   inset: 0;
-  background: #000000;
+  background-image:
+    radial-gradient(circle at 12% 18%, rgba(90, 90, 122, 0.42) 0%, transparent 1.6%),
+    radial-gradient(circle at 88% 22%, rgba(58, 58, 90, 0.38) 0%, transparent 1.4%),
+    radial-gradient(circle at 22% 48%, rgba(90, 90, 122, 0.4) 0%, transparent 1.8%),
+    radial-gradient(circle at 78% 52%, rgba(58, 58, 90, 0.36) 0%, transparent 1.5%),
+    radial-gradient(circle at 15% 75%, rgba(90, 90, 122, 0.38) 0%, transparent 1.7%),
+    radial-gradient(circle at 85% 80%, rgba(58, 58, 90, 0.35) 0%, transparent 1.4%);
+  animation: stars-twinkle 4s ease-in-out infinite;
   pointer-events: none;
   z-index: 0;
 }
 
-/* 深色主题骷髅头装饰 */
+/* 深色主题忍者装饰 */
 body.theme-dark .sidebar::after {
-  content: '💀';
+  content: '🥷';
   position: fixed;
-  font-size: 2.2rem;
-  opacity: 0.15;
-  top: 18%;
-  left: 14%;
-  animation: skull-shake 8s ease-in-out infinite;
+  font-size: 3rem;
+  opacity: 0.28;
+  top: 16%;
+  left: 10%;
+  animation: ninja-stealth 10s ease-in-out infinite;
   pointer-events: none;
   z-index: 0;
-  filter: drop-shadow(0 0 8px rgba(220, 20, 60, 0.4));
+  filter: drop-shadow(0 0 15px rgba(90, 90, 122, 0.6));
 }
 
 body.theme-dark .tasks-card::before {
-  content: '💀';
+  content: '🗡️';
   position: fixed;
-  font-size: 1.8rem;
-  opacity: 0.12;
+  font-size: 2.2rem;
+  opacity: 0.24;
   bottom: 20%;
-  right: 15%;
-  animation: skull-shake 8s ease-in-out infinite;
+  right: 16%;
+  animation: sword-spin 8s linear infinite;
   pointer-events: none;
   z-index: 0;
-  filter: drop-shadow(0 0 8px rgba(220, 20, 60, 0.4));
 }
 
 body.theme-dark .header::after {
-  content: '💀';
+  content: '⭐';
   position: fixed;
-  font-size: 1.5rem;
-  opacity: 0.1;
-  top: 10%;
-  right: 30%;
-  animation: skull-float 18s linear infinite;
+  font-size: 1.8rem;
+  opacity: 0.2;
+  top: 8%;
+  right: 26%;
+  animation: shuriken-throw 12s linear infinite;
   pointer-events: none;
   z-index: 0;
-  filter: drop-shadow(0 0 8px rgba(220, 20, 60, 0.4));
 }
 
 /* 黑色主题保持简洁，只保留骷髅头SVG装饰 */

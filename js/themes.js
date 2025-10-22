@@ -397,7 +397,12 @@ class ThemeManager {
         };
         
         try {
-            chrome.storage.local.set({ themeData: data });
+            if (typeof chrome !== 'undefined' && chrome.storage && chrome.storage.local) {
+                chrome.storage.local.set({ themeData: data });
+            } else {
+                // Fallback to localStorage for web browser environment
+                localStorage.setItem('themeData', JSON.stringify(data));
+            }
         } catch (error) {
             console.error('Failed to save theme data:', error);
         }
@@ -406,14 +411,25 @@ class ThemeManager {
     // 加载主题数据
     loadThemeData() {
         try {
-            chrome.storage.local.get(['themeData'], (result) => {
-                if (result.themeData) {
-                    const data = result.themeData;
+            if (typeof chrome !== 'undefined' && chrome.storage && chrome.storage.local) {
+                chrome.storage.local.get(['themeData'], (result) => {
+                    if (result.themeData) {
+                        const data = result.themeData;
+                        this.currentTheme = data.currentTheme || 'light';
+                        this.purchasedThemes = new Set(data.purchasedThemes || ['light', 'dark']);
+                        this.userThemes = data.userThemes || {};
+                    }
+                });
+            } else {
+                // Fallback to localStorage for web browser environment
+                const storedData = localStorage.getItem('themeData');
+                if (storedData) {
+                    const data = JSON.parse(storedData);
                     this.currentTheme = data.currentTheme || 'light';
                     this.purchasedThemes = new Set(data.purchasedThemes || ['light', 'dark']);
                     this.userThemes = data.userThemes || {};
                 }
-            });
+            }
         } catch (error) {
             console.error('Failed to load theme data:', error);
         }

@@ -172,8 +172,14 @@ class BackgroundService {
         };
 
         try {
-            await chrome.storage.local.set({ taskflowData: defaultData });
-            console.log('Default data initialized');
+            if (typeof chrome !== 'undefined' && chrome.storage && chrome.storage.local) {
+                await chrome.storage.local.set({ taskflowData: defaultData });
+                console.log('Default data initialized in chrome storage');
+            } else {
+                // Fallback to localStorage for web browser environment
+                localStorage.setItem('taskflowData', JSON.stringify(defaultData));
+                console.log('Default data initialized in localStorage');
+            }
         } catch (error) {
             console.error('Failed to initialize default data:', error);
         }
@@ -181,7 +187,12 @@ class BackgroundService {
 
     async saveUserData(data) {
         try {
-            await chrome.storage.local.set({ taskflowData: data });
+            if (typeof chrome !== 'undefined' && chrome.storage && chrome.storage.local) {
+                await chrome.storage.local.set({ taskflowData: data });
+            } else {
+                // Fallback to localStorage for web browser environment
+                localStorage.setItem('taskflowData', JSON.stringify(data));
+            }
             
             // 如果启用了云同步，同步到云端
             if (data.settings?.cloudSync) {
@@ -195,8 +206,14 @@ class BackgroundService {
 
     async loadUserData() {
         try {
-            const result = await chrome.storage.local.get(['taskflowData']);
-            return result.taskflowData || null;
+            if (typeof chrome !== 'undefined' && chrome.storage && chrome.storage.local) {
+                const result = await chrome.storage.local.get(['taskflowData']);
+                return result.taskflowData || null;
+            } else {
+                // Fallback to localStorage for web browser environment
+                const storedData = localStorage.getItem('taskflowData');
+                return storedData ? JSON.parse(storedData) : null;
+            }
         } catch (error) {
             console.error('Failed to load user data:', error);
             return null;
@@ -208,7 +225,12 @@ class BackgroundService {
             // 从云端同步数据
             const cloudData = await this.syncFromCloud();
             if (cloudData) {
-                await chrome.storage.local.set({ taskflowData: cloudData });
+                if (typeof chrome !== 'undefined' && chrome.storage && chrome.storage.local) {
+                    await chrome.storage.local.set({ taskflowData: cloudData });
+                } else {
+                    // Fallback to localStorage for web browser environment
+                    localStorage.setItem('taskflowData', JSON.stringify(cloudData));
+                }
             }
             
             // 同步到云端
@@ -255,9 +277,19 @@ class BackgroundService {
     // 高级功能管理
     async checkPremiumStatus() {
         try {
-            const result = await chrome.storage.local.get(['premiumData']);
-            const premiumData = result.premiumData;
-            return premiumData?.isPremium || false;
+            if (typeof chrome !== 'undefined' && chrome.storage && chrome.storage.local) {
+                const result = await chrome.storage.local.get(['premiumData']);
+                const premiumData = result.premiumData;
+                return premiumData?.isPremium || false;
+            } else {
+                // Fallback to localStorage for web browser environment
+                const storedData = localStorage.getItem('premiumData');
+                if (storedData) {
+                    const premiumData = JSON.parse(storedData);
+                    return premiumData?.isPremium || false;
+                }
+                return false;
+            }
         } catch (error) {
             console.error('Failed to check premium status:', error);
             return false;
@@ -387,7 +419,12 @@ class BackgroundService {
             if (data) {
                 // 创建备份
                 const backupKey = `backup_${Date.now()}`;
-                await chrome.storage.local.set({ [backupKey]: data });
+                if (typeof chrome !== 'undefined' && chrome.storage && chrome.storage.local) {
+                    await chrome.storage.local.set({ [backupKey]: data });
+                } else {
+                    // Fallback to localStorage for web browser environment
+                    localStorage.setItem(backupKey, JSON.stringify(data));
+                }
                 
                 console.log('Data backup completed');
             }

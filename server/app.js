@@ -16,6 +16,14 @@ const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/cuteto
 app.use(cors());
 app.use(express.json());
 
+// Serve static files from the parent directory
+app.use(express.static('../'));
+
+// Serve the main HTML file
+app.get('/', (req, res) => {
+    res.sendFile('index.html', { root: '../' });
+});
+
 // MongoDB 连接
 async function connectDB() {
   try {
@@ -115,6 +123,60 @@ app.delete('/api/tasks/:id', async (req, res) => {
     res.status(204).end();
   } catch (error) {
     console.error('Error deleting task:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+// History Tasks API - 精简字段
+app.get('/api/tasks/history', async (req, res) => {
+  try {
+    const userId = getUserId(req);
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const showCompleted = req.query.showCompleted === 'true';
+    
+    // 构建查询条件
+    let query = { 
+      userId,
+      createdAt: { $lt: today.getTime() }
+    };
+    
+    // 如果不显示已完成任务，添加过滤条件
+    if (!showCompleted) {
+      query.completed = false;
+    }
+    
+    // 获取今天之前创建的任务，只返回必要字段
+    const historyTasks = await Task.find(query)
+    .select('id title completed createdAt priority') // 只选择必要字段
+    .sort({ createdAt: -1 })
+    .lean();
+    
+    res.json(historyTasks);
+  } catch (error) {
+    console.error('Error fetching history tasks:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+// Today's Tasks API - 完整字段
+app.get('/api/tasks/today', async (req, res) => {
+  try {
+    const userId = getUserId(req);
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    
+    // 获取今天创建的任务，返回完整字段
+    const todayTasks = await Task.find({ 
+      userId,
+      createdAt: { $gte: today.getTime() }
+    })
+    .sort({ createdAt: -1 })
+    .lean();
+    
+    res.json(todayTasks);
+  } catch (error) {
+    console.error('Error fetching today tasks:', error);
     res.status(500).json({ error: 'Internal server error' });
   }
 });

@@ -244,35 +244,43 @@ class PremiumManager {
         };
         
         try {
-            chrome.storage.local.set({ premiumData: data });
+            if (typeof chrome !== 'undefined' && chrome.storage && chrome.storage.local) {
+                chrome.storage.local.set({ premiumData: data });
+            } else {
+                // Fallback to localStorage for web browser environment
+                localStorage.setItem('premiumData', JSON.stringify(data));
+            }
         } catch (error) {
-            // If not in browser extension environment, use localStorage
-            localStorage.setItem('premiumData', JSON.stringify(data));
+            console.error('Failed to save premium data:', error);
         }
     }
 
     // Load premium data
     loadPremiumData() {
         try {
-            chrome.storage.local.get(['premiumData'], (result) => {
-                if (result.premiumData) {
-                    const data = result.premiumData;
+            if (typeof chrome !== 'undefined' && chrome.storage && chrome.storage.local) {
+                chrome.storage.local.get(['premiumData'], (result) => {
+                    if (result.premiumData) {
+                        const data = result.premiumData;
+                        this.isPremium = data.isPremium || false;
+                        this.membershipType = data.membershipType || 'free';
+                        this.membershipExpiry = data.membershipExpiry || null;
+                        this.updatePremiumUI();
+                    }
+                });
+            } else {
+                // Fallback to localStorage for web browser environment
+                const storedData = localStorage.getItem('premiumData');
+                if (storedData) {
+                    const data = JSON.parse(storedData);
                     this.isPremium = data.isPremium || false;
                     this.membershipType = data.membershipType || 'free';
                     this.membershipExpiry = data.membershipExpiry || null;
                     this.updatePremiumUI();
                 }
-            });
-        } catch (error) {
-            // If not in browser extension environment, use localStorage
-            const data = localStorage.getItem('premiumData');
-            if (data) {
-                const parsed = JSON.parse(data);
-                this.isPremium = parsed.isPremium || false;
-                this.membershipType = parsed.membershipType || 'free';
-                this.membershipExpiry = parsed.membershipExpiry || null;
-                this.updatePremiumUI();
             }
+        } catch (error) {
+            console.error('Failed to load premium data:', error);
         }
     }
 

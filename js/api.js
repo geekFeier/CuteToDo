@@ -37,7 +37,10 @@ const TasksAPI = {
   list: () => apiRequest('/api/tasks'),
   create: (payload) => apiRequest('/api/tasks', { method: 'POST', body: JSON.stringify(payload) }),
   update: (id, payload) => apiRequest(`/api/tasks/${id}`, { method: 'PUT', body: JSON.stringify(payload) }),
-  remove: (id) => apiRequest(`/api/tasks/${id}`, { method: 'DELETE' })
+  remove: (id) => apiRequest(`/api/tasks/${id}`, { method: 'DELETE' }),
+  // 分离的API接口
+  getToday: () => apiRequest('/api/tasks/today'),
+  getHistory: (showCompleted = false) => apiRequest(`/api/tasks/history?showCompleted=${showCompleted}`)
 };
 
 const ThemeAPI = {
